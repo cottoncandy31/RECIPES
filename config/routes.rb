@@ -17,7 +17,9 @@ devise_for :admin, controllers: {
   sessions: "admin/sessions"
 }
   root to:'public/homes#top'
-
+  # #データを追加(保存)するためのルーティング
+  # post 'recipes' => 'recipes#create'  
+  
   namespace :admin do
     resources :users, only: [:index, :show, :update]
   end

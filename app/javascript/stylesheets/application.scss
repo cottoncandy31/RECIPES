@@ -1,0 +1,15 @@
+@use '~bootstrap/scss/bootstrap';
+.logo_area {
+  width: 100px;
+}
+
+.logo {
+  height: 60%;
+  width: 60%;
+}
+
+// #Bootstrap上で特定の色を指定できるように、/cooking_recipes/app/views/layouts/_header.html.erbにbg-testというクラス名を作成している
+// このファイル上でbackground-colorを指定している
+.bg-test {
+  background-color: #FFAD90;
+}

@@ -6,11 +6,20 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <!--<#%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>-->
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+    <div class="header">
+      <%= render "layouts/header" %>
+    </div>
+    <div class="main">
+      <!--<#%= render 'layouts/flash_message' %>-->
     <%= yield %>
+    </div>
+    <div class="footer">
+      <%= render "layouts/footer" %>
+    </div>
   </body>
 </html>

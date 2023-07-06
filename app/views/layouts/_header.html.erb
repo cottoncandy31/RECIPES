@@ -1,84 +1,41 @@
-<header class="shadow-sm">
-  <nav class="navbar navbar-expand-xl navbar-light">
-    <div class="container">
-      <a class="navbar-brand p-1" href="/">Cooking <i class="fa-solid fa-cake-candles"></i></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav ml-auto">
-
-            <!--カスタマーログイン時-->
-            <% if customer_signed_in? %>
-               <!--<p class="pt-3 mr-5 text-nowrap">-->
-               <!--  ようこそ、<#%= current_customer.last_name %>さん！-->
-               <!--</p>-->
-               <li class="nav-item mx-1 pt-2">
-                 <%= link_to "マイページ",customers_path, class: 'nav-link text-dark btn btn-outline-light', style: "width: 100px;" %>
-               </li>
-               <li class="nav-item mx-1 pt-2">
-                 <%= link_to "商品一覧",items_path, class: 'nav-link text-dark btn btn-outline-light', style: "width: 85px;" %>
-               </li>
-               <li class="nav-item mx-1 pt-2">
-                 <%= link_to "カート",cart_items_path, class: 'nav-link text-dark btn btn-outline-light', style: "width: 70px;"  %>
-               </li>
-               <li class="nav-item mx-1 pt-2">
-                 <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: 'nav-link text-dark btn btn-outline-light', style: "width: 100px;" %>
-               </li>
-
-            <!--管理者ログイン時-->
-            <% elsif admin_signed_in? %>
-              <li class="nav-item mx-1 pt-2">
-                <%= link_to "商品一覧",admin_items_path, class: 'nav-link text-dark btn btn-outline-light' %>
-              </li>
-              <li class="nav-item mx-1 pt-2">
-                <%= link_to "会員一覧",admin_customers_path, class: 'nav-link text-dark btn btn-outline-light' %>
-              </li>
-              <li class="nav-item mx-1 pt-2">
-                <%= link_to "注文履歴一覧",admin_path, class: 'nav-link text-dark btn btn-outline-light' %>
-              </li>
-              <li class="nav-item mx-1 pt-2">
-                <%= link_to "ジャンル一覧",admin_genres_path, class: 'nav-link text-dark btn btn-outline-light' %>
-              </li>
-              <li class="nav-item mx-1 pt-2">
-                <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-dark btn btn-outline-light' %>
-              </li>
-
-　　　　　　<!--登録時-->
-            <% else %>
-              <li class="nav-item mx-1 pt-sm-2">
-                <%= link_to "About", about_path, class: 'nav-link text-dark btn btn-outline-light' %>
-              </li>
-              <li class="nav-item mx-1 pt-2">
-                <%= link_to "商品一覧",items_path, class: 'nav-link text-dark btn btn-outline-light' %>
-              </li>
-              <li class="nav-item mx-1 pt-2">
-                <%= link_to "新規登録", new_customer_registration_path, class: 'nav-link text-dark btn btn-outline-light' %>
-              </li>
-              <li class="nav-item mx-1 pt-2">
-                <%= link_to "ログイン", new_customer_session_path, class: 'nav-link text-dark btn btn-outline-light' %>
-              </li>
-            <% end %>
-          </ul>
-          
-          <!--検索フォーム-->
-          <div class="form-inline my-2 justify-content-center ml-1">
-            <%= form_with url: search_path, method: :get, local: true do |f| %>
-            <div class="row">
-            <div class="col pr-0 mt-1">
-              <%= f.text_field :word, placeholder: "Search", class: "form-control"%>
-            </div>
-            <div class="col pl-1 mt-1">
-              <button class="btn btn-success" type="submit">
-                <i class="fa fa-search" aria-hidden="true"></i>
-              </button>
-              </div>
-              </div>
-            <% end %>
-            </div>
-          </div>
-          
-        </div>
+<header>
+  <!--#Bootstrap上で特定の色を指定できるように、下記にbg-testというクラス名を作成している-->
+  <!--/cooking_recipes/app/javascript/stylesheets/application.scssにbackground-colorを指定している-->
+  <nav class="navbar navbar-expand-md navbar-dark bg-test">
+    <div class="logo_area">
+      <!--#下記の'sample_logo.jpg'の箇所を、実際に使用するロゴ画像の名前に置き換える-->
+      <a class="navbar-brand"><%= image_tag 'sample_logo.jpg', class: "logo" %></a>
     </div>
+  <% if user_signed_in? %>
+  　<i class="fa-regular fa-sliders"></i>
+  　<i class="fa-solid fa-user"></i>
+  　<li>
+      ようこそ<%= current_user %>さん！
+    </li>
+  　<li>
+      <%= link_to "新規投稿", new_public_recipe_path %>
+    </li>
+    <li>
+      <%= link_to "全ての投稿を見る", public_recipes_path %>
+    </li>
+    <li>
+      <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+    </li>
+    <li>
+      <%= link_to "退会", public_users_check_path %>
+    </li>
+  <% else %>
+  <i class="fa-regular fa-sliders"></i>
+  　<i class="fa-solid fa-user"></i>
+    <li>
+      <%= link_to "新規登録", new_user_registration_path %>
+    </li>
+    <li>
+      <%= link_to "ログイン", new_user_session_path %>
+    </li>
+    <li>
+      <%= link_to "ゲストログイン", new_user_session_path %>
+    </li>
+  <% end %>
+  </nav>
 </header>
