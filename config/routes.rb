@@ -18,15 +18,13 @@ devise_for :admin, controllers: {
 }
   root to:'public/homes#top'
   # #データを追加(保存)するためのルーティング
-  # post 'recipes' => 'recipes#create'  
-  
+  # post 'recipes' => 'recipes#create'
+
   namespace :admin do
     resources :users, only: [:index, :show, :update]
-  end
-  namespace :admin do
+
     get 'comments/destroy'
-  end
-  namespace :admin do
+
     resources :recipes, only: [:index, :show, :destroy]
   end
   #deviseでもともと設定されているので削除
@@ -34,17 +32,15 @@ devise_for :admin, controllers: {
   #   resources :sessions, only: [:new, :create, :destroy]
   # end
   namespace :public do
-    resources :comments, only: [:create, :edit, :update, :destroy]
-  end
-  namespace :public do
     resources :users, only: [:show, :edit, :update]
     get 'users/check'
-  end
-  namespace :public do
-    resources :recipes, except: [:destroy]
+
+    resources :recipes do
     get 'recipes/search'
+      resources :comments, only: [:create, :edit, :update, :destroy]
+    end
   end
-   #deviseでもともと設定されているので削除
+  #deviseでもともと設定されているので削除
   # namespace :public do
   #   resources :registrations, only: [:new, :create]
   # end

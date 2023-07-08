@@ -1,82 +1,93 @@
 <h1>レシピ詳細</h1>
 
 <div class='col-md-8 offset-md-1'>
-    <h2>Recipe detail</h2>
     <table class='table'>
     <tr>
-         
-        <td>
-        <%= image_tag @recipe.user.get_image, size:"100x100" %><br>
-        <%= link_to @recipe.user.name, user_path(@recipe.user.id) %>
+
+       <td> <% if @recipe.post_image.attached? %>
+                  <%= link_to public_recipe_path(@recipe) do %>
+                    <%= image_tag @recipe.post_image, size: "100x100" %>
+                  <% end %>
+                <% else %>
+                  <%= image_tag 'no_image', size: "100x100" %>
+                <% end %>
         </td>
-        
-        <td><%= link_to @recipe.title, @recipe %></td>
+         <td><%= @recipe.user.name %></td>
+        <td><%= @recipe.title %></td>
+        <td></td>
         <td><%= @recipe.body %></td>
-          
-        <td>
-        <% if @recipe.category.present? %>
-        <%=link_to @recipe.category,tagsearches_search_path(content: @recipe.category)%>
-        <% end %>
-        </td>
-      
-        <td>
-        <% if @recipe.favorited_by?(current_user) %>
-        <p>
-        <%= link_to Recipe_favorites_path(@recipe), method: :delete do %>
-        ♥<%= @recipe.favorites.count %> 
-        <% end %>
-        </p>
-        <% else %>
-        <p>
-        <%= link_to recipe_favorites_path(@recipe), method: :post do %>
-        ♡<%= @recipe.favorites.count %> 
-        <% end %>
-        </p>
-        <% end %>
-        </td>
-        
-        <td>
-        <%= link_to recipe_path(@recipe.id), class:"comments-count" do %>
-        <%= "コメント数: #{@recipe.post_comments.count}" %>
-        <% end %>
-        </td>
-          
-        <td><%= render 'static.rate', recipe: @recipe %>
-        </td>
-  
+        <td></td>
+        <td></td>
+        <!--<td><#%= link_to "#{recipe.post_comments.count} コメント" %></td>-->
+
+
+        <!--<td>-->
+        <!--<#% if @recipe.category.present? %>-->
+        <!--<#%=link_to @recipe.category,tagsearches_search_path(content: @recipe.category)%>-->
+        <!--<#% end %>-->
+        <!--</td>-->
+
+
+        <!--<td>-->
+        <!--<#%= link_to recipe_path(@recipe.id), class:"comments-count" do %>-->
+        <!--<#%= "コメント数: #{@recipe.post_comments.count}" %>-->
+        <!--<#% end %>-->
+        <!--</td>-->
+
+        <!--<td><#%= render 'static.rate', recipe: @recipe %>-->
+        <!--</td>-->
+
+        <!--#編集ボタン-->
         <td>
            <% if @recipe.user == current_user %>
-           <%= link_to 'Edit', edit_Recipe_path(@recipe), class: "btn btn-sm btn-success" %>
+           <%= link_to 'Edit', edit_public_recipe_path(@recipe), class: "btn btn-sm btn-success" %>
            <% end %>
         </td>
-            
+
+        <!--♯削除ボタン    -->
         <td>
            <% if @recipe.user == current_user %>
-           <%= link_to 'Destroy', @recipe, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%>
+           <%= link_to 'Destroy', public_recipe_path(@recipe), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %>
            <% end %>
         </td>
-            
+
+            <!--#コメント機能-->
+            <!--<div>-->
+            <!--  <p>コメント件数：<#%= @recipe.post_comments.count %></p>-->
+            <!--  <#% @recipe.post_comments.each do |post_comment| %>-->
+            <!--    <p><#%= image_tag post_comment.recipe.image(100,100) %></p>-->
+            <!--    <#%= post_comment.user.name %>-->
+            <!--    <#%= @post_comment.created_at.strftime('%Y/%m/%d') %><#%= @post_comment.comment %>-->
+            <!--  <#% end %>-->
+            <!--</div>-->
+            <!--<div>-->
+            <!--  <#%= form_with model: [@recipe, @post_comment] do |f| %>-->
+            <!--    <#%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>-->
+            <!--    <#%= f.submit "送信する" %>-->
+            <!--  <#% end %>-->
+            <!--</div>-->
+
               <!--<td>-->
               <!--<p class="view-count">閲覧数: <#%= @recipe_detail.view_counts.count %></p>-->
               <!--</td>-->
     </tr>
-        
+
        <!-- <div class="lists">-->
        <!--   %= render "post_comments/lists", Recipe: @recipe %>-->
       　<!--</div>-->
-      　
-  　</table>
-  　 <div class="lists">
-      <%= render "post_comments/lists", recipe: @recipe %>
-  　</div>
-  
+
+  　<!--</table>-->
+  　<!-- <div class="lists">-->
+   <!--   <#%= render "post_comments/lists", recipe: @recipe %>-->
+  　<!--</div>-->
+
             <!--#コメント部分の部分テンプレート化し、本のshowページからrenderさせる。-->
-          <%= render "post_comments/comment", recipe: @recipe, post_comment: @post_comment %>
-            
+   <!--       <#%= render "post_comments/comment", recipe: @recipe, post_comment: @post_comment %>-->
+
             <!--#remote true追記することで、非同期通信になる-->
             <!--<#%= form_with(model:[@recipe, @post_comment], remote: true) do |f| %>-->
             <!--<#%= f.text_area :comment, rows: '5', placeholder: "", class:"form-control" %>-->
             <!--<#%= f.submit "送信" %>-->
             <!--<#% end %>-->
-            
-    </div>
+
+   <!-- </div>-->

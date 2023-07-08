@@ -1,7 +1,7 @@
 class Public::RecipesController < ApplicationController
   def new
     # Viewへ渡すためのインスタンス変数に空のModelオブジェクトを生成する。
-    @recipe = Recipe.new  
+    @recipe = Recipe.new
   end
 
   def create
@@ -18,21 +18,35 @@ class Public::RecipesController < ApplicationController
   end
 
   def index
-     @recipes = Recipe.all  
+    @recipes = Recipe.all
+    @post_comment = Comment.new
   end
 
   def show
+    @recipe = Recipe.find(params[:id])
+    @post_comment = Comment.new
   end
 
   def edit
+    @recipe = Recipe.find(params[:id])
   end
 
   def update
+    recipe = Recipe.find(params[:id])
+    recipe.update(recipe_params)
+    #後々、マイページへ遷移するように修正する
+    redirect_to public_recipe_path
+  end
+
+  def destroy
+    recipe = Recipe.find(params[:id])  # データ（レコード）を1件取得
+    recipe.destroy  # データ（レコード）を削除
+    redirect_to '/public/recipes'  # 投稿一覧画面へリダイレクト
   end
 
   def search
   end
-  
+
   private
   # ストロングパラメータ
   def recipe_params
