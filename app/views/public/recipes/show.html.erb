@@ -66,7 +66,7 @@
               <%= form_with model: [@recipe, @comment] , url: public_recipe_comments_path(@recipe), method: :post do |f| %>
                 <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
                 <%= f.submit "送信する" %>
-                
+              </div>  
                  <!--# starについての記述-->
                             <% if !@recipe.id.nil? %>
                 <div class="form-group" id="star">
