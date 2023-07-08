@@ -24,7 +24,7 @@ class Public::RecipesController < ApplicationController
 
   def show
     @recipe = Recipe.find(params[:id])
-    @post_comment = Comment.new
+    @comment = Comment.new
   end
 
   def edit

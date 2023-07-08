@@ -18,7 +18,7 @@
         <td><%= @recipe.body %></td>
         <td></td>
         <td></td>
-        <!--<td><#%= link_to "#{recipe.post_comments.count} コメント" %></td>-->
+        <td><%= link_to "#{@recipe.comments.count} コメント" %></td>
 
 
         <!--<td>-->
@@ -30,7 +30,7 @@
 
         <!--<td>-->
         <!--<#%= link_to recipe_path(@recipe.id), class:"comments-count" do %>-->
-        <!--<#%= "コメント数: #{@recipe.post_comments.count}" %>-->
+        <!--<#%= "コメント数: #{@recipe.comments.count}" %>-->
         <!--<#% end %>-->
         <!--</td>-->
 
@@ -52,40 +52,73 @@
         </td>
 
             <!--#コメント機能-->
-            <!--<div>-->
-            <!--  <p>コメント件数：<#%= @recipe.post_comments.count %></p>-->
-            <!--  <#% @recipe.post_comments.each do |post_comment| %>-->
-            <!--    <p><#%= image_tag post_comment.recipe.image(100,100) %></p>-->
-            <!--    <#%= post_comment.user.name %>-->
-            <!--    <#%= @post_comment.created_at.strftime('%Y/%m/%d') %><#%= @post_comment.comment %>-->
-            <!--  <#% end %>-->
-            <!--</div>-->
-            <!--<div>-->
-            <!--  <#%= form_with model: [@recipe, @post_comment] do |f| %>-->
-            <!--    <#%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>-->
-            <!--    <#%= f.submit "送信する" %>-->
-            <!--  <#% end %>-->
-            <!--</div>-->
+            <div>
+              <p>コメント件数：<%= @recipe.comments.count %></p>
+              <% @recipe.comments.each do |comment| %>
+                
+                <%#= comment.user.name %>
+                <%#= @comment.created_at.strftime('%Y/%m/%d') %><%#= @comment.comment %>
+              <% end %>
+            </div>
+            
+            <div>
+                 <!--# コメントについての記述-->
+              <%= form_with model: [@recipe, @comment] , url: public_recipe_comments_path(@recipe), method: :post do |f| %>
+                <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
+                <%= f.submit "送信する" %>
+                
+                 <!--# starについての記述-->
+                            <% if !@recipe.id.nil? %>
+                <div class="form-group" id="star">
+                  <%= f.label :star %>
+                  <%= f.hidden_field :star, id: :star, class: 'form-control' %>
+                  <div id="post_raty"></div>
+                </div>
+                <script>
+                  $(document).on('turbolinks:load', function() {
+                    let elem = document.querySelector('#post_raty');
+                    if (elem == null) return;
+            
+                    elem.innerHTML = ""
+                    let opt = {
+                      starOn: "<%= asset_path('star-on.png') %>",
+                      starOff: "<%= asset_path('star-off.png') %>",
+                      starHalf: "<%= asset_path('star-half.png') %>",
+                      scoreName: 'recipe[star]',
+                    };
+                    raty(elem, opt);
+                  });
+                </script>
+              <% else %>
+                <div class="form-group">
+                  <%= render "static_rate", recipe: recipe %>
+                </div>
+              <% end %>
+  
+              <% end %>
+            </div>
+            
+            <div>
+             <%#= render 'review', recipe: @recipe %>
+             <%= render "static_rate", recipe: @recipe %>
+            </div>
 
-              <!--<td>-->
-              <!--<p class="view-count">閲覧数: <#%= @recipe_detail.view_counts.count %></p>-->
-              <!--</td>-->
     </tr>
 
        <!-- <div class="lists">-->
-       <!--   %= render "post_comments/lists", Recipe: @recipe %>-->
+       <!--   %= render "comments/lists", Recipe: @recipe %>-->
       　<!--</div>-->
 
   　<!--</table>-->
   　<!-- <div class="lists">-->
-   <!--   <#%= render "post_comments/lists", recipe: @recipe %>-->
+   <!--   <#%= render "comments/lists", recipe: @recipe %>-->
   　<!--</div>-->
 
             <!--#コメント部分の部分テンプレート化し、本のshowページからrenderさせる。-->
-   <!--       <#%= render "post_comments/comment", recipe: @recipe, post_comment: @post_comment %>-->
+   <!--       <#%= render "comments/comment", recipe: @recipe, comment: @comment %>-->
 
             <!--#remote true追記することで、非同期通信になる-->
-            <!--<#%= form_with(model:[@recipe, @post_comment], remote: true) do |f| %>-->
+            <!--<#%= form_with(model:[@recipe, @comment], remote: true) do |f| %>-->
             <!--<#%= f.text_area :comment, rows: '5', placeholder: "", class:"form-control" %>-->
             <!--<#%= f.submit "送信" %>-->
             <!--<#% end %>-->

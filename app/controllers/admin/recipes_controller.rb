@@ -7,4 +7,5 @@ class Admin::RecipesController < ApplicationController
 
   def destroy
   end
+  
 end

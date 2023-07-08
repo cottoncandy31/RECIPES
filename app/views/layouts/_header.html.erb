@@ -6,6 +6,8 @@
       <!--#下記の'sample_logo.jpg'の箇所を、実際に使用するロゴ画像の名前に置き換える-->
       <a class="navbar-brand"><%= image_tag 'sample_logo.jpg', class: "logo" %></a>
     </div>
+   
+  <!--#ユーザーログイン時 -->
   <% if user_signed_in? %>
   　<i class="fa-regular fa-sliders"></i>
   　<i class="fa-solid fa-user"></i>
@@ -24,6 +26,21 @@
     <li>
       <%= link_to "退会", public_users_check_path %>
     </li>
+  <!--管理者ログイン時-->
+  <% elsif admin_signed_in? %>
+    <li>
+      ようこそ管理者さん！
+    </li>
+  　<li>
+      <%= link_to "会員の情報一覧", admin_users_path %>
+    </li>
+    <li>
+      <%= link_to "会員のレシピ一覧", admin_recipes_path %>
+    </li>
+    <li>
+      <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
+    </li>
+  <!--♯登録時-->
   <% else %>
   <i class="fa-regular fa-sliders"></i>
   　<i class="fa-solid fa-user"></i>

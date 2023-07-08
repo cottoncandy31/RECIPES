@@ -21,6 +21,10 @@ devise_for :admin, controllers: {
   # post 'recipes' => 'recipes#create'
 
   namespace :admin do
+    devise_scope :admin do
+    get '/sign_out', to: 'sessions#destroy'
+  　end
+  　
     resources :users, only: [:index, :show, :update]
 
     get 'comments/destroy'
@@ -34,7 +38,7 @@ devise_for :admin, controllers: {
   namespace :public do
     resources :users, only: [:show, :edit, :update]
     get 'users/check'
-
+  
     resources :recipes do
     get 'recipes/search'
       resources :comments, only: [:create, :edit, :update, :destroy]
