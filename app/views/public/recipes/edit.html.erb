@@ -23,7 +23,7 @@
   
   
   <h3>ジャンル</h3>
-  
+  <%= f.collection_select :genre_id, Genre.all, :id, :name %>
   <h3>価格帯</h3>
   
   <%= f.submit '変更を保存' %>

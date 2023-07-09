@@ -24,8 +24,7 @@
             <th>ジャンル</th>
             <th>説明</th>
             <th>価格</th>
-            <th>コメント</th>
-            
+            <th>評価</th>
             <th colspan="3"></th>
           </thead>
 
@@ -45,32 +44,12 @@
                   <%= recipe.title %>
                 <% end %>
               </th>
-              <!--#ジャンル名の記載-->
-              <th><%= recipe.genre.name %></th>
+              <th></th>
               <th><%= recipe.body %></th>
-              
-              <!--#価格帯の記載-->
-              <th><%#= price_ranges. %></th>
-              <th><%#= price_ranges. %></th>
-              
+              <th></th>
               <th></th>
               <th><%= link_to "#{recipe.comments.count} コメント" %></th>
-              
-              <th><!--♯いいね機能の実装    -->
-                  <%# if recipe.favorited_by?(current_user) %>
-                    <p>
-                      <%#= link_to public_recipes_path, method: :delete do %>
-                        <!--♥<%#= recipe.favorites.count %> 作ってみたい！-->
-                      <%# end %>
-                    </p>
-                    <%# else %>
-                    <p>
-                      <%#= link_to public_recipes_path, method: :post do %>
-                        <!--♡<%#= recipe.favorites.count %> 作ってみたい！-->
-                      <%# end %>
-                    </p>
-                  <%# end %>
-              </th>
+              <th><%= render "static_rate", recipe: recipe %></th>
             </tr>
           <% end %>
 

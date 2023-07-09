@@ -14,13 +14,29 @@
         </td>
          <td><%= @recipe.user.name %></td>
         <td><%= @recipe.title %></td>
-        <td></td>
+        <!--#ジャンル名の記載-->
+        <td><%= @recipe.genre.name %></td>
         <td><%= @recipe.body %></td>
         <td></td>
         <td></td>
+        <td>
+        <!--♯いいね機能の実装    -->
+        <% if @recipe.favorited_by?(current_user) %>
+          <p>
+            <%= link_to public_recipe_favorites_path(@recipe), method: :delete do %>
+              ♥<%= @recipe.favorites.count %> 作ってみたい！
+            <% end %>
+          </p>
+          <% else %>
+          <p>
+            <%= link_to public_recipe_favorites_path(@recipe), method: :post do %>
+              ♡<%= @recipe.favorites.count %> 作ってみたい！
+            <% end %>
+          </p>
+        <% end %>
+        </td>
+        
         <td><%= link_to "#{@recipe.comments.count} コメント" %></td>
-
-
         <!--<td>-->
         <!--<#% if @recipe.category.present? %>-->
         <!--<#%=link_to @recipe.category,tagsearches_search_path(content: @recipe.category)%>-->
@@ -36,7 +52,27 @@
 
         <!--<td><#%= render 'static.rate', recipe: @recipe %>-->
         <!--</td>-->
-
+   
+        <td>
+            <!--#コメント機能-->
+            <div>
+              <p>コメント件数：<%= @recipe.comments.count %></p>
+              <% @recipe.comments.each do |comment| %>
+                
+                <%#= comment.user.name %>
+                <%#= @comment.created_at.strftime('%Y/%m/%d') %><%#= @comment.comment %>
+              <% end %>
+            </div>
+            
+            <div>
+                 <!--# コメントについての記述-->
+              <%= form_with model: [@recipe, @comment] , url: public_comments_path(@recipe), method: :post do |f| %>
+                <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
+                <%= f.submit "送信する" %>
+              <% end %>
+            </div>
+        </td>  
+        
         <!--#編集ボタン-->
         <td>
            <% if @recipe.user == current_user %>
@@ -50,59 +86,7 @@
            <%= link_to 'Destroy', public_recipe_path(@recipe), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %>
            <% end %>
         </td>
-
-            <!--#コメント機能-->
-            <div>
-              <p>コメント件数：<%= @recipe.comments.count %></p>
-              <% @recipe.comments.each do |comment| %>
-                
-                <%#= comment.user.name %>
-                <%#= @comment.created_at.strftime('%Y/%m/%d') %><%#= @comment.comment %>
-              <% end %>
-            </div>
             
-            <div>
-                 <!--# コメントについての記述-->
-              <%= form_with model: [@recipe, @comment] , url: public_recipe_comments_path(@recipe), method: :post do |f| %>
-                <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
-                <%= f.submit "送信する" %>
-              </div>  
-                 <!--# starについての記述-->
-                            <% if !@recipe.id.nil? %>
-                <div class="form-group" id="star">
-                  <%= f.label :star %>
-                  <%= f.hidden_field :star, id: :star, class: 'form-control' %>
-                  <div id="post_raty"></div>
-                </div>
-                <script>
-                  $(document).on('turbolinks:load', function() {
-                    let elem = document.querySelector('#post_raty');
-                    if (elem == null) return;
-            
-                    elem.innerHTML = ""
-                    let opt = {
-                      starOn: "<%= asset_path('star-on.png') %>",
-                      starOff: "<%= asset_path('star-off.png') %>",
-                      starHalf: "<%= asset_path('star-half.png') %>",
-                      scoreName: 'recipe[star]',
-                    };
-                    raty(elem, opt);
-                  });
-                </script>
-              <% else %>
-                <div class="form-group">
-                  <%= render "static_rate", recipe: recipe %>
-                </div>
-              <% end %>
-  
-              <% end %>
-            </div>
-            
-            <div>
-             <%#= render 'review', recipe: @recipe %>
-             <%= render "static_rate", recipe: @recipe %>
-            </div>
-
     </tr>
 
        <!-- <div class="lists">-->

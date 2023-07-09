@@ -7,12 +7,15 @@ class Public::RecipesController < ApplicationController
   def create
     # １.&2. データを受け取り新規登録するためのインスタンス作成
     recipe = Recipe.new(recipe_params)
+    genre = Genre.find(recipe_params[:genre_id]) # recipe_paramsの中から選択したgenre_idを見つける
+    recipe.genre_id = genre.id 
     recipe.user_id = current_user.id
     # 3. データをデータベースに保存するためのsaveメソッド実行
     if recipe.save
     # 4. レシピ一覧画面へリダイレクト
       redirect_to public_recipes_path
     else
+      p recipe.errors.full_messages
       render :new
     end
   end
@@ -50,6 +53,6 @@ class Public::RecipesController < ApplicationController
   private
   # ストロングパラメータ
   def recipe_params
-    params.require(:recipe).permit(:title, :body, :post_image)
+    params.require(:recipe).permit(:title, :body, :post_image, :genre_id)
   end
 end

@@ -17,9 +17,15 @@
 	<h4>画像</h4>
   <%= f.file_field :post_image %>
 
-  <h4>ジャンル</h4>
+  
   <!-- ジャンルの選択肢を追加するフォーム要素 -->
-
+  <div class="field">
+  <%= f.label :ジャンル %>
+  <%#= f.select :genre, ['ごはんもの', '麺類', 'パスタ・グラタン', 'サラダ', '汁物・スープ', '野菜のおかず', 'お肉のおかず', '粉もの', '鍋もの', '揚げ物','お菓子', 'ソース・ドレッシング'], {include_blank: '---'} %>
+  <%#= f.select :genre,  %>
+  <%= f.collection_select :genre_id, Genre.all, :id, :name %>
+  </div>
+  
   <h4>価格帯</h4>
   <!-- 価格帯の選択肢を追加するフォーム要素 -->
 
@@ -36,6 +42,7 @@
 
 <!--  <#%= f.submit "検索", class: "btn btn-primary" %>-->
 <!--<#% end %>-->
+
 
   <%= f.submit '投稿' %>
 <% end %>

@@ -34,11 +34,16 @@ Rails.application.routes.draw do
   #   resources :sessions, only: [:new, :create, :destroy]
   # end
   namespace :public do
-    resources :users, only: [:show, :edit, :update]
-    get 'users/check'
+    resources :users, only: [:show, :edit, :update] do
+      member do
+      get 'check'
+    end
+  end
+    
+    resources :comments, only: [:create, :edit, :update, :destroy]
     resources :recipes do
       get 'recipes/search'
-      resources :comments, only: [:create, :edit, :update, :destroy]
+      resource :favorites, only: [:create, :destroy]
     end
   end
   #deviseでもともと設定されているので削除
