@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  #ゲストログインのためのルーティングを設定
+  devise_scope :user do
+    post "users/guest_sign_in", to: "public/sessions#guest_sign_in"
+  end
+  
   # 会員用
   # もともとのdeviseにあったファイル名をpublics→publicに変更し、それに伴って
   #app/views/public/sessions/new.html.erb内で、<%= render "public/shared/links" %>に変更
@@ -34,15 +39,18 @@ Rails.application.routes.draw do
   #   resources :sessions, only: [:new, :create, :destroy]
   # end
   namespace :public do
-    resources :users, only: [:show, :edit, :update] do
+    resources :users, only: [:show, :edit, :update, :destroy] do
       member do
       get 'check'
+      #フォロー・フォロワー機能のためのルーティング
+      resource :relationships, only: [:create, :destroy]
+      get 'followings' => 'relationships#followings', as: 'followings'
+      get 'followers' => 'relationships#followers', as: 'followers'
+      end
     end
-  end
-    
-    resources :comments, only: [:create, :edit, :update, :destroy]
     resources :recipes do
       get 'recipes/search'
+      resources :comments, only: [:create, :edit, :update, :destroy]
       resource :favorites, only: [:create, :destroy]
     end
   end

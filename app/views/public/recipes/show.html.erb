@@ -1,18 +1,18 @@
 <h1>レシピ詳細</h1>
 
-<div class='col-md-8 offset-md-1'>
+<div class='col-md-10 offset-md-1'>
     <table class='table'>
     <tr>
 
        <td> <% if @recipe.post_image.attached? %>
-                  <%= link_to public_recipe_path(@recipe) do %>
-                    <%= image_tag @recipe.post_image, size: "100x100" %>
-                  <% end %>
-                <% else %>
-                  <%= image_tag 'no_image', size: "100x100" %>
-                <% end %>
+              <%= link_to public_recipe_path(@recipe) do %>
+                <%= image_tag @recipe.post_image, size: "100x100" %>
+              <% end %>
+            <% else %>
+              <%= image_tag 'no_image', size: "100x100" %>
+            <% end %>
         </td>
-         <td><%= @recipe.user.name %></td>
+        <td><%= link_to @recipe.user.name, public_user_path(@recipe.user) %></td>
         <td><%= @recipe.title %></td>
         <!--#ジャンル名の記載-->
         <td><%= @recipe.genre.name %></td>
@@ -53,37 +53,41 @@
         <!--<td><#%= render 'static.rate', recipe: @recipe %>-->
         <!--</td>-->
    
-        <td>
-            <!--#コメント機能-->
-            <div>
-              <p>コメント件数：<%= @recipe.comments.count %></p>
-              <% @recipe.comments.each do |comment| %>
-                
-                <%#= comment.user.name %>
-                <%#= @comment.created_at.strftime('%Y/%m/%d') %><%#= @comment.comment %>
-              <% end %>
-            </div>
-            
-            <div>
-                 <!--# コメントについての記述-->
-              <%= form_with model: [@recipe, @comment] , url: public_comments_path(@recipe), method: :post do |f| %>
+            <td>
+              <!--# コメントの投稿フォーム-->
+              <%= form_with model: [@recipe, @comment] , url: public_recipe_comments_path(@recipe), method: :post do |f| %>
                 <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
                 <%= f.submit "送信する" %>
               <% end %>
-            </div>
+            
+            
+            <!--#コメント内容の表示-->
+            
+              <% @recipe.comments.each do |comment| %>
+                <!--#下記に記載のcomment.commentは、各コメントオブジェクトに対するコメントを意味している-->
+                <%= comment.comment %>
+                by <%= comment.user.name %>
+                <%#= @comment.created_at.strftime('%Y/%m/%d') %>
+                
+                <!--#コメント削除：コメントしたものがログインユーザーのものであれば削除ボタンを表示して、削除できるように設定-->
+                <% if comment.user == current_user %>
+                  <%= link_to "削除", public_recipe_comment_path(comment.recipe, comment), method: :delete %>
+                <% end %>
+              <% end %>
+            </td> 
         </td>  
         
         <!--#編集ボタン-->
         <td>
            <% if @recipe.user == current_user %>
-           <%= link_to 'Edit', edit_public_recipe_path(@recipe), class: "btn btn-sm btn-success" %>
+           <%= link_to 'レシピ編集', edit_public_recipe_path(@recipe), class: "btn btn-sm btn-success" %>
            <% end %>
         </td>
 
         <!--♯削除ボタン    -->
         <td>
            <% if @recipe.user == current_user %>
-           <%= link_to 'Destroy', public_recipe_path(@recipe), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %>
+           <%= link_to 'レシピ削除', public_recipe_path(@recipe), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %>
            <% end %>
         </td>
             

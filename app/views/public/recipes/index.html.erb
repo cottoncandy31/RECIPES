@@ -1,6 +1,3 @@
-<h1>会員のレシピ一覧(Index)：他のユーザを含む投稿一覧画面</h1>
-<h1>投稿一覧</h1>
-
 <!--<#% if @recipe.errors.any? %>-->
 <!--  <#%= @recipe.errors.count %>件のエラーが発生しました-->
 <!--  <ul>-->
@@ -16,22 +13,23 @@
   <div class="row">
 
     <div class="col-md-10 offset-md-1">
-      <h2>投稿一覧</h2>
+      <h1>みんなのレシピ一覧</h1>
         <table class="table table-hover table-inverse">
           <thead>
             <th>画像</th>
             <th>レシピ名</th>
             <th>ジャンル</th>
             <th>説明</th>
-            <th>価格</th>
             <th>コメント</th>
+            <th>投稿者</th>
+            <th>価格帯</th>
             
             <th colspan="3"></th>
           </thead>
 
           <% @recipes.each do |recipe| %>
             <tr>
-              <th>
+              <td>
                 <% if recipe.post_image.attached? %>
                   <%= link_to public_recipe_path(recipe) do %>
                     <%= image_tag recipe.post_image, size: "100x100" %>
@@ -39,24 +37,19 @@
                 <% else %>
                   <%= image_tag 'no_image', size: "100x100" %>
                 <% end %>
-              </th>
-              <th>
+              </td>
+              <td>
                 <%= link_to public_recipe_path(recipe) do %>
                   <%= recipe.title %>
                 <% end %>
-              </th>
+              </td>
               <!--#ジャンル名の記載-->
-              <th><%= recipe.genre.name %></th>
-              <th><%= recipe.body %></th>
+              <td><%= recipe.genre.name %></td>
+              <td><%= recipe.body %></td>
               
-              <!--#価格帯の記載-->
-              <th><%#= price_ranges. %></th>
-              <th><%#= price_ranges. %></th>
-              
-              <th></th>
-              <th><%= link_to "#{recipe.comments.count} コメント" %></th>
-              
-              <th><!--♯いいね機能の実装    -->
+              <td><%= link_to "#{recipe.comments.count} コメント" %></td>
+              <td><%= link_to recipe.user.name, public_user_path(recipe.user) %></td>
+              <td><!--♯いいね機能の実装    -->
                   <%# if recipe.favorited_by?(current_user) %>
                     <p>
                       <%#= link_to public_recipes_path, method: :delete do %>
@@ -70,7 +63,11 @@
                       <%# end %>
                     </p>
                   <%# end %>
-              </th>
+              </td>
+              
+              <!--#価格帯の記載-->
+              <td><%#= price_ranges. %></td>
+              <td><%#= price_ranges. %></td>
             </tr>
           <% end %>
 

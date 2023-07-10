@@ -15,7 +15,6 @@ class Public::RecipesController < ApplicationController
     # 4. レシピ一覧画面へリダイレクト
       redirect_to public_recipes_path
     else
-      p recipe.errors.full_messages
       render :new
     end
   end
@@ -44,7 +43,7 @@ class Public::RecipesController < ApplicationController
   def destroy
     recipe = Recipe.find(params[:id])  # データ（レコード）を1件取得
     recipe.destroy  # データ（レコード）を削除
-    redirect_to '/public/recipes'  # 投稿一覧画面へリダイレクト
+    redirect_to '/public/users/:id'  # マイページへリダイレクト
   end
 
   def search

@@ -15,10 +15,13 @@
       ようこそ<%= current_user %>さん！
     </li>
   　<li>
-      <%= link_to "新規投稿", new_public_recipe_path %>
+      <%= link_to "レシピを投稿", new_public_recipe_path %>
     </li>
     <li>
-      <%= link_to "全ての投稿を見る", public_recipes_path %>
+      <%= link_to "みんなのレシピを見る", public_recipes_path %>
+    </li>
+    <li>
+      <%= link_to "マイページ", public_user_path(current_user) %>
     </li>
     <li>
       <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
@@ -44,15 +47,15 @@
   <% else %>
   <i class="fa-regular fa-sliders"></i>
   　<i class="fa-solid fa-user"></i>
-    <li>
-      <%= link_to "新規登録", new_user_registration_path %>
-    </li>
-    <li>
-      <%= link_to "ログイン", new_user_session_path %>
-    </li>
-    <li>
-      <%= link_to "ゲストログイン", new_user_session_path %>
-    </li>
+    <div>
+      <%= link_to "新規登録", new_user_registration_path, class: "btn btn-success btn-sm btn-block sign_up" %>
+    </div>
+    <div>
+      <%= link_to "ログイン", new_user_session_path, class: "btn btn-info btn-sm btn-block mb-3 sign_in" %>
+    </div>
+    <div>
+      <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, class: "btn btn-secondary btn-sm btn-block mb-3 sign_in", method: :post %>
+    </div>
   <% end %>
   </nav>
 </header>
