@@ -21,7 +21,13 @@
       <%= link_to "みんなのレシピを見る", public_recipes_path %>
     </li>
     <li>
-      <%= link_to "マイページ", public_user_path(current_user) %>
+      <%= link_to "ブックマーク一覧", public_user_bookmarked_recipes_index_path(current_user) %>
+    </li>
+    <li>
+      <%= link_to "マイレシピ", recipes_public_user_path(current_user) %>
+    </li>
+    <li>
+      <%= link_to "登録情報", public_user_path(current_user) %>
     </li>
     <li>
       <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>

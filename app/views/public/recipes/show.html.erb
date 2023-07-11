@@ -2,6 +2,17 @@
 
 <div class='col-md-10 offset-md-1'>
     <table class='table'>
+      <thead>
+        <th>画像</th>
+        <th>タイトル</th>
+        <th>説明</th>
+        <th>投稿者</th>
+        <th>価格帯</th>
+        <th>いいね</th>
+        <th>コメント</th>
+        <th colspan="3"></th>
+      </thead>
+          
     <tr>
 
        <td> <% if @recipe.post_image.attached? %>
@@ -12,31 +23,28 @@
               <%= image_tag 'no_image', size: "100x100" %>
             <% end %>
         </td>
-        <td><%= link_to @recipe.user.name, public_user_path(@recipe.user) %></td>
         <td><%= @recipe.title %></td>
-        <!--#ジャンル名の記載-->
-        <td><%= @recipe.genre.name %></td>
         <td><%= @recipe.body %></td>
-        <td></td>
+        <td><%= link_to @recipe.user.name, public_user_path(@recipe.user) %></td>
         <td></td>
         <td>
-        <!--♯いいね機能の実装    -->
+        <!--♯いいね機能の実装
+        #退会済みのユーザのデータが会員側には表示されないよう設定-->
         <% if @recipe.favorited_by?(current_user) %>
           <p>
             <%= link_to public_recipe_favorites_path(@recipe), method: :delete do %>
-              ♥<%= @recipe.favorites.count %> 作ってみたい！
+              ♥<%= @recipe.favorites.published.count %> 作ってみたい！
             <% end %>
           </p>
           <% else %>
           <p>
             <%= link_to public_recipe_favorites_path(@recipe), method: :post do %>
-              ♡<%= @recipe.favorites.count %> 作ってみたい！
+              ♡<%= @recipe.favorites.published.count %> 作ってみたい！
             <% end %>
           </p>
         <% end %>
         </td>
-        
-        <td><%= link_to "#{@recipe.comments.count} コメント" %></td>
+        <td><%= link_to "#{@recipe.comments.published.count} 件のコメントをすべて見る" %></td>
         <!--<td>-->
         <!--<#% if @recipe.category.present? %>-->
         <!--<#%=link_to @recipe.category,tagsearches_search_path(content: @recipe.category)%>-->
@@ -66,7 +74,7 @@
               <% @recipe.comments.each do |comment| %>
                 <!--#下記に記載のcomment.commentは、各コメントオブジェクトに対するコメントを意味している-->
                 <%= comment.comment %>
-                by <%= comment.user.name %>
+                by <%= link_to comment.user.name, public_user_path(comment.user) %>
                 <%#= @comment.created_at.strftime('%Y/%m/%d') %>
                 
                 <!--#コメント削除：コメントしたものがログインユーザーのものであれば削除ボタンを表示して、削除できるように設定-->
@@ -92,7 +100,14 @@
         </td>
             
     </tr>
-
+    <tr>
+      <% if @recipe.bookmarked_by?(current_user) %>
+        <td><%= link_to "ブックマークを外す", public_recipe_bookmarks_path(@recipe), method: :delete %></td>
+      <% else %>
+        <td><%= link_to "ブックマーク", public_recipe_bookmarks_path(@recipe), method: :post %></td>
+      <% end %>
+    </tr>
+      
        <!-- <div class="lists">-->
        <!--   %= render "comments/lists", Recipe: @recipe %>-->
       　<!--</div>-->

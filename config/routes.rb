@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     post "users/guest_sign_in", to: "public/sessions#guest_sign_in"
   end
-  
+
   # 会員用
   # もともとのdeviseにあったファイル名をpublics→publicに変更し、それに伴って
   #app/views/public/sessions/new.html.erb内で、<%= render "public/shared/links" %>に変更
@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     registrations: "public/registrations",
     sessions: 'public/sessions'
   }
-  
+
   # 管理者用
   # もともとのdeviseにあったファイル名をadmins→adminに変更し、それに伴って
     #app/views/admin/sessions/new.html.erb内で、<%= render "admin/shared/links" %>に変更したため、下記に変更点を記載している
@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   root to:'public/homes#top'
     # #データを追加(保存)するためのルーティング
     # post 'recipes' => 'recipes#create'
-  
+
   namespace :admin do
     #deviseに管理者ログアウトのアクションに対応するルートを追加(devise_scopeを用いてネストさせる)
     devise_scope :admin do
@@ -40,18 +40,24 @@ Rails.application.routes.draw do
   # end
   namespace :public do
     resources :users, only: [:show, :edit, :update, :destroy] do
+      #今回、userコントローラー内にcheckアクションとrecipesアクションを追加している。
+      #その際にURLを/:user_id/ではなく他のuserコントローラー内のアクションのパスと同様に/:id/としたいので、member do…endで囲っている
       member do
-      get 'check'
+        get 'check'
+        get 'recipes'
+      end
       #フォロー・フォロワー機能のためのルーティング
       resource :relationships, only: [:create, :destroy]
       get 'followings' => 'relationships#followings', as: 'followings'
       get 'followers' => 'relationships#followers', as: 'followers'
-      end
+      get 'bookmarked_recipes/index'
+      get 'bookmarked_recipes/show'
     end
     resources :recipes do
-      get 'recipes/search'
+      # get 'recipes/search'
       resources :comments, only: [:create, :edit, :update, :destroy]
       resource :favorites, only: [:create, :destroy]
+      resource :bookmarks, only: [:create, :index, :show, :destroy]
     end
   end
   #deviseでもともと設定されているので削除

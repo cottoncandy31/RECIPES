@@ -13,6 +13,12 @@ class Public::UsersController < ApplicationController
 
   def check
   end
+  
+  def recipes
+    @user = User.find(params[:id])
+    @users = User.all
+    @recipes = Recipe.all
+  end
 
   #退会フラグはupdateに値するが、マイページ更新の際のupdateアクションと被らないように、destroyアクションに退会処理を記載している
   def destroy

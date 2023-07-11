@@ -20,8 +20,17 @@ class Public::RecipesController < ApplicationController
   end
 
   def index
-    @recipes = Recipe.all
     @post_comment = Comment.new
+    if params[:latest]
+      @recipes = Recipe.published.latest
+    elsif params[:old]
+      @recipes = Recipe.published.old
+    elsif params[:most_favorited]
+      @recipes = Recipe.published.most_favorited
+    else
+      #新着順(投稿日降順)に並ぶよう指定
+      @recipes = Recipe.published.order(created_at: :desc)
+    end
   end
 
   def show
@@ -44,9 +53,6 @@ class Public::RecipesController < ApplicationController
     recipe = Recipe.find(params[:id])  # データ（レコード）を1件取得
     recipe.destroy  # データ（レコード）を削除
     redirect_to '/public/users/:id'  # マイページへリダイレクト
-  end
-
-  def search
   end
 
   private

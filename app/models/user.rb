@@ -23,6 +23,13 @@ class User < ApplicationRecord
   has_many :recipes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  #ユーザとブックマークの中間テーブル
+  has_many :bookmarks, dependent: :destroy
+  #ブックマークレシピ：中間テーブルであるbookmarksをthroughしている
+  has_many :bookmarked_recipes, source: :recipe, through: :bookmarks
+  
+  #退会済みのユーザのデータが会員側には表示されないよう設定
+  scope :published, -> { joins(:user).where(user: { is_deleted: false}) }
   
   #フォロー・フォロワー機能の実装
   # フォローをした、されたの関係

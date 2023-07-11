@@ -11,19 +11,22 @@
 
 <div class="container px-5 px-sm-0">
   <div class="row">
+  <!--#並べ替え ~新着順/古い順/いいね順~-->
+  <%= link_to '新着順', public_recipes_path(latest: "true") %>/
+  <%= link_to '古い順', public_recipes_path(old: "true") %>/
+  <%= link_to 'いいね順', public_recipes_path(most_favorited: "true") %>
 
     <div class="col-md-10 offset-md-1">
       <h1>みんなのレシピ一覧</h1>
         <table class="table table-hover table-inverse">
           <thead>
             <th>画像</th>
-            <th>レシピ名</th>
+            <th>タイトル</th>
             <th>ジャンル</th>
-            <th>説明</th>
-            <th>コメント</th>
             <th>投稿者</th>
             <th>価格帯</th>
-            
+            <th>投稿日時</th>
+
             <th colspan="3"></th>
           </thead>
 
@@ -45,29 +48,29 @@
               </td>
               <!--#ジャンル名の記載-->
               <td><%= recipe.genre.name %></td>
-              <td><%= recipe.body %></td>
-              
-              <td><%= link_to "#{recipe.comments.count} コメント" %></td>
-              <td><%= link_to recipe.user.name, public_user_path(recipe.user) %></td>
-              <td><!--♯いいね機能の実装    -->
-                  <%# if recipe.favorited_by?(current_user) %>
-                    <p>
-                      <%#= link_to public_recipes_path, method: :delete do %>
-                        <!--♥<%#= recipe.favorites.count %> 作ってみたい！-->
-                      <%# end %>
-                    </p>
-                    <%# else %>
-                    <p>
-                      <%#= link_to public_recipes_path, method: :post do %>
-                        <!--♡<%#= recipe.favorites.count %> 作ってみたい！-->
-                      <%# end %>
-                    </p>
-                  <%# end %>
-              </td>
-              
+              <td>by <%= link_to recipe.user.name, public_user_path(recipe.user) %></td>
+   
               <!--#価格帯の記載-->
               <td><%#= price_ranges. %></td>
               <td><%#= price_ranges. %></td>
+              
+              <td><%#= recipe.created_at.strftime('%Y/%m/%d') %></td>
+              <td>
+                <!--♯いいね機能の実装    -->
+                <% if recipe.favorited_by?(current_user) %>
+                  <p>
+                    <%= link_to public_recipe_favorites_path(recipe), method: :delete do %>
+                      ♥<%= recipe.favorites.count %> 
+                    <% end %>
+                  </p>
+                  <% else %>
+                  <p>
+                    <%= link_to public_recipe_favorites_path(recipe), method: :post do %>
+                      ♡<%= recipe.favorites.count %> 
+                    <% end %>
+                  </p>
+                <% end %>
+              </td>
             </tr>
           <% end %>
 

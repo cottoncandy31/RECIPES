@@ -1,4 +1,75 @@
-<h1>会員の商品一覧</h1>
-<%= render partial: 'recipes', locals: { recipes: @recipes } %>
+<!--<#% if @recipe.errors.any? %>-->
+<!--  <#%= @recipe.errors.count %>件のエラーが発生しました-->
+<!--  <ul>-->
+<!--    <#% @recipe.errors.full_messages.each do |message| %>-->
+<!--      <li><#%= message %></li>-->
+<!--    <#% end %>-->
+<!--  </ul>-->
+<!--<#% end %>-->
+
+<!--<p id="notice"></p>-->
+
+<div class="container px-5 px-sm-0">
+  <div class="row">
+
+    <div class="col-md-10 offset-md-1">
+      <h1>みんなのレシピ一覧</h1>
+        <table class="table table-hover table-inverse">
+          <thead>
+            <th>画像</th>
+            <th>タイトル</th>
+            <th>ジャンル</th>
+            <th>投稿者</th>
+            <th>価格帯</th>
+            
+            <th colspan="3"></th>
+          </thead>
+
+          <% @recipes.each do |recipe| %>
+            <tr>
+              <td>
+                <% if recipe.post_image.attached? %>
+                  <%= link_to admin_recipe_path(recipe) do %>
+                    <%= image_tag recipe.post_image, size: "100x100" %>
+                  <% end %>
+                <% else %>
+                  <%= image_tag 'no_image', size: "100x100" %>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to admin_recipe_path(recipe) do %>
+                  <%= recipe.title %>
+                <% end %>
+              </td>
+              <!--#ジャンル名の記載-->
+              <td><%= recipe.genre.name %></td>
+              <td>by <%= link_to recipe.user.name, admin_user_path(recipe.user) %></td>
+              <td><!--♯いいね機能の実装    -->
+                  <%# if recipe.favorited_by?(current_user) %>
+                    <p>
+                      <%#= link_to public_recipes_path, method: :delete do %>
+                        <!--♥<%#= recipe.favorites.count %> 作ってみたい！-->
+                      <%# end %>
+                    </p>
+                    <%# else %>
+                    <p>
+                      <%#= link_to public_recipes_path, method: :post do %>
+                        <!--♡<%#= recipe.favorites.count %> 作ってみたい！-->
+                      <%# end %>
+                    </p>
+                  <%# end %>
+              </td>
+              
+              <!--#価格帯の記載-->
+              <td><%#= price_ranges. %></td>
+              <td><%#= price_ranges. %></td>
+            </tr>
+          <% end %>
+
+        </table>
+    </div>
+  </div>
+</div>
+
 
 

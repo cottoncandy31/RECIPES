@@ -1,0 +1,23 @@
+<table>
+  <caption>ブックマーク一覧</caption>
+  <thead>
+    <tr>
+      <th>投稿者名</th>
+      <th>タイトル</th>
+      <th>本文</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @bookmarks.each do |bookmark| %>
+      <tr>
+        <td><%= bookmark.recipe.user.name %></td>
+        <td>
+          <%= link_to public_recipe_bookmarks_path(bookmark.recipe) do %>
+            <%= bookmark.recipe.title %>
+          <% end %>
+        </td>
+        <td><%= bookmark.recipe.body %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
