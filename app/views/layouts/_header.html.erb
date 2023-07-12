@@ -12,7 +12,7 @@
   　<i class="fa-regular fa-sliders"></i>
   　<i class="fa-solid fa-user"></i>
   　<li>
-      ようこそ<%= current_user %>さん！
+      ようこそ<%= current_user.name %>さん！
     </li>
   　<li>
       <%= link_to "レシピを投稿", new_public_recipe_path %>

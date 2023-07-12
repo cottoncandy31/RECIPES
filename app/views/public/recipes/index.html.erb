@@ -11,10 +11,9 @@
 
 <div class="container px-5 px-sm-0">
   <div class="row">
-  <!--#並べ替え ~新着順/古い順/いいね順~-->
+  <!--#並べ替え ~新着順/いいね順~-->
   <%= link_to '新着順', public_recipes_path(latest: "true") %>/
-  <%= link_to '古い順', public_recipes_path(old: "true") %>/
-  <%= link_to 'いいね順', public_recipes_path(most_favorited: "true") %>
+  <%= link_to '人気順', public_recipes_path(most_favorited: "true") %>
 
     <div class="col-md-10 offset-md-1">
       <h1>みんなのレシピ一覧</h1>
@@ -48,7 +47,7 @@
               </td>
               <!--#ジャンル名の記載-->
               <td><%= recipe.genre.name %></td>
-              <td>by <%= link_to recipe.user.name, public_user_path(recipe.user) %></td>
+              <td>by <%= link_to recipe.user.name, recipes_public_user_path(recipe.user) %></td>
    
               <!--#価格帯の記載-->
               <td><%#= price_ranges. %></td>

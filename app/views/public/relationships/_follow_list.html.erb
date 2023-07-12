@@ -1,4 +1,4 @@
-<% if users.exists? %>
+<% if users.any? %>
   <% users.each do |user| %>
     <table>
       <thead>
@@ -10,7 +10,7 @@
       </thead>
       <tbody>
         <tr>
-          <td><%= user.name %></td>
+          <td><%= link_to user.name, recipes_public_user_path(user) %></td>
           <td>フォロー数: <%= user.followings.count %></td>
           <td>フォロワー数: <%= user.followers.count %></td>
         </tr>
