@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 2023_07_11_063839) do
   create_table "price_ranges", force: :cascade do |t|
     t.integer "minimum_price", null: false
     t.integer "maximum_price", null: false
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -94,6 +95,9 @@ ActiveRecord::Schema.define(version: 2023_07_11_063839) do
     t.text "body", null: false
     t.integer "user_id", null: false
     t.integer "genre_id", null: false
+    t.integer "price_range_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "relationships", force: :cascade do |t|

@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   #   resources :sessions, only: [:new, :create, :destroy]
   # end
   namespace :public do
-    resources :users, only: [:show, :edit, :update, :destroy] do
+    resources :users, only: [:show, :index, :edit, :update, :destroy] do
       #今回、userコントローラー内にcheckアクションとrecipesアクションを追加している。
       #その際にURLを/:user_id/ではなく他のuserコントローラー内のアクションのパスと同様に/:id/としたいので、member do…endで囲っている
       member do

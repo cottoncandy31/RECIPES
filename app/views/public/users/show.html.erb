@@ -19,17 +19,20 @@
       </tr>
       <tr>
         <th class="bg-light col-4">プロフィール写真</th>
-        <td><%#= @user. %></td>
+        <td><%= image_tag @user.get_profile_image(100, 100) %></td>
       </tr>
       <tr>
         <th class="bg-light col-4">登録日時</th>
-        <td><%#= @user. %></td>
+        <td><%= @user.created_at.strftime('%Y/%m/%d') %></td>
       </tr>
       <tr>
         <th class="bg-light col-4">更新日時</th>
-        <td><%#= @user. %></td>
+        <td><%= @user.created_at.strftime('%Y/%m/%d') %></td>
       </tr>
     </table>
+      <% if @user == current_user %>
+        <%= link_to "プロフィール編集", edit_public_user_path(@user), class: "btn btn-success" %>
+      <% end %>
 </div>
 
 
