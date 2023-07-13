@@ -1,129 +1,94 @@
-<h1>レシピ詳細</h1>
-
-<div class='col-md-10 offset-md-1'>
-    <table class='table'>
-      <thead>
-        <th>画像</th>
-        <th>タイトル</th>
-        <th>説明</th>
-        <th>投稿者</th>
-        <th>価格帯</th>
-        <th>いいね</th>
-        <th>コメント</th>
-        <th colspan="3"></th>
-      </thead>
-          
-    <tr>
-
-       <td> <% if @recipe.post_image.attached? %>
-              <%= link_to public_recipe_path(@recipe) do %>
-                <%= image_tag @recipe.post_image, size: "100x100" %>
-              <% end %>
-            <% else %>
-              <%= image_tag 'no_image', size: "100x100" %>
-            <% end %>
-        </td>
-        <td><%= @recipe.title %></td>
-        <td><%= @recipe.body %></td>
-        <td><%= link_to @recipe.user.name, public_user_path(@recipe.user) %></td>
-        <td></td>
-        <td>
-        <!--♯いいね機能の実装
-        #退会済みのユーザのデータが会員側には表示されないよう設定-->
-        <% if @recipe.favorited_by?(current_user) %>
-          <p>
-            <%= link_to public_recipe_favorites_path(@recipe), method: :delete do %>
-              ♥<%= @recipe.favorites.published.count %> 作ってみたい！
-            <% end %>
-          </p>
-          <% else %>
-          <p>
-            <%= link_to public_recipe_favorites_path(@recipe), method: :post do %>
-              ♡<%= @recipe.favorites.published.count %> 作ってみたい！
-            <% end %>
-          </p>
-        <% end %>
-        </td>
-        <td><%= link_to "#{@recipe.comments.published.count} 件のコメントをすべて見る" %></td>
-        <!--<td>-->
-        <!--<#% if @recipe.category.present? %>-->
-        <!--<#%=link_to @recipe.category,tagsearches_search_path(content: @recipe.category)%>-->
-        <!--<#% end %>-->
-        <!--</td>-->
-
-
-        <!--<td>-->
-        <!--<#%= link_to recipe_path(@recipe.id), class:"comments-count" do %>-->
-        <!--<#%= "コメント数: #{@recipe.comments.count}" %>-->
-        <!--<#% end %>-->
-        <!--</td>-->
-
-        <!--<td><#%= render 'static.rate', recipe: @recipe %>-->
-        <!--</td>-->
-   
+<div class="px-1 ml-md-2">
+  <h5 class="bg-light text-center ml-5 mb-6" style="width: 200px;">レシピ詳細</h5>
+</div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <table class="table">
+        <thead>
+          <tr class="bg-light">
+            <th>画像</th>
+            <th>タイトル</th>
+            <th>説明</th>
+            <th>投稿者</th>
+            <th>価格帯</th>
+            <th>いいね</th>
+            <th>コメント</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!--#画像の投稿-->
             <td>
+              <% if @recipe.post_image.attached? %>
+                <%= link_to public_recipe_path(@recipe) do %>
+                  <%= image_tag @recipe.post_image, size: "100x100" %>
+                <% end %>
+              <% else %>
+                <%= image_tag 'no_image', size: "100x100" %>
+              <% end %>
+            </td>
+            <!--#タイトル-->
+            <td><%= @recipe.title %></td>
+            <!--#説明-->
+            <td><%= @recipe.body %></td>
+            <!--#投稿者-->
+            <td><%= link_to @recipe.user.name, recipes_public_user_path(@recipe.user) %></td>
+            <!--#価格帯-->
+            <td><%= @recipe.price_range.name %></td>
+             <!--♯いいね機能の実装
+              #退会済みのユーザのデータが会員側には表示されないよう設定-->
+            <td>
+              <% if @recipe.favorited_by?(current_user) %>
+                <p>
+                  <%= link_to public_recipe_favorites_path(@recipe), method: :delete do %>
+                    ♥<%= @recipe.favorites.published.count %> 作ってみたい！
+                  <% end %>
+                </p>
+              <% else %>
+                <p>
+                  <%= link_to public_recipe_favorites_path(@recipe), method: :post do %>
+                    ♡<%= @recipe.favorites.published.count %> 作ってみたい！
+                  <% end %>
+                </p>
+              <% end %>
+            </td>
+            <td><%= link_to "#{@recipe.comments.published.count} 件のコメントをすべて見る" %></td>
+            <td colspan="7">
+              <% if @recipe.user == current_user %>
+                <%= link_to 'レシピ編集', edit_public_recipe_path(@recipe), class: "btn btn-sm btn-success" %>
+                <!--#@recipe.user,@recipeについては、public_user_recipe_pathのURLに/public/users/:user_id/recipes/:idがあることからも、-->
+                <!--user_idとrecipe_idを引数として渡す必要がある。-->
+                <%= link_to 'レシピ削除', public_user_recipe_path(@recipe.user,@recipe), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %>
+              <% end %>
+              <% if @recipe.bookmarked_by?(current_user) %>
+                <%= link_to "ブックマークを外す", public_recipe_bookmarks_path(@recipe), method: :delete, class: 'btn btn-danger' %>
+              <% else %>
+                <%= link_to "ブックマーク", public_recipe_bookmarks_path(@recipe), method: :post, class: 'btn btn-primary' %>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">
               <!--# コメントの投稿フォーム-->
-              <%= form_with model: [@recipe, @comment] , url: public_recipe_comments_path(@recipe), method: :post do |f| %>
+              <%= form_with model: [@recipe, @comment], url: public_recipe_comments_path(@recipe), method: :post do |f| %>
                 <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
                 <%= f.submit "送信する" %>
               <% end %>
-            
-            
-            <!--#コメント内容の表示-->
-            
+
+              <!--#コメント内容の表示-->
               <% @recipe.comments.each do |comment| %>
-                <!--#下記に記載のcomment.commentは、各コメントオブジェクトに対するコメントを意味している-->
                 <%= comment.comment %>
-                by <%= link_to comment.user.name, public_user_path(comment.user) %>
-                <%#= @comment.created_at.strftime('%Y/%m/%d') %>
-                
-                <!--#コメント削除：コメントしたものがログインユーザーのものであれば削除ボタンを表示して、削除できるように設定-->
+                by <%= link_to comment.user.name, recipes_public_user_path(comment.user) %>
                 <% if comment.user == current_user %>
                   <%= link_to "削除", public_recipe_comment_path(comment.recipe, comment), method: :delete %>
                 <% end %>
               <% end %>
-            </td> 
-        </td>  
-        
-        <!--#編集ボタン-->
-        <td>
-           <% if @recipe.user == current_user %>
-           <%= link_to 'レシピ編集', edit_public_recipe_path(@recipe), class: "btn btn-sm btn-success" %>
-           <% end %>
-        </td>
-
-        <!--♯削除ボタン    -->
-        <td>
-           <% if @recipe.user == current_user %>
-           <%= link_to 'レシピ削除', public_recipe_path(@recipe), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %>
-           <% end %>
-        </td>
-            
-    </tr>
-    <tr>
-      <% if @recipe.bookmarked_by?(current_user) %>
-        <td><%= link_to "ブックマークを外す", public_recipe_bookmarks_path(@recipe), method: :delete %></td>
-      <% else %>
-        <td><%= link_to "ブックマーク", public_recipe_bookmarks_path(@recipe), method: :post %></td>
-      <% end %>
-    </tr>
-      
-       <!-- <div class="lists">-->
-       <!--   %= render "comments/lists", Recipe: @recipe %>-->
-      　<!--</div>-->
-
-  　<!--</table>-->
-  　<!-- <div class="lists">-->
-   <!--   <#%= render "comments/lists", recipe: @recipe %>-->
-  　<!--</div>-->
-
-            <!--#コメント部分の部分テンプレート化し、本のshowページからrenderさせる。-->
-   <!--       <#%= render "comments/comment", recipe: @recipe, comment: @comment %>-->
-
-            <!--#remote true追記することで、非同期通信になる-->
-            <!--<#%= form_with(model:[@recipe, @comment], remote: true) do |f| %>-->
-            <!--<#%= f.text_area :comment, rows: '5', placeholder: "", class:"form-control" %>-->
-            <!--<#%= f.submit "送信" %>-->
-            <!--<#% end %>-->
-
-   <!-- </div>-->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

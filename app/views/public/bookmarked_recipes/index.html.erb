@@ -1,24 +1,18 @@
-<table>
-  <caption>ブックマーク一覧</caption>
-  <thead>
-    <tr>
-      <th>投稿者名</th>
-      <th>タイトル</th>
-      <th>本文</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% current_user.bookmarked_recipes.each do |bookmarked_recipe| %>
-      <tr>
-        <td><%= bookmarked_recipe.user.name %></td>
-        <td>
-          <%= link_to public_user_bookmarked_recipes_show_path(bookmarked_recipe) do %>
-            <%= bookmarked_recipe.title %>
+<div class="container my-6 px-sm-1">
+  <div class="px-1 ml-md-5">
+    <h5 class="bg-light text-center ml-5 mb-6" style="width: 200px;">ブックマーク一覧</h5>
+  </div>
+    <div class="col-md-10 offset-md-1">
+      
+   
+        <% @recipes.each do |bookmarked_recipe| %>
+        <div>
+          <%= link_to public_recipe_path(bookmarked_recipe.id) do %>
+            <%= image_tag bookmarked_recipe.post_image %></br>
+            レシピ名：<%= bookmarked_recipe.title %>
           <% end %>
-        </td>
-        <td><%= bookmarked_recipe.body %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
+        </div>
+        <% end %>
+    
+    </div>
+</div>

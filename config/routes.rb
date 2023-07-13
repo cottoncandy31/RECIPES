@@ -30,7 +30,11 @@ Rails.application.routes.draw do
     devise_scope :admin do
       get '/sign_out', to: 'sessions#destroy'
     end
-    resources :users, only: [:index, :show, :update]
+    resources :users, only: [:index, :show, :update] do
+      member do
+      get 'recipes'
+      end
+    end
     get 'comments/destroy'
     resources :recipes, only: [:index, :show, :destroy]
   end
@@ -40,6 +44,7 @@ Rails.application.routes.draw do
   # end
   namespace :public do
     resources :users, only: [:show, :index, :edit, :update, :destroy] do
+       resources :recipes, only: [:destroy]
       #今回、userコントローラー内にcheckアクションとrecipesアクションを追加している。
       #その際にURLを/:user_id/ではなく他のuserコントローラー内のアクションのパスと同様に/:id/としたいので、member do…endで囲っている
       member do
@@ -50,10 +55,9 @@ Rails.application.routes.draw do
       resource :relationships, only: [:create, :destroy]
       get 'followings' => 'relationships#followings', as: 'followings'
       get 'followers' => 'relationships#followers', as: 'followers'
-      get 'bookmarked_recipes/index'
-      get 'bookmarked_recipes/show'
+      resources :bookmarked_recipes, only: [:index]
     end
-    resources :recipes do
+    resources :recipes, except: [:destroy] do
       # get 'recipes/search'
       resources :comments, only: [:create, :edit, :update, :destroy]
       resource :favorites, only: [:create, :destroy]

@@ -3,65 +3,76 @@
   <!--/cooking_recipes/app/javascript/stylesheets/application.scssにbackground-colorを指定している-->
   <nav class="navbar navbar-expand-md navbar-dark bg-test">
     <div class="logo_area">
-      <!--#下記の'sample_logo.jpg'の箇所を、実際に使用するロゴ画像の名前に置き換える-->
-      <a class="navbar-brand"><%= image_tag 'sample_logo.jpg', class: "logo" %></a>
+      <a class="navbar-brand">
+        <!--#下記の'sample_logo.jpg'の箇所を、実際に使用するロゴ画像の名前に置き換える-->
+        <%= image_tag 'sample_logo.jpg', class: "logo" %>
+      </a>
     </div>
-
-  <!--#ユーザーログイン時 -->
-  <% if user_signed_in? %>
-  　<i class="fa-regular fa-sliders"></i>
-  　<i class="fa-solid fa-user"></i>
-  　<li>
-      ようこそ<%= current_user.name %>さん！
-    </li>
-  　<li>
-      <%= link_to "レシピを投稿", new_public_recipe_path %>
-    </li>
-    <li>
-      <%= link_to "みんなのレシピを見る", public_recipes_path %>
-    </li>
-    <li>
-      <%= link_to "ブックマーク一覧", public_user_bookmarked_recipes_index_path(current_user) %>
-    </li>
-    <li>
-      <%= link_to "マイレシピ", recipes_public_user_path(current_user) %>
-    </li>
-    <li>
-      <%= link_to "登録情報", public_user_path(current_user) %>
-    </li>
-    <li>
-      <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-    </li>
-    <li>
-      <%= link_to "退会", check_public_user_path(current_user) %>
-    </li>
-  <!--管理者ログイン時-->
-  <% elsif admin_signed_in? %>
-    <li>
-      ようこそ管理者さん！
-    </li>
-  　<li>
-      <%= link_to "会員の情報一覧", admin_users_path %>
-    </li>
-    <li>
-      <%= link_to "会員のレシピ一覧", admin_recipes_path %>
-    </li>
-    <li>
-      <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
-    </li>
-  <!--♯登録時-->
-  <% else %>
-  <i class="fa-regular fa-sliders"></i>
-  　<i class="fa-solid fa-user"></i>
-    <div>
-      <%= link_to "新規登録", new_user_registration_path, class: "btn btn-success btn-sm btn-block sign_up" %>
-    </div>
-    <div>
-      <%= link_to "ログイン", new_user_session_path, class: "btn btn-info btn-sm btn-block mb-3 sign_in" %>
-    </div>
-    <div>
-      <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, class: "btn btn-secondary btn-sm btn-block mb-3 sign_in", method: :post %>
-    </div>
-  <% end %>
+    <!--#ユーザーログイン時 -->
+    <% if user_signed_in? %>
+      <div class="navbar-nav">
+        <i class="fa-regular fa-sliders"></i>
+        <i class="fa-solid fa-user"></i>
+        <li class="nav-item">
+          <span class="navbar-text">
+            ようこそ<%= current_user.name %>さん！
+          </span>
+        </li>
+        <li class="nav-item">
+          <%= link_to "レシピを投稿", new_public_recipe_path, class: "btn btn-secondary btn-sm" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "みんなのレシピを見る", public_recipes_path, class: "btn btn-secondary btn-sm" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ブックマーク一覧", public_user_bookmarked_recipes_path(current_user), class: "btn btn-secondary btn-sm" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "マイレシピ", recipes_public_user_path(current_user), class: "btn btn-secondary btn-sm" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "登録情報", public_user_path(current_user), class: "btn btn-secondary btn-sm" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-secondary btn-sm" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "退会", check_public_user_path(current_user), class: "btn btn-secondary btn-sm" %>
+        </li>
+      </div>
+    <!--管理者ログイン時-->
+    <% elsif admin_signed_in? %>
+      <div class="navbar-nav">
+        <li class="nav-item">
+          <span class="navbar-text">
+            ようこそ管理者さん！
+          </span>
+        </li>
+        <li class="nav-item">
+          <%= link_to "会員の情報一覧", admin_users_path, class: "btn btn-secondary btn-sm" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "会員のレシピ一覧", admin_recipes_path, class: "btn btn-secondary btn-sm" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "btn btn-secondary btn-sm" %>
+        </li>
+      </div>
+    <% else %>
+      <div class="navbar-nav">
+        <i class="fa-regular fa-sliders"></i>
+        <i class="fa-solid fa-user"></i>
+        <li class="nav-item">
+          <%= link_to "新規登録", new_user_registration_path, class: "btn btn-secondary btn-sm btn-block sign_up" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログイン", new_user_session_path, class: "btn btn-secondary btn-sm btn-block mb-3 sign_in" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, class: "btn btn-secondary btn-sm btn-block mb-3 sign_in", method: :post %>
+        </li>
+      </div>
+    <!--♯登録時-->
+    <% end %>
   </nav>
 </header>

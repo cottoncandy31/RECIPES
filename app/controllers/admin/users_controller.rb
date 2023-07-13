@@ -18,4 +18,12 @@ class Admin::UsersController < ApplicationController
     flash[:notice] = "退会処理を実行いたしました"
     redirect_to admin_users_path
   end
+  
+  def recipes
+    @user = User.find(params[:id])
+    #下記、フォロー/フォロワー一覧表示のためのインスタンス変数
+    @users = @user.followings + @user.followers
+    #下記、@userの投稿ページにその人のレシピ投稿のみ表示させるためのインスタンス変数
+    @recipes = Recipe.where(user_id: @user.id)
+  end
 end

@@ -8,23 +8,22 @@
 <!--<#% end %>-->
 
 <!--<p id="notice"></p>-->
-
-<div class="container px-5 px-sm-0">
-  <div class="row">
-
-    <div class="col-md-10 offset-md-1">
-      <h1>みんなのレシピ一覧</h1>
-        <table class="table table-hover table-inverse">
-          <thead>
-            <th>画像</th>
-            <th>タイトル</th>
-            <th>ジャンル</th>
-            <th>投稿者</th>
-            <th>価格帯</th>
-            
-            <th colspan="3"></th>
-          </thead>
-
+<div class="container col-xl-8 col-lg-9 my-4 px-sm-1">
+  <div class="px-1 ml-md-2">
+    <h5 class="bg-light text-center ml-5 mb-4" style="max-width: 300px;">みんなのレシピ一覧(新着順)</h5>
+  </div>
+  <div class="mx-auto col-10">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="bg-light">画像</th>
+            <th class="bg-light">タイトル</th>
+            <th class="bg-light">ジャンル</th>
+            <th class="bg-light">投稿者</th>
+          </tr>
+        </thead>
+        <tbody>
           <% @recipes.each do |recipe| %>
             <tr>
               <td>
@@ -41,32 +40,12 @@
                   <%= recipe.title %>
                 <% end %>
               </td>
-              <!--#ジャンル名の記載-->
               <td><%= recipe.genre.name %></td>
-              <td>by <%= link_to recipe.user.name, admin_user_path(recipe.user) %></td>
-              <td><!--♯いいね機能の実装    -->
-                  <%# if recipe.favorited_by?(current_user) %>
-                    <p>
-                      <%#= link_to public_recipes_path, method: :delete do %>
-                        <!--♥<%#= recipe.favorites.count %> 作ってみたい！-->
-                      <%# end %>
-                    </p>
-                    <%# else %>
-                    <p>
-                      <%#= link_to public_recipes_path, method: :post do %>
-                        <!--♡<%#= recipe.favorites.count %> 作ってみたい！-->
-                      <%# end %>
-                    </p>
-                  <%# end %>
-              </td>
-              
-              <!--#価格帯の記載-->
-              <td><%#= price_ranges. %></td>
-              <td><%#= price_ranges. %></td>
+              <td>by <%= link_to recipe.user.name, recipes_admin_user_path(recipe.user) %></td>
             </tr>
           <% end %>
-
-        </table>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

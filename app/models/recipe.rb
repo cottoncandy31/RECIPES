@@ -14,14 +14,18 @@ class Recipe < ApplicationRecord
 
   #検索(ransack)のキーワード："title", "body"はrecipesテーブルの中のtitle,bodyカラムであり、"user.name"はusersテーブルの中のnameカラムである
   def self.ransackable_attributes(auth_object = nil)
-    ["title", "body", "user.name"]
+    ["title", "body", "user.name", "genre.name"]
   end
   #検索キーワードが別のテーブルのカラムに存在する場合：該当するモデル名（今回はuserモデル）を記載する
   def self.ransackable_associations(auth_object = nil)
-    ["user"]
+    ["user", "genre"]
   end
-
-  #並べ替え(新着順/古い順/いいね順 等)
+  #ransackのキーワード検索の中から、さらに新着順や退会済みユーザーのデータを除いた検索に絞り込んで検索したい場合の記述
+  def self.ransackable_scopes(auth_object = nil)
+    ["latest", "most_favorited", "published"]
+  end
+  
+  #並べ替え(新着順/いいね順 等)
   scope :latest, -> {order(created_at: :desc)}
   scope :most_favorited, -> { includes(:favorites).sort_by { |x| x.favorites.size }.reverse }
 

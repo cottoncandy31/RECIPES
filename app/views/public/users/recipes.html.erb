@@ -1,29 +1,53 @@
-<h1><%= @user.name %>さんの投稿レシピ</h1>
-<td>フォロー数: <%= @user.followings.count %></td>
-<td>フォロワー数: <%= @user.followers.count %></td>
-          
-<!--#フォローボタンの表示-->
-    <% if current_user.following?(@user) %>
-      <%= link_to "フォロー外す", public_user_relationships_path(@user.id), method: :delete %>
-    <% else %>
-      <%= link_to "フォローする", public_user_relationships_path(@user.id), method: :post %>
-    <% end %>
-
-    <!--#フォロー/フォロワー数の表示-->
-    <%= render 'public/relationships/follow_list', users: @users %>
-
-  </div>
-
-  <div class="col-sm-8 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
-    <h5 class="my-0 font-weight-bold">マイレシピ</h5>
-    <!-- ユーザーの投稿一覧 -->
-    <% @recipes.each do |recipe| %>
-    <div>
-      <%= link_to public_recipe_path(recipe.id) do %>
-        <%= image_tag recipe.post_image %></br>
-        レシピ名：<%= recipe.title %>
-      <% end %>
-      <!--<p>投稿ユーザー画像：<%#= image_tag post_image.user.get_profile_image(100,100) %></p>-->
+<div class="container">
+  <div class= row >
+    <div class="col-sm-8 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
+      <h3 class="bg-light text-center ml-5 mb-4" style="max-width: 500px;"><%= @user.name %>さんのレシピ投稿</h3>
+      <div class="d-flex align-items-center">
+        <div class="mr-3">
+          <%= image_tag @user.get_profile_image(100, 100) %>
+        </div>
+        <div>
+          <div>フォロー数: <%= @user.followings.count %></div>
+          <div>フォロワー数: <%= @user.followers.count %></div>
+        </div>
+        <div class="ml-5">
+          <!-- フォローボタンの表示 -->
+          <% if current_user && current_user != @user %>
+            <% if current_user.following?(@user) %>
+              <%= link_to public_user_relationships_path(@user.id), method: :delete, class: 'btn btn-danger' do %>
+                フォロー外す
+              <% end %>
+            <% else %>
+              <%= link_to public_user_relationships_path(@user.id), method: :post, class: 'btn btn-primary' do %>
+                フォローする
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
     </div>
-    <% end %>
   </div>
+</div>
+
+<!--#フォロー/フォロワー数の表示-->
+<%#= render 'public/relationships/follow_list', users: @users %>
+
+<div class="row justify-content-center">
+  <div class="col-sm-8 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
+    <div class="p-3">
+      <div class="row">
+        <% @recipes.each do |recipe| %>
+          <div class="col-6 col-md-4 col-lg-3">
+            <%= link_to public_recipe_path(recipe.id) do %>
+              <%= image_tag recipe.post_image, size: "200x200" %><br>
+              レシピ名：<%= recipe.title %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,50 +1,32 @@
-<div class="container my-4  px-sm-1">
- <div class="px-1 ml-md-2">
-    <h1 class="bg-light text-center ml-5 mb-4" style="width: 400px;">レシピの新規作成</h1>
+<div class="container my-4 px-sm-1">
+  <div class="row justify-content-center">
+    <div class="col-sm-12 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
+      <div class="px-1 ml-md-2">
+        <h3 class="bg-light text-center ml-5 mb-4" style="max-width: 300px;">レシピの新規作成</h3>
+      </div>
+      <%= form_with model: Recipe.new, url: public_recipes_path, method: :post do |f| %>
+        <h5>タイトル</h5>
+        <%= f.text_field :title %>
+
+        <h5>説明</h5>
+        <%= f.text_area :body %>
+
+        <h5>画像</h5>
+        <%= f.file_field :post_image %>
+
+        <h5>ジャンル</h5>
+        <!-- ジャンルの選択肢を追加するフォーム要素 -->
+        <%= f.collection_select :genre_id, Genre.all, :id, :name %>
+
+        <h5>価格帯</h5>
+        <!-- ジャンルの選択肢を追加するフォーム要素 -->
+        <%= f.collection_select :price_range_id, PriceRange.all, :id, :name %>
+
+        <br>
+
+        <%= f.submit '投稿' %>
+      <% end %>
+    </div>
   </div>
-  <div class="col-sm-12 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
-
-
-
-<!-- form_with部分 -->
-<%= form_with model: Recipe.new, url: public_recipes_path, method: :post do |f| %>
-  <h4>タイトル</h4>
-  <%= f.text_field :title %>
-
-  <h4>説明</h4>
-  <%= f.text_area :body %>
-
-	<h4>画像</h4>
-  <%= f.file_field :post_image %>
-
-  
-  <!-- ジャンルの選択肢を追加するフォーム要素 -->
-  <div class="field">
-  <%= f.label :ジャンル %>
-  <%= f.collection_select :genre_id, Genre.all, :id, :name %>
-  </div>
-  
-  <h4>価格帯</h4>
-  <%= f.label :価格帯 %>
-  <%= f.collection_select :price_range_id, PriceRange.all, :id, :name %>
-
-   <!--#絞り込み検索フォーム-->
-<!--  <#%= form_with url: search_recipes_path, method: :get do |f| %>-->
-<!--  <h4>キーワード</h4>-->
-<!--  <#%= f.text_field :keyword %>-->
-
-<!--  <h4>カテゴリー</h4>-->
-<!--  <#%= f.collection_select :genre_id, Genre.all, :id, :name, { include_blank: true }, { class: "form-control" } %>-->
-
-<!--  <h4>価格帯</h4>-->
-<!--  <#%= f.collection_select :price_range_id, PriceRange.all, :id, :name, { include_blank: true }, { class: "form-control" } %>-->
-
-<!--  <#%= f.submit "検索", class: "btn btn-primary" %>-->
-<!--<#% end %>-->
-
-
-  <%= f.submit '投稿' %>
-<% end %>
-
 </div>
-</div>
+

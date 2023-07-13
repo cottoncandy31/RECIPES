@@ -1,45 +1,42 @@
-<!--<#% if @recipe.errors.any? %>-->
-<!--  <#%= @recipe.errors.count %>件のエラーが発生しました-->
+<!--<%# if @recipe.errors.any? %>-->
+<!--  <%#= @recipe.errors.count %>件のエラーが発生しました-->
 <!--  <ul>-->
-<!--    <#% @recipe.errors.full_messages.each do |message| %>-->
-<!--      <li><#%= message %></li>-->
-<!--    <#% end %>-->
+<!--    <%#= message %></li>-->
 <!--  </ul>-->
-<!--<#% end %>-->
+<!--<%# end %>-->
 
 <!--<p id="notice"></p>-->
-
-<div class="container px-5 px-sm-0">
-  <div class="row">
-
-  <!--#ransack検索フォーム-->
-  <%= search_form_for @q, url: public_recipes_path do |f| %>
-   <!--#検索キーワードとなるtitle_or_body：このrecipeモデルにあるtitle,body(カラム名)で記載している。
-   _cont：検索対象の属性に部分文字列が含まれているかどうかをチェックするために使用している。-->
-   <%= f.search_field :title_or_body_cont, class: 'form-control', placeholder: 'キーワードで検索' %>
-   <!--#検索キーワードとなるuser_name：userモデルにあるname(カラム名)で記載している-->
-   <%= f.search_field :user_name_cont, class: 'form-control', placeholder: 'ユーザ名で検索' %>
-   <%= f.submit '検索', class: 'btn btn-primary' %>
-  <% end %>
-
-  <!--#並べ替え 新着順/いいね順-->
-  <%= link_to '新着順', public_recipes_path(latest: "true") %>/
-  <%= link_to '人気順', public_recipes_path(most_favorited: "true") %>
-
-    <div class="col-md-10 offset-md-1">
-      <h1>みんなのレシピ一覧</h1>
-        <table class="table table-hover table-inverse">
-          <thead>
+<div class="container col-xl-8 col-lg-9 my-4 px-sm-1">
+  <div class="col-md-10 offset-md-1">
+    <h3 class="bg-light" style="width: 300px;">みんなのレシピ一覧</h3>
+    <!--#ransack検索フォーム-->
+    <%= search_form_for @q, url: public_recipes_path do |f| %>
+      <!--#検索キーワードとなるtitle_or_body：このrecipeモデルにあるtitle,body(カラム名)で記載している。
+     _cont：検索対象の属性に部分文字列が含まれているかどうかをチェックするために使用している。
+      また、検索キーワードとなるuser_name：userモデルにあるname(カラム名)で記載している-->
+      <div class="form-inline">
+        <%= f.search_field :title_or_body_or_user_name_cont, class: 'form-control', placeholder: 'レシピ名/ジャンル名/ユーザー名で検索', style: 'width: 350px;' %>
+        <%= f.submit '検索', class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+    
+    <!--#並べ替え 新着順/いいね順-->
+    <%= link_to '新着順', public_recipes_path(latest: "true") %>/
+    <%= link_to '人気順', public_recipes_path(most_favorited: "true") %>
+    
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr class="bg-light">
             <th>画像</th>
             <th>タイトル</th>
             <th>ジャンル</th>
             <th>投稿者</th>
-            <th>価格帯</th>
+            <th>材料費の価格帯</th>
             <th>投稿日時</th>
-
-            <th colspan="3"></th>
-          </thead>
-
+          </tr>
+        </thead>
+        <tbody>
           <% @recipes.each do |recipe| %>
             <tr>
               <td>
@@ -58,11 +55,10 @@
               </td>
               <!--#ジャンル名の記載-->
               <td><%= recipe.genre.name %></td>
+              <!--#投稿者名の記載-->
               <td>by <%= link_to recipe.user.name, recipes_public_user_path(recipe.user) %></td>
-
               <!--#価格帯の記載-->
               <td><%= recipe.price_range.name %></td>
-
               <!--#投稿日時の記載-->
               <td><%= recipe.created_at.strftime('%Y/%m/%d') %></td>
               <td>
@@ -73,7 +69,7 @@
                       ♥<%= recipe.favorites.count %>
                     <% end %>
                   </p>
-                  <% else %>
+                <% else %>
                   <p>
                     <%= link_to public_recipe_favorites_path(recipe), method: :post do %>
                       ♡<%= recipe.favorites.count %>
@@ -83,9 +79,8 @@
               </td>
             </tr>
           <% end %>
-        </table>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
-
-

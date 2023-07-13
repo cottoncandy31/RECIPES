@@ -1,0 +1,25 @@
+ <h1><%= @user.name %>さんの投稿レシピ</h1>
+  <td><%= image_tag @user.get_profile_image(100, 100) %></td>
+  <td>フォロー数: <%= @user.followings.count %></td>
+  <td>フォロワー数: <%= @user.followers.count %></td>
+
+  <!--#フォロー/フォロワー数の表示-->
+  <%#= render 'public/relationships/follow_list', users: @users %>
+
+  </div>
+
+  <div class="col-sm-8 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
+    <h5 class="my-0 font-weight-bold">マイレシピ</h5>
+    <!-- ユーザーの投稿一覧 -->
+    <% @recipes.each do |recipe| %>
+    <div>
+      <%= link_to admin_recipe_path(recipe) do %>
+        <%= image_tag recipe.post_image %></br>
+        レシピ名：<%= recipe.title %>
+      <% end %>
+     
+    </div>
+    <% end %>
+  </div>
+  
+  

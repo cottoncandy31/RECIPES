@@ -1,6 +1,7 @@
 class Admin::RecipesController < ApplicationController
   def index
-    @recipes = Recipe.all
+    #新着順(投稿日降順)に並ぶよう指定
+    @recipes = Recipe.all.order(created_at: :desc)
   end
 
   def show

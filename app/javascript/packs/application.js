@@ -7,6 +7,8 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
+// #Font Awesomeの導入
+import '@fortawesome/fontawesome-free/js/all';
 
 // ＃yarn installでBootstrapをインストールする場合に、下記を追記する必要がある
 import "jquery";

@@ -22,21 +22,30 @@ class Public::RecipesController < ApplicationController
   end
 
   def index
-    @post_comment = Comment.new
-    if params[:latest]
-      @recipes = Recipe.published.latest
-    elsif params[:old]
-      @recipes = Recipe.published.old
-    elsif params[:most_favorited]
-      @recipes = Recipe.published.most_favorited
+    if params[:q].present?
+      #ransackのキーワード検索の中から、さらに新着順や退会済みユーザーのデータを除いた検索に絞り込んで検索したい場合
+      search_params = params[:q].merge(published: true)
+      if params[:most_favorited]
+        search_params = params[:q].merge(most_favorited: true)
+      else
+        search_params = params[:q].merge(latest: true)
+      end
+      #ransack検索機能のための記述
+      @q = Recipe.ransack(search_params)
+      @recipes = @q.result
     else
-      #新着順(投稿日降順)に並ぶよう指定
-      @recipes = Recipe.published.order(created_at: :desc)
+      #ransack検索機能をかけていない場合
+      @q = Recipe.ransack(nil)
+      #退会済みユーザーのデータは非公開にしている
+      @recipes = Recipe.published
+        #人気順
+      if params[:most_favorited]
+        @recipes = @recipes.most_favorited
+      else
+        #新着順(投稿日降順)に並ぶよう指定
+        @recipes = @recipes.latest
+      end
     end
-    
-    #ransack検索機能のための記述
-    @q = Recipe.ransack(params[:q])
-    @recipes = @q.result.order(created_at: :desc)
   end
 
   def show
@@ -57,8 +66,9 @@ class Public::RecipesController < ApplicationController
 
   def destroy
     recipe = Recipe.find(params[:id])  # データ（レコード）を1件取得
+    user = User.find(params[:user_id])
     recipe.destroy  # データ（レコード）を削除
-    redirect_to '/public/users/:id'  # マイページへリダイレクト
+    redirect_to recipes_public_user_path(user)  # マイレシピへリダイレクト：削除した際に、該当のrecipe_idは消えてしまうのでuser_idが必要になる
   end
 
   private
