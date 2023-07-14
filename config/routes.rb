@@ -50,6 +50,8 @@ Rails.application.routes.draw do
       member do
         get 'check'
         get 'recipes'
+        get 'followings'
+        get 'followers'
       end
       #フォロー・フォロワー機能のためのルーティング
       resource :relationships, only: [:create, :destroy]

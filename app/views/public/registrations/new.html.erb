@@ -1,39 +1,41 @@
-<div class="box1 text-center">
-  <div class="box-inner">
-    <%= form_with model: @user, url: user_registration_path, id: 'new_user', class: 'new_user', local: true do |f| %>
-      <%= render "devise/shared/error_messages", resource: resource %>
-      <h3 class="bg-light d-inline-block mb-4" style="max-width: 300px;">新規登録</h3>
-      <div class="box-name">
-        <%= f.label :name, "ユーザー名" %><br />
-        <%= f.text_field :name, autofocus: true, style: "width: 200px;" %>
-      </div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-sm-8 col-md-6 col-lg-4">
+      <h2 class="mb-4">新規登録</h2>
+      
+        <%= form_with model: @user, url: user_registration_path, id: 'new_user', class: 'new_user', local: true do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
+          <div class="form-group">
+            <%= f.label :name, "ユーザー名" %><br />
+            <%= f.text_field :name, autofocus: true, class: "form-control", style: "width: 200px;" %>
+          </div>
+    
+          <div class="form-group">
+            <%= f.label :email, "Eメール" %><br />
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", style: "width: 300px;" %>
+          </div>
+    
+           <div class="form-group">
+            <%= f.label :password, "パスワード" %>
+            <% if @minimum_password_length %>
+              <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <% end %><br />
+            <%= f.password_field :password, autocomplete: "new-password", class: "form-control", style: "width: 250px;" %>
+          </div>
+    
+          <div class="form-group">
+            <%= f.label :password_confirmation, "パスワード(確認)" %><br />
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", style: "width: 250px;" %>
+          </div>
+    
+          <div class="box-login">
+            <%= f.submit "新規登録", class: "btn btn-primary mt-3" %>
+          </div>
+        <% end %>
 
-      <div class="box-email">
-        <%= f.label :email, "Eメール" %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", style: "width: 300px;" %>
+      <div class="box-newusr mt-4">
+        <p><span>-----------</span> 既に登録されていますか？ <span>-----------</span></p>
+        <%= render "public/shared/links" %>
       </div>
-
-      <div class="box-password">
-        <%= f.label :password, "パスワード" %>
-        <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %> characters minimum)</em>
-        <% end %><br />
-        <%= f.password_field :password, autocomplete: "new-password", style: "width: 250px;" %>
-      </div>
-
-      <div class="box-password">
-        <%= f.label :password_confirmation, "パスワード(確認)" %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", style: "width: 250px;" %>
-      </div>
-
-      <div class="box-login">
-        <%= f.submit "新規登録", class: "btn btn-primary mt-3" %>
-      </div>
-    <% end %>
-
-    <div class="box-newusr mt-4">
-      <p><span>------------</span> 既に登録されていますか？ <span>------------</span></p>
-      <%= render "public/shared/links" %>
-    </div>
   </div>
 </div>

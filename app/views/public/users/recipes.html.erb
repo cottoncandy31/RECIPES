@@ -7,8 +7,8 @@
           <%= image_tag @user.get_profile_image(100, 100) %>
         </div>
         <div>
-          <div>フォロー数: <%= @user.followings.count %></div>
-          <div>フォロワー数: <%= @user.followers.count %></div>
+          <div><%= link_to "フォロー数: #{@user.followings.count}", followings_public_user_path(@user) %></div>
+          <div><%= link_to "フォロワー数: #{@user.followers.count}", followers_public_user_path(@user) %></div>
         </div>
         <div class="ml-5">
           <!-- フォローボタンの表示 -->
@@ -28,9 +28,6 @@
     </div>
   </div>
 </div>
-
-<!--#フォロー/フォロワー数の表示-->
-<%#= render 'public/relationships/follow_list', users: @users %>
 
 <div class="row justify-content-center">
   <div class="col-sm-8 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">

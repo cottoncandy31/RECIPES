@@ -19,26 +19,29 @@
           </span>
         </li>
         <li class="nav-item">
-          <%= link_to "レシピを投稿", new_public_recipe_path, class: "btn btn-secondary btn-sm" %>
+          <%= link_to "レシピを投稿", new_public_recipe_path, class: "d-none d-lg-block btn btn-outline-secondary rounded-pill" %>
         </li>
         <li class="nav-item">
-          <%= link_to "みんなのレシピを見る", public_recipes_path, class: "btn btn-secondary btn-sm" %>
+          <%= link_to "みんなのレシピを見る", public_recipes_path, class: "d-none d-lg-block btn btn-outline-secondary rounded-pill" %>
         </li>
         <li class="nav-item">
-          <%= link_to "ブックマーク一覧", public_user_bookmarked_recipes_path(current_user), class: "btn btn-secondary btn-sm" %>
+          <%= link_to "ブックマーク一覧", public_user_bookmarked_recipes_path(current_user), class: "d-none d-lg-block btn btn-outline-secondary rounded-pill" %>
         </li>
         <li class="nav-item">
-          <%= link_to "マイレシピ", recipes_public_user_path(current_user), class: "btn btn-secondary btn-sm" %>
+          <%= link_to "マイレシピ", recipes_public_user_path(current_user), class: "d-none d-lg-block btn btn-outline-secondary rounded-pill" %>
         </li>
         <li class="nav-item">
-          <%= link_to "登録情報", public_user_path(current_user), class: "btn btn-secondary btn-sm" %>
+          <%= link_to "登録情報", public_user_path(current_user), class: "d-none d-lg-block btn btn-outline-secondary rounded-pill" %>
         </li>
         <li class="nav-item">
-          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-secondary btn-sm" %>
+          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "d-none d-lg-block btn btn-outline-secondary rounded-pill" %>
         </li>
+        <!--#ゲストログイン時には退会ボタンを表示させない-->
+        <% if @user == current_user && !current_user.guest? %>
         <li class="nav-item">
-          <%= link_to "退会", check_public_user_path(current_user), class: "btn btn-secondary btn-sm" %>
+          <%= link_to "退会", check_public_user_path(current_user), class: "d-none d-lg-block btn btn-outline-secondary rounded-pill" %>
         </li>
+        <% end %>
       </div>
     <!--管理者ログイン時-->
     <% elsif admin_signed_in? %>
@@ -49,13 +52,13 @@
           </span>
         </li>
         <li class="nav-item">
-          <%= link_to "会員の情報一覧", admin_users_path, class: "btn btn-secondary btn-sm" %>
+          <%= link_to "会員の情報一覧", admin_users_path, class: "d-none d-lg-block btn btn-outline-secondary rounded-pill" %>
         </li>
         <li class="nav-item">
-          <%= link_to "会員のレシピ一覧", admin_recipes_path, class: "btn btn-secondary btn-sm" %>
+          <%= link_to "会員のレシピ一覧", admin_recipes_path, class: "d-none d-lg-block btn btn-outline-secondary rounded-pill" %>
         </li>
         <li class="nav-item">
-          <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "btn btn-secondary btn-sm" %>
+          <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "d-none d-lg-block btn btn-outline-secondary rounded-pill" %>
         </li>
       </div>
     <% else %>
@@ -63,13 +66,13 @@
         <i class="fa-regular fa-sliders"></i>
         <i class="fa-solid fa-user"></i>
         <li class="nav-item">
-          <%= link_to "新規登録", new_user_registration_path, class: "btn btn-secondary btn-sm btn-block sign_up" %>
+          <%= link_to "新規登録", new_user_registration_path, class: "d-none d-lg-block btn btn-outline-secondary rounded-pill" %>
         </li>
         <li class="nav-item">
-          <%= link_to "ログイン", new_user_session_path, class: "btn btn-secondary btn-sm btn-block mb-3 sign_in" %>
+          <%= link_to "ログイン", new_user_session_path, class: "d-none d-lg-block btn btn-outline-secondary rounded-pill" %>
         </li>
         <li class="nav-item">
-          <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, class: "btn btn-secondary btn-sm btn-block mb-3 sign_in", method: :post %>
+          <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, class: "d-none d-lg-block btn btn-outline-secondary rounded-pill", method: :post %>
         </li>
       </div>
     <!--♯登録時-->

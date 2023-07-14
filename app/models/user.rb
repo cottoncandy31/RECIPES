@@ -13,7 +13,12 @@ class User < ApplicationRecord
       user.name = "ゲストユーザー"
     end
   end
-
+  
+  #ゲストログインかどうかを判別するためにメソッドを追加
+  def guest?
+    email == "guest@example.com"
+  end
+  
   #ログイン時に退会済みのユーザーが同じアカウントでログイン出来ないよう制約を設けている
   # is_deletedがfalseならtrueを返すようにしている
   def active_for_authentication?
