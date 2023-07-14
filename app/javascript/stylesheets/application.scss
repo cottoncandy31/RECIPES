@@ -11,7 +11,19 @@
 // #Bootstrap上で特定の色を指定できるように、/cooking_recipes/app/views/layouts/_header.html.erbにbg-testというクラス名を作成している
 // このファイル上でbackground-colorを指定している
 .bg-test {
-  background-color: #FFAD90;
+  background-color: #ffdab9;
+}
+
+// ヘッダー部分のメニューボタンに関するレイアウト
+.btn-custom {
+  color: #000000; /* ボタンのテキストの色 */
+  background-color: #ffdab9; /* ボタンの通常時の背景色 */
+  border-color: #f08300;
+  transition: background-color 0.3s ease; /* アニメーションの設定 */
+}
+.btn-custom:hover {
+  background-color: #f08300; /* カーソルを合わせた際の背景色 */
+  border-color: #f08300; 
 }
 
 // #Font Awesomeの導入
