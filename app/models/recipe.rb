@@ -14,7 +14,7 @@ class Recipe < ApplicationRecord
 
   #検索(ransack)のキーワード："title", "body"はrecipesテーブルの中のtitle,bodyカラムであり、"user.name"はusersテーブルの中のnameカラムである
   def self.ransackable_attributes(auth_object = nil)
-    ["title", "body", "user.name", "genre.name"]
+    ["title", "body", "user.name", "genre.name", "price_range_id"]
   end
   #検索キーワードが別のテーブルのカラムに存在する場合：該当するモデル名（今回はuserモデル）を記載する
   def self.ransackable_associations(auth_object = nil)
@@ -34,6 +34,6 @@ class Recipe < ApplicationRecord
 
   #既にブックマークしているかを検証
   def bookmarked_by?(user)
-    bookmarks.where(user_id: user).exists?
+    bookmarks.where(user_id: user.id).exists?
   end
 end

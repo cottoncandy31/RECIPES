@@ -15,7 +15,10 @@
      _cont：検索対象の属性に部分文字列が含まれているかどうかをチェックするために使用している。
       また、検索キーワードとなるuser_name：userモデルにあるname(カラム名)で記載している-->
       <div class="form-inline">
+        <!--#キーワード検索フォーム-->
         <%= f.search_field :title_or_body_or_user_name_cont, class: 'form-control', placeholder: 'レシピ名/ジャンル名/ユーザー名で検索', style: 'width: 350px;' %>
+        <!--#プルダウン形式の価格帯検索フォーム(ransackで検索条件を設定する場合、valueの値に元のinteger(数値)を渡す必要があるので、price_range_id_eqと記載している)-->
+        <%= f.collection_select(:price_range_id_eq, PriceRange.all, :id, :name, include_blank: '選択しない') %>
         <%= f.submit '検索', class: 'btn btn-primary' %>
       </div>
     <% end %>
