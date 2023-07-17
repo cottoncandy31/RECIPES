@@ -1,4 +1,7 @@
-// @import '~bootstrap/scss/bootstrap';
+@import '~bootstrap/scss/bootstrap';
+// #Font Awesomeの導入
+// @import '@fortawesome/fontawesome-free/scss/fontawesome';
+
 .logo_area {
   height: 100%;
   width: 100px;
@@ -27,5 +30,3 @@
   border-color: #f08300; 
 }
 
-// #Font Awesomeの導入
-// @import '@fortawesome/fontawesome-free/scss/fontawesome';
