@@ -31,12 +31,10 @@ Rails.application.routes.draw do
       get '/sign_out', to: 'sessions#destroy'
     end
     resources :users, only: [:index, :show, :update] do
-      member do
-      get 'recipes'
-      end
     end
-    get 'comments/destroy'
-    resources :recipes, only: [:index, :show, :destroy]
+    resources :recipes, only: [:index, :show, :update] do
+      resources :comments, only: [:update]
+    end
   end
   #deviseでもともと設定されているので削除
   # namespace :admin do
