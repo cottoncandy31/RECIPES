@@ -1,5 +1,5 @@
 @import '~bootstrap/scss/bootstrap';
-//#Font Awesomeの導入
+//#Font Awesomeの導入(デプロイ時に本番環境にもインストールする)
 // @import '@fortawesome/fontawesome-free/scss/fontawesome';
 
 .logo_area {
@@ -30,3 +30,22 @@
   border-color: #f08300; 
 }
 
+//ブックマークボタンの色
+.btn-bookmark {
+  background-color: #f08300; /* ボタンの通常時の背景色 */
+  border-color: #f08300;
+}
+.btn-bookmark:hover {
+  background-color: #FF773E; /* カーソルを合わせた際の背景色 */
+  border-color: #FF773E
+}
+
+//コメント送信ボタンの色
+.btn-comment {
+  background-color: #f08300; /* ボタンの通常時の背景色 */
+  border-color: #f08300;
+}
+.btn-comment:hover {
+  background-color: #FF773E; /* カーソルを合わせた際の背景色 */
+  border-color: #FF773E 
+}

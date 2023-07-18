@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 2023_07_11_063839) do
     t.text "comment", null: false
     t.integer "user_id", null: false
     t.integer "recipe_id", null: false
+    t.boolean "is_deleted", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -96,6 +97,7 @@ ActiveRecord::Schema.define(version: 2023_07_11_063839) do
     t.integer "user_id", null: false
     t.integer "genre_id", null: false
     t.integer "price_range_id", null: false
+    t.boolean "is_deleted", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

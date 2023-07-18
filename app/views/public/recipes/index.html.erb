@@ -6,7 +6,7 @@
 <!--<%# end %>-->
 
 <!--<p id="notice"></p>-->
-<div class="container col-xl-8 col-lg-9 my-4 px-sm-1">
+<div class="container col-xl-11 col-lg-9 my-4 px-sm-1">
   <div class="col-md-10 offset-md-1">
     <h3 class="bg-light" style="width: 300px;">みんなのレシピ一覧</h3>
     <!--#ransack検索フォーム-->
@@ -31,17 +31,21 @@
       <table class="table">
         <thead>
           <tr class="bg-light">
+            <th></th>
             <th>画像</th>
             <th>タイトル</th>
             <th>ジャンル</th>
             <th>投稿者</th>
             <th>材料費の価格帯</th>
             <th>投稿日時</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           <% @recipes.each do |recipe| %>
             <tr>
+            <% if recipe.is_deleted == false %>
+              <td></td>
               <td>
                 <% if recipe.post_image.attached? %>
                   <%= link_to public_recipe_path(recipe) do %>
@@ -64,8 +68,8 @@
               <td><%= recipe.price_range.name %></td>
               <!--#投稿日時の記載-->
               <td><%= recipe.created_at.strftime('%Y/%m/%d') %></td>
+              <!--♯いいね機能の実装    -->
               <td>
-                <!--♯いいね機能の実装    -->
                 <% if recipe.favorited_by?(current_user) %>
                   <p>
                     <%= link_to public_recipe_favorites_path(recipe), method: :delete do %>
@@ -80,6 +84,9 @@
                   </p>
                 <% end %>
               </td>
+            <% else %>
+              <td class="text-muted">管理者によって投稿が削除されました</td>
+            <% end %>
             </tr>
           <% end %>
         </tbody>
