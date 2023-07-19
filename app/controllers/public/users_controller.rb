@@ -1,8 +1,7 @@
 class Public::UsersController < ApplicationController
-
+  before_action :is_matching_login_user, only: [:show, :edit, :update, :check, :destroy]
+  
   def show
-    #他のユーザーからのアクセスを制限する
-    is_matching_login_user
     @user = User.find(params[:id])
     @recipes = @user.recipes
     @users = User.all
@@ -12,14 +11,10 @@ class Public::UsersController < ApplicationController
   end
 
   def edit
-    #他のユーザーからのアクセスを制限する
-    is_matching_login_user
     @user = User.find(params[:id])
   end
 
   def update
-    #他のユーザーからのアクセスを制限する
-    is_matching_login_user
     @user = User.find(params[:id])
     if @user.update(user_params)
     flash[:notice] = "登録情報を更新しました"
@@ -31,8 +26,6 @@ class Public::UsersController < ApplicationController
   
   #ユーザーの退会確認
   def check
-    #他のユーザーからのアクセスを制限する
-    is_matching_login_user
   end
 
   def recipes
@@ -55,8 +48,6 @@ class Public::UsersController < ApplicationController
 
   #退会フラグはupdateに値するが、マイページ更新の際のupdateアクションと被らないように、destroyアクションに退会処理を記載している
   def destroy
-    #他のユーザーからのアクセスを制限する
-    is_matching_login_user
     @user = User.find(params[:id])
     # is_deletedカラムをtrueに変更することにより削除フラグを立てる
     @user.update(is_deleted: true)
@@ -73,9 +64,14 @@ class Public::UsersController < ApplicationController
   
   #他のユーザーからのアクセスを制限する
   def is_matching_login_user
-    user = User.find(params[:id])
-    unless user.id == current_user.id
+  user = User.find(params[:id])
+  unless user.id == current_user&.id
+    if current_user
       redirect_to public_user_path(current_user)
+    else
+      redirect_to new_user_session_path
     end
   end
+  end
+  
 end

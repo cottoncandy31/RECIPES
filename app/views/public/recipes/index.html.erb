@@ -11,24 +11,26 @@
     <h3 class="bg-light" style="width: 300px;">みんなのレシピ一覧</h3>
     <!--#ransack検索フォーム-->
     <%= search_form_for @q, url: public_recipes_path do |f| %>
-      <!--#検索キーワードとなるtitle_or_body：このrecipeモデルにあるtitle,body(カラム名)で記載している。
-     _cont：検索対象の属性に部分文字列が含まれているかどうかをチェックするために使用している。
-      また、検索キーワードとなるuser_name：userモデルにあるname(カラム名)で記載している-->
-    <div class="d-flex justify-content-between">
-      <div class="form-group" style="width: 70%;">
-        <!-- キーワード検索フォーム -->
-        <%= f.search_field :title_or_body_or_user_name_cont, class: 'form-control', placeholder: 'レシピ名/ジャンル名/ユーザー名で検索' %>
+      <!--#るtitle_or_body or user_name：検索キーワード。このrecipeモデルにあるtitle,body(カラム名)とUserモデルのuser_nameを記載している。
+     _cont：検索対象の属性に部分文字列が含まれているかどうかをチェックするために使用している。/RECIPES/app/models/recipe.rbに検索に関する内容を記載-->
+      <div class="d-md-flex justify-content-md-between flex-md-wrap">
+        <div class="form-group" style="width: 60%;">
+          <!-- キーワード検索フォーム -->
+          <%= f.search_field :title_or_body_or_user_name_cont, class: 'form-control', placeholder: 'レシピ名/ユーザー名で検索' %>
+        </div>
+        <div class="form-group" style="max-width: 200px;">
+          <!-- プルダウン形式のジャンル検索フォーム -->
+          <%= f.collection_select(:genre_id_eq, Genre.all, :id, :name, { include_blank: '選択しない' }, class: 'form-control') %>
+        </div>
+        <div class="form-group" style="max-width: 200px;">
+          <!-- プルダウン形式の価格帯検索フォーム -->
+          <%= f.collection_select(:price_range_id_eq, PriceRange.all, :id, :name, { include_blank: '選択しない' }, class: 'form-control') %>
+        </div>
+        <div class="form-group">
+          <%= f.submit '検索', class: 'btn btn-primary' %>
+        </div>
       </div>
-      <div class="form-group" style="max-width: 200px;">
-        <!-- プルダウン形式の価格帯検索フォーム -->
-        <%= f.collection_select(:price_range_id_eq, PriceRange.all, :id, :name, { include_blank: '選択しない' }, class: 'form-control') %>
-      </div>
-      <div class="form-group">
-        <%= f.submit '検索', class: 'btn btn-primary' %>
-      </div>
-    </div>
     <% end %>
-    
     <!--#並べ替え 新着順/いいね順-->
     <%= link_to '新着順', public_recipes_path(latest: "true") %>/
     <%= link_to '人気順', public_recipes_path(most_favorited: "true") %>
@@ -75,21 +77,9 @@
               <!--#投稿日時の記載-->
               <td><%= recipe.created_at.strftime('%Y/%m/%d') %></td>
               <!--♯いいね機能の実装    -->
-              <td>
-                <% if recipe.favorited_by?(current_user) %>
-                  <p>
-                    <%= link_to public_recipe_favorites_path(recipe), method: :delete do %>
-                      ♥<%= recipe.favorites.count %>
-                    <% end %>
-                  </p>
-                <% else %>
-                  <p>
-                    <%= link_to public_recipe_favorites_path(recipe), method: :post do %>
-                      ♡<%= recipe.favorites.count %>
-                    <% end %>
-                  </p>
-                <% end %>
-              </td>
+             
+                <td id="recipe_favorite-btn_<%= recipe.id %>"><%= render "public/favorites/favorite-btn", recipe: recipe %></td>
+              
             <% else %>
               <td class="text-muted">管理者によって投稿が削除されました</td>
             <% end %>
@@ -98,5 +88,7 @@
         </tbody>
       </table>
     </div>
+    <!-- ページネーションの表示 -->
+    <%= paginate @recipes, theme: 'bootstrap-5' %>
   </div>
 </div>

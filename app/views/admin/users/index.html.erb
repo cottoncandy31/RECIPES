@@ -4,32 +4,31 @@
   </div>
   <div class="mx-auto col-10">
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="bg-light">会員ID</td>
-          <th class="bg-light">氏名</td>
-          <th class="bg-light">メールアドレス</td>
-          <th class="bg-light">ステータス</td>
-        </tr>
-        <% @users.each do |user| %>
-        <tr>
-          <td><%= user.id %></td>
-          <td class="link-black"><%= link_to user.name, admin_user_path(user) %></td>
-          <td><%= user.email %></td>
-          <% if user.is_deleted == false %>
-            <td class="text-success"><strong>有効</strong></td>
-          <% else %>
-            <td class="text-muted"><strong>退会</strong></td>
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="bg-light">会員ID</td>
+            <th class="bg-light">氏名</td>
+            <th class="bg-light">メールアドレス</td>
+            <th class="bg-light">ステータス</td>
+          </tr>
+          <% @users.each do |user| %>
+          <tr>
+            <td><%= user.id %></td>
+            <td class="link-black"><%= link_to user.name, admin_user_path(user) %></td>
+            <td><%= user.email %></td>
+            <% if user.is_deleted == false %>
+              <td class="text-success"><strong>有効</strong></td>
+            <% else %>
+              <td class="text-muted"><strong>退会</strong></td>
+            <% end %>
+          </tr>
           <% end %>
-        </tr>
-      <% end %>
-    </thead>
-  </table>
-
-    <div>
-      <%#= paginate @users, theme: 'bootstrap-5' %>
+        </thead>
+      </table>
+      <!-- ページネーションの表示 -->
+    <div class="d-flex justify-content-center">
+      <%= paginate @users, theme: 'bootstrap-5' %>
     </div>
-
   </div>
 </div>

@@ -1,6 +1,9 @@
 class Admin::UsersController < ApplicationController
+  before_action :authenticate_admin!
+  
   def index
-    @users = User.all
+    #@users = User.all
+    @users = User.page(params[:page]).per(10)
   end
 
   def show
@@ -8,7 +11,7 @@ class Admin::UsersController < ApplicationController
     @recipes = @user.recipes
     @users = User.all
   end
-  
+
   #退会フラグの処理
   def update
     @user = User.find(params[:id])
@@ -18,4 +21,5 @@ class Admin::UsersController < ApplicationController
     flash[:notice] = "退会処理を実行いたしました"
     redirect_to admin_users_path
   end
+  
 end

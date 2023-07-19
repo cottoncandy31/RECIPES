@@ -1,4 +1,6 @@
 class Admin::CommentsController < ApplicationController
+  before_action :authenticate_admin!
+  
   #削除フラグの処理
   def update
     @comment = Comment.find(params[:id])
@@ -11,5 +13,4 @@ class Admin::CommentsController < ApplicationController
     def recipe_params
       params.require(:comment).permit(:title, :body, :post_image)
     end
-    
 end

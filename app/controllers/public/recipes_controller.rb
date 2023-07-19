@@ -33,7 +33,8 @@ class Public::RecipesController < ApplicationController
       end
       #ransack検索機能のための記述
       @q = Recipe.ransack(search_params)
-      @recipes = @q.result
+      #検索後、管理者によって既に削除された投稿は表示させないようにしている
+      @recipes = @q.result.where(is_deleted: false)
     else
       #ransack検索機能をかけていない場合
       @q = Recipe.ransack(nil)
@@ -47,6 +48,7 @@ class Public::RecipesController < ApplicationController
         @recipes = @recipes.latest
       end
     end
+    @recipes = @recipes.page(params[:page]).per(10)
   end
 
   def show

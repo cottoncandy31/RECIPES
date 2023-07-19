@@ -56,27 +56,16 @@
             </div>
             <!--#投稿者-->
             <td><%= link_to @recipe.user.name, recipes_public_user_path(@recipe.user) %></td>
+            
             <!--#価格帯-->
             <td><%= @recipe.price_range.name %></td>
-             <!--♯いいね機能の実装
-              #退会済みのユーザのデータが会員側には表示されないよう設定-->
-            <td>
-              <% if @recipe.favorited_by?(current_user) %>
-                <p>
-                  <%= link_to public_recipe_favorites_path(@recipe), method: :delete do %>
-                    ♥<%= @recipe.favorites.published.count %> 作ってみたい！
-                  <% end %>
-                </p>
-              <% else %>
-                <p>
-                  <%= link_to public_recipe_favorites_path(@recipe), method: :post do %>
-                    ♡<%= @recipe.favorites.published.count %> 作ってみたい！
-                  <% end %>
-                </p>
-              <% end %>
-            </td>
+            
+             <!--#いいね機能の実装
+             <!--#非同期通信化/renderで呼び出している。-->
+            <td id="recipe_favorite-btn_<%= @recipe.id %>"><%= render "public/favorites/favorite-btn", recipe: @recipe %></td>
+            
             <td><%= link_to "#{@recipe.comments.published.count} 件のコメントをすべて見る", "#commentModal", data: { toggle: "modal" } %></td>
-            <!-- コメント内容のモーダルウィンドウ Bootstrapを使用 -->
+            <!--#コメント内容のモーダルウィンドウ Bootstrapを使用 -->
             <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -89,6 +78,7 @@
                   <div class="modal-body">
                     <% @recipe.comments.each do |comment| %>
                       <div class="row">
+                        <!--#コメントが管理者によって削除されているかいないかを確認-->
                         <% if comment.is_deleted == false %>
                           <div class="col-12">
                             <%= comment.comment %>

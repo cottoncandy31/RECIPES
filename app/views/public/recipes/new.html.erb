@@ -1,50 +1,52 @@
 <div class="container my-4 px-sm-1">
   <div class="row justify-content-center">
-    <div class="col-sm-12 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
+    <div class="col-sm-12 px-sm-0 px-md-1"> 
       <div class="px-1 ml-md-2">
         <h3 class="bg-light text-center ml-5 mb-4" style="max-width: 300px;">レシピの新規作成</h3>
       </div>
-      <form action="<%= public_recipes_path %>" method="post" enctype="multipart/form-data">
-        <div class="form-group" style="max-width: 400px;">
+      <%= form_with model: Recipe.new, url: public_recipes_path, method: :post do |f| %>
+        <div class="form-group col-sm-5">
           <h5>タイトル</h5>
-          <input type="text" name="recipe[title]" class="form-control">
+          <%= f.text_field :title, class: "form-control" %>
+          <!-- エラーメッセージを表示 -->
+          <%#= f.error_message_on :title, class: "text-danger" %>
         </div>
 
-        <div class="form-group" style="max-width: 400px;">
+        <div class="form-group col-sm-8">
           <h5>説明</h5>
-          <textarea name="recipe[body]" class="form-control"></textarea>
+          <%= f.text_area :body, class: "form-control" %>
+          <!-- エラーメッセージを表示 -->
+          <%#= f.error_message_on :body, class: "text-danger" %>
         </div>
 
-        <div class="form-group" style="max-width: 400px;">
+        <div class="form-group col-sm-6">
           <h5>画像</h5>
-          <input type="file" name="recipe[post_image]" class="form-control-file">
+          <%= f.file_field :post_image, class: "form-control-file" %>
+          <!-- エラーメッセージを表示 -->
+          <%#= f.error_message_on :post_image, class: "text-danger" %>
         </div>
 
-        <div class="form-group" style="max-width: 400px;">
-          <!-- ジャンルの選択肢を追加するフォーム要素 -->
+        <div class="form-group col-sm-3">
           <h5>ジャンル</h5>
-          <select name="recipe[genre_id]" class="form-control">
-            <% Genre.all.each do |genre| %>
-              <option value="<%= genre.id %>"><%= genre.name %></option>
-            <% end %>
-          </select>
+          <!-- ジャンルの選択肢を追加するフォーム要素 -->
+          <%= f.collection_select :genre_id, Genre.all, :id, :name, { include_blank: true }, { class: "form-control" } %>
+          <!-- エラーメッセージを表示 -->
+          <%#= f.error_message_on :genre_id, class: "text-danger" %>
         </div>
 
-        <div class="form-group" style="max-width: 400px;">
-          <!-- 価格帯の選択肢を追加するフォーム要素 -->
+        <div class="form-group col-sm-3">
           <h5>価格帯</h5>
-          <select name="recipe[price_range_id]" class="form-control">
-            <% PriceRange.all.each do |price_range| %>
-              <option value="<%= price_range.id %>"><%= price_range.name %></option>
-            <% end %>
-          </select>
+          <!-- ジャンルの選択肢を追加するフォーム要素 -->
+          <%= f.collection_select :price_range_id, PriceRange.all, :id, :name, { include_blank: true }, { class: "form-control" } %>
+          <!-- エラーメッセージを表示 -->
+          <%#= f.error_message_on :price_range_id, class: "text-danger" %>
         </div>
 
         <br>
-
-        <input type="submit" value="投稿" class="btn btn-primary">
-      </form>
+        <div class="form-group col-sm-6">
+          <%= f.submit '投稿', class: "btn btn-primary" %>
+        <% end %>
+        </div>
     </div>
   </div>
 </div>
-

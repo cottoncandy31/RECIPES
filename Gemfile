@@ -56,8 +56,10 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+#新規登録・ログイン・ログアウト機能で使用
 gem 'devise'
 
+#ページネーション機能で使用
 gem 'kaminari','~> 1.2.1'
 
 gem 'bootstrap5-kaminari-views'
@@ -70,7 +72,11 @@ gem 'image_processing', '~> 1.2'
 
 gem 'rails-i18n'
 
+#検索機能で使用
 gem 'ransack'
+
+#非同期通信で使用
+gem 'jquery-rails'
 
 #デプロイのための記述
 gem 'dotenv-rails'
