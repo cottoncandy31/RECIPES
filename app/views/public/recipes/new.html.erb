@@ -4,28 +4,46 @@
       <div class="px-1 ml-md-2">
         <h3 class="bg-light text-center ml-5 mb-4" style="max-width: 300px;">レシピの新規作成</h3>
       </div>
-      <%= form_with model: Recipe.new, url: public_recipes_path, method: :post do |f| %>
-        <h5>タイトル</h5>
-        <%= f.text_field :title %>
+      <form action="<%= public_recipes_path %>" method="post" enctype="multipart/form-data">
+        <div class="form-group" style="max-width: 400px;">
+          <h5>タイトル</h5>
+          <input type="text" name="recipe[title]" class="form-control">
+        </div>
 
-        <h5>説明</h5>
-        <%= f.text_area :body %>
+        <div class="form-group" style="max-width: 400px;">
+          <h5>説明</h5>
+          <textarea name="recipe[body]" class="form-control"></textarea>
+        </div>
 
-        <h5>画像</h5>
-        <%= f.file_field :post_image %>
+        <div class="form-group" style="max-width: 400px;">
+          <h5>画像</h5>
+          <input type="file" name="recipe[post_image]" class="form-control-file">
+        </div>
 
-        <h5>ジャンル</h5>
-        <!-- ジャンルの選択肢を追加するフォーム要素 -->
-        <%= f.collection_select :genre_id, Genre.all, :id, :name %>
+        <div class="form-group" style="max-width: 400px;">
+          <!-- ジャンルの選択肢を追加するフォーム要素 -->
+          <h5>ジャンル</h5>
+          <select name="recipe[genre_id]" class="form-control">
+            <% Genre.all.each do |genre| %>
+              <option value="<%= genre.id %>"><%= genre.name %></option>
+            <% end %>
+          </select>
+        </div>
 
-        <h5>価格帯</h5>
-        <!-- ジャンルの選択肢を追加するフォーム要素 -->
-        <%= f.collection_select :price_range_id, PriceRange.all, :id, :name %>
+        <div class="form-group" style="max-width: 400px;">
+          <!-- 価格帯の選択肢を追加するフォーム要素 -->
+          <h5>価格帯</h5>
+          <select name="recipe[price_range_id]" class="form-control">
+            <% PriceRange.all.each do |price_range| %>
+              <option value="<%= price_range.id %>"><%= price_range.name %></option>
+            <% end %>
+          </select>
+        </div>
 
         <br>
 
-        <%= f.submit '投稿' %>
-      <% end %>
+        <input type="submit" value="投稿" class="btn btn-primary">
+      </form>
     </div>
   </div>
 </div>

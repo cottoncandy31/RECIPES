@@ -5,7 +5,7 @@
 <!--  </ul>-->
 <!--<%# end %>-->
 
-<!--<p id="notice"></p>-->
+<%= flash[:notice] %>
 <div class="container col-xl-11 col-lg-9 my-4 px-sm-1">
   <div class="col-md-10 offset-md-1">
     <h3 class="bg-light" style="width: 300px;">みんなのレシピ一覧</h3>
@@ -14,13 +14,19 @@
       <!--#検索キーワードとなるtitle_or_body：このrecipeモデルにあるtitle,body(カラム名)で記載している。
      _cont：検索対象の属性に部分文字列が含まれているかどうかをチェックするために使用している。
       また、検索キーワードとなるuser_name：userモデルにあるname(カラム名)で記載している-->
-      <div class="form-inline">
-        <!--#キーワード検索フォーム-->
-        <%= f.search_field :title_or_body_or_user_name_cont, class: 'form-control', placeholder: 'レシピ名/ジャンル名/ユーザー名で検索', style: 'width: 350px;' %>
-        <!--#プルダウン形式の価格帯検索フォーム(ransackで検索条件を設定する場合、valueの値に元のinteger(数値)を渡す必要があるので、price_range_id_eqと記載している)-->
-        <%= f.collection_select(:price_range_id_eq, PriceRange.all, :id, :name, include_blank: '選択しない') %>
+    <div class="d-flex justify-content-between">
+      <div class="form-group" style="width: 70%;">
+        <!-- キーワード検索フォーム -->
+        <%= f.search_field :title_or_body_or_user_name_cont, class: 'form-control', placeholder: 'レシピ名/ジャンル名/ユーザー名で検索' %>
+      </div>
+      <div class="form-group" style="max-width: 200px;">
+        <!-- プルダウン形式の価格帯検索フォーム -->
+        <%= f.collection_select(:price_range_id_eq, PriceRange.all, :id, :name, { include_blank: '選択しない' }, class: 'form-control') %>
+      </div>
+      <div class="form-group">
         <%= f.submit '検索', class: 'btn btn-primary' %>
       </div>
+    </div>
     <% end %>
     
     <!--#並べ替え 新着順/いいね順-->

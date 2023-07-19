@@ -22,7 +22,7 @@ class Public::UsersController < ApplicationController
     is_matching_login_user
     @user = User.find(params[:id])
     if @user.update(user_params)
-    flash[:notice] = "You have updated user successfully."
+    flash[:notice] = "登録情報を更新しました"
     redirect_to public_user_path(@user.id)
     else
     render :edit

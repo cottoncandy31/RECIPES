@@ -1,31 +1,43 @@
-<h1>レシピの編集</h1>
+<div class="container my-4 px-sm-1">
+  <div class="row justify-content-center">
+    <div class="col-sm-12 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
+      <div class="px-1 ml-md-2">
+        <h3 class="bg-light" style="max-width: 180px;">レシピの編集</h3>
+          <%= form_with model: @recipe, url: public_recipe_path(@recipe.id), method: :patch do |f| %>
+            <div class="form-group" style="max-width: 400px;">
+              <h5>画像</h5>
+              <% if @recipe.post_image.attached? %>
+                <%= link_to public_recipe_path(@recipe) do %>
+                  <%= image_tag @recipe.post_image, size: "100x100" %>
+                <% end %>
+              <% else %>
+                <%= image_tag 'no_image', size: "100x100" %>
+              <% end %>
+              <%= f.file_field :post_image, class: "form-control-file" %>
+            </div>
+            
+            <div class="form-group" style="max-width: 400px;">
+              <h5>タイトル</h5>
+              <%= f.text_field :title, class: "form-control" %>
+            </div>
+            
+            <div class="form-group" style="max-width: 400px;">
+              <h5>説明</h5>
+              <%= f.text_area :body, class: "form-control" %>
+            </div>
+            
+            <div class="form-group" style="max-width: 400px;">
+              <h5>ジャンル</h5>
+              <%= f.collection_select :genre_id, Genre.all, :id, :name, { prompt: "ジャンルを選択してください" }, class: "form-control" %>
+            </div>
+            
+            <div class="form-group" style="max-width: 400px;">
+              <h5>価格帯</h5>
+              <%= f.submit '変更を保存', class: "btn btn-primary" %>
+            </div>
+          <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 
-<h2>編集画面</h2>
-
-<%= form_with model: @recipe, url: public_recipe_path(@recipe.id), method: :patch do |f| %>
-  
-  <h3>画像</h3>
-<% if @recipe.post_image.attached? %>
-  <%= link_to public_recipe_path(@recipe) do %>
-    <%= image_tag @recipe.post_image, size: "100x100" %>
-  <% end %>
-<% else %>
-  <%= image_tag 'no_image', size: "100x100" %>
-<% end %>
-<%= f.file_field :post_image %>
-
-  <h3>タイトル</h3>
-  <%= f.text_field :title %>
-  
-  <h3>説明</h3>
-  <%= f.text_area :body %>
-  
-  
-  
-  <h3>ジャンル</h3>
-  <%= f.collection_select :genre_id, Genre.all, :id, :name %>
-  <h3>価格帯</h3>
-  
-  <%= f.submit '変更を保存' %>
-  
-<% end %>

@@ -7,13 +7,16 @@ class Public::SessionsController < Devise::SessionsController
   def guest_sign_in
     user = User.guest
     sign_in user
-    redirect_to public_user_path(user), notice: "guestuserでログインしました。"
+    flash[:notice] = "guestuserでログインしました"
+    redirect_to public_user_path(user)
   end
 
   def after_sign_in_path_for(resource_or_scope)
+    flash[:notice] = "ログインしました"
     public_user_path(current_user)
   end
   def after_sign_out_path_for(resource_or_scope)
+    flash[:notice] = "ログアウトしました"
     root_path
   end
   # GET /resource/sign_in

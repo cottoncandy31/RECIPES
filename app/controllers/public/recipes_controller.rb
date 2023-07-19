@@ -14,7 +14,8 @@ class Public::RecipesController < ApplicationController
     recipe.user_id = current_user.id
     # 3. データをデータベースに保存するためのsaveメソッド実行
     if recipe.save
-    # 4. レシピ一覧画面へリダイレクト
+      flash[:notice] = "投稿を作成しました"
+      # 4. レシピ一覧画面へリダイレクト
       redirect_to public_recipes_path
     else
       render :new
@@ -60,6 +61,7 @@ class Public::RecipesController < ApplicationController
   def update
     recipe = Recipe.find(params[:id])
     recipe.update(recipe_params)
+    flash[:notice] = "投稿を更新しました"
     #後々、マイページへ遷移するように修正する
     redirect_to public_recipe_path
   end
@@ -68,6 +70,7 @@ class Public::RecipesController < ApplicationController
     recipe = Recipe.find(params[:id])  # データ（レコード）を1件取得
     user = User.find(params[:user_id])
     recipe.destroy  # データ（レコード）を削除
+    flash[:notice] = "投稿を削除しました"
     redirect_to recipes_public_user_path(user)  # マイレシピへリダイレクト：削除した際に、該当のrecipe_idは消えてしまうのでuser_idが必要になる
   end
 
