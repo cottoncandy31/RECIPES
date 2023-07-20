@@ -78,6 +78,8 @@ gem 'ransack'
 #非同期通信で使用
 gem 'jquery-rails'
 
+gem 'cocoon'
+
 #デプロイのための記述
 gem 'dotenv-rails'
 group :production do

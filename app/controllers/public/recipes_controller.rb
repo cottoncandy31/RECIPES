@@ -2,6 +2,7 @@ class Public::RecipesController < ApplicationController
   def new
     # Viewへ渡すためのインスタンス変数に空のModelオブジェクトを生成する。
     @recipe = Recipe.new
+    1.times { @recipe.ingredients.build }
   end
 
   def create
@@ -14,6 +15,7 @@ class Public::RecipesController < ApplicationController
     recipe.user_id = current_user.id
     # 3. データをデータベースに保存するためのsaveメソッド実行
     if recipe.save
+      
       flash[:notice] = "投稿を作成しました"
       # 4. レシピ一覧画面へリダイレクト
       redirect_to public_recipes_path
@@ -58,8 +60,9 @@ class Public::RecipesController < ApplicationController
   end
 
   private
-  # ストロングパラメータ
+  # ストロングパラメータ 
+  # コントローラー側でパラメータを受け取る際に、step_images パラメータを配列として受け取れるようにストロングパラメータを設定
   def recipe_params
-    params.require(:recipe).permit(:title, :body, :post_image, :genre_id, :price_range_id)
+  params.require(:recipe).permit(:title, :body, :post_image, :genre_id, :price_range_id, :steps, :description, ingredients_attributes: [:name, :quantity], :step_images => [])
   end
 end

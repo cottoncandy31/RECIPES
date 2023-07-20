@@ -10,7 +10,7 @@
           <tr class="bg-light">
             <th>画像</th>
             <th>タイトル</th>
-            <th>説明</th>
+            <th>紹介文</th>
             <th>投稿者</th>
             <th>価格帯</th>
             <th>いいね</th>
@@ -56,14 +56,14 @@
             </div>
             <!--#投稿者-->
             <td><%= link_to @recipe.user.name, recipes_public_user_path(@recipe.user) %></td>
-            
+
             <!--#価格帯-->
             <td><%= @recipe.price_range.name %></td>
-            
+
              <!--#いいね機能の実装
              <!--#非同期通信化/renderで呼び出している。-->
             <td id="recipe_favorite-btn_<%= @recipe.id %>"><%= render "public/favorites/favorite-btn", recipe: @recipe %></td>
-            
+
             <td><%= link_to "#{@recipe.comments.published.count} 件のコメントをすべて見る", "#commentModal", data: { toggle: "modal" } %></td>
             <!--#コメント内容のモーダルウィンドウ Bootstrapを使用 -->
             <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
@@ -104,6 +104,61 @@
               </div>
             </div>
             <td colspan="7">
+              
+                     <!-- 材料と分量の表示 -->
+    <div class="form-group col-sm-8">
+      <h5>材料と分量</h5>
+      <div class="ingredients-quantities-container">
+        <% @recipe.ingredients.each_with_index do |item, index| %>
+          <%= content_tag(:div, class: "ingredient-and-quantity") do %>
+            <div class="ingredient">
+              <strong>材料<%= index + 1 %>:</strong> <%= item[:name] %>
+            </div>
+            <div class="quantity">
+              <strong>分量<%= index + 1 %>:</strong> <%= item[:quantity] %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- 調理工程の表示 -->
+    <div class="form-group col-sm-8">
+      <h5>調理工程</h5>
+      <div class="steps-container">
+       <%# @recipe.steps_array.each_with_index do |step, index| %>
+        <%#= content_tag(:div, class: "step") do %>
+          <div class="step-image">
+            <%# if @recipe.step_images.attached? %>
+              <%#= image_tag @recipe.step_images_array[index], size: "100x100" %>
+            <%# else %>
+              <%#= image_tag 'no_image', size: "100x100" %>
+            <%# end %>
+          </div>
+          <div class="step-description">
+            <%#= step %>
+          </div>
+        <%# end %>
+      <%# end %>
+      </div>
+    </div>
+    
+    
+      
+            </td>
+          </tr>
+          
+   
+          <tr>
+            <td colspan="7">
+            <!-- コメントの投稿フォーム -->
+            <div class="w-50">
+              <%= form_with model: [@recipe, @comment], url: public_recipe_comments_path(@recipe), method: :post do |f| %>
+                <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに", class: "form-control" %>
+                <%= f.submit "送信する", class: 'btn btn-danger btn-comment mt-2' %>
+              <% end %>
+            </div>
+            <div class="w-50">
               <% if @recipe.user == current_user %>
                 <%= link_to 'レシピ編集', edit_public_recipe_path(@recipe), class: "btn btn-sm btn-success" %>
                 <!--#@recipe.user,@recipeについては、public_user_recipe_pathのURLに/public/users/:user_id/recipes/:idがあることからも、-->
@@ -114,16 +169,6 @@
                 <%= link_to "ブックマークを外す", public_recipe_bookmarks_path(@recipe), method: :delete, class: 'btn btn-danger btn-bookmark' %>
               <% else %>
                 <%= link_to "ブックマーク", public_recipe_bookmarks_path(@recipe), method: :post, class: 'btn btn-primary btn-bookmark' %>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="7">
-            <!-- コメントの投稿フォーム -->
-            <div class="w-50">
-              <%= form_with model: [@recipe, @comment], url: public_recipe_comments_path(@recipe), method: :post do |f| %>
-                <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに", class: "form-control" %>
-                <%= f.submit "送信する", class: 'btn btn-danger btn-comment mt-2' %>
               <% end %>
             </div>
           </td>

@@ -1,0 +1,8 @@
+<div class="nested-fields">
+  <%= f.text_field :name, placeholder: "材料", class: "form-control mb-2" %>
+  <%= f.text_field :quantity, placeholder: "分量", class: "form-control mb-2" %>
+  <div class="drag">
+    <i class="fas fa-grip-lines"></i>
+  </div>
+  <%= link_to_remove_association "削除", f, class: "delete" %>
+</div>

@@ -30,6 +30,7 @@ ActiveStorage.start()
 
 // #追記 5段階評価の実装
 window.$ = window.jQuery = require('jquery');
+require("@nathanvda/cocoon")
 
 // // #Swiper.jsのための記述
 // import Swiper from 'swiper';
