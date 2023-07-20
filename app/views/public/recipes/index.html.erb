@@ -8,7 +8,7 @@
 <%= flash[:notice] %>
 <div class="container col-xl-11 col-lg-9 my-4 px-sm-1">
   <div class="col-md-10 offset-md-1">
-    <h3 class="bg-light" style="width: 300px;">みんなのレシピ一覧</h3>
+    <h3 class="bg-light text-center" style="width: 300px;">みんなのレシピ一覧</h3>
     <!--#ransack検索フォーム-->
     <%= search_form_for @q, url: public_recipes_path do |f| %>
       <!--#るtitle_or_body or user_name：検索キーワード。このrecipeモデルにあるtitle,body(カラム名)とUserモデルのuser_nameを記載している。
@@ -89,6 +89,8 @@
       </table>
     </div>
     <!-- ページネーションの表示 -->
-    <%= paginate @recipes, theme: 'bootstrap-5' %>
+    <div class="d-flex justify-content-center">
+      <%= paginate @recipes, theme: 'bootstrap-5' %>
+    </div>
   </div>
 </div>

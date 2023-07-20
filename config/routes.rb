@@ -31,6 +31,8 @@ Rails.application.routes.draw do
       get '/sign_out', to: 'sessions#destroy'
     end
     resources :users, only: [:index, :show, :update] do
+      # ユーザー検索のルーティングを追加
+      get '/users', to: 'users#index'
     end
     resources :recipes, only: [:index, :show, :update] do
       resources :comments, only: [:update]

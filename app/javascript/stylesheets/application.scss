@@ -49,3 +49,42 @@
   background-color: #FF773E; /* カーソルを合わせた際の背景色 */
   border-color: #FF773E 
 }
+
+
+// @import "swiper/css/swiper";
+
+// /* その他のスタイル */
+// .swiper--wrapper {
+//   /* wrapperのサイズを調整 */
+//   width: 100%;
+//   height: 300px;
+// }
+
+// /* その他のスタイル */
+// .swiper-slide {
+//   /* スライドのサイズを調整、中身のテキスト配置調整、背景色 */
+//   color: #ffffff;
+//   width: 50%;
+//   height: 50%;
+//   text-align: center;
+//   line-height: 300px;
+//   text-align: center;
+// }
+
+// /* その他のスタイル */
+// .swiper-slide:nth-child(3n + 1) {
+//   /*1、4、7、3n+1枚目の背景色 */
+//   background-color: #de4439;
+// }
+
+// /* その他のスタイル */
+// .swiper-slide:nth-child(3n + 2) {
+//   /*2、5、8、3n+2枚目の背景色 */
+//   background-color: #fcd500;
+// }
+
+// /* その他のスタイル */
+// .swiper-slide:nth-child(3n + 3) {
+//   /*3、6、9、3n+3枚目の背景色 */
+//   background-color: #53c638;
+// }

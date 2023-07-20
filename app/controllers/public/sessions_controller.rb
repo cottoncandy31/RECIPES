@@ -7,7 +7,7 @@ class Public::SessionsController < Devise::SessionsController
   def guest_sign_in
     user = User.guest
     sign_in user
-    flash[:notice] = "guestuserでログインしました"
+    flash[:notice] = "ゲストでログインしました"
     redirect_to public_user_path(user)
   end
 

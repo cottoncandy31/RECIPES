@@ -2,8 +2,11 @@ class Admin::UsersController < ApplicationController
   before_action :authenticate_admin!
   
   def index
-    #@users = User.all
-    @users = User.page(params[:page]).per(10)
+    if params[:search_email].present?
+      @users = User.where("email LIKE ?", "%#{params[:search_email]}%").page(params[:page]).per(10)
+    else
+      @users = User.page(params[:page]).per(10)
+    end
   end
 
   def show

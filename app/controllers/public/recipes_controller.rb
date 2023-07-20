@@ -23,32 +23,13 @@ class Public::RecipesController < ApplicationController
   end
 
   def index
-    if params[:q].present?
-      #ransackのキーワード検索の中から、さらに新着順や退会済みユーザーのデータを除いた検索に絞り込んで検索したい場合
-      search_params = params[:q].merge(published: true)
-      if params[:most_favorited]
-        search_params = params[:q].merge(most_favorited: true)
-      else
-        search_params = params[:q].merge(latest: true)
-      end
-      #ransack検索機能のための記述
-      @q = Recipe.ransack(search_params)
-      #検索後、管理者によって既に削除された投稿は表示させないようにしている
-      @recipes = @q.result.where(is_deleted: false)
-    else
-      #ransack検索機能をかけていない場合
-      @q = Recipe.ransack(nil)
-      #退会済みユーザーのデータは非公開にしている
-      @recipes = Recipe.published
-        #人気順
-      if params[:most_favorited]
-        @recipes = @recipes.most_favorited
-      else
-        #新着順(投稿日降順)に並ぶよう指定
-        @recipes = @recipes.latest
-      end
-    end
-    @recipes = @recipes.page(params[:page]).per(10)
+  @q = Recipe.ransack(params[:q])
+  @recipes = if params[:q].present?
+               @q.result.where(is_deleted: false)
+             else
+               Recipe.published
+                    .send(params[:most_favorited] ? :most_favorited : :latest)
+             end.page(params[:page]).per(10)
   end
 
   def show

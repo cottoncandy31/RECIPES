@@ -30,3 +30,18 @@ ActiveStorage.start()
 
 // #追記 5段階評価の実装
 window.$ = window.jQuery = require('jquery');
+
+// // #Swiper.jsのための記述
+// import Swiper from 'swiper';
+
+// document.addEventListener('DOMContentLoaded', function() {
+//   const swiper = new Swiper(".swiper", {
+//     pagination: {
+//       el: ".swiper-pagination",
+//     },
+//     navigation: {
+//       nextEl: ".swiper-button-next",
+//       prevEl: ".swiper-button-prev",
+//     },
+//   });
+// });
