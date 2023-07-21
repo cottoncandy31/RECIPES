@@ -1,5 +1,11 @@
-<div class="nested-fields">
-  <%= ingredient.text_field :name, placeholder: "材料1", class: "form-control mb-2" %>
-  <%= ingredient.text_field :quantity, placeholder: "分量1", class: "form-control mb-2" %>
-  <%= link_to_remove_association "削除", ingredient %>
+<div class="nested-fields row">
+  <div class="form-group col-sm-4">
+    <%= ingredient.text_field :name, placeholder: "材料1", class: "form-control mb-2" %>
+  </div>
+  <div class="form-group col-sm-4">
+    <%= ingredient.text_field :quantity, placeholder: "分量1", class: "form-control mb-2" %>
+  </div>
+  <div class="form-group col-sm-2">
+    <%= link_to_remove_association "削除", ingredient %>
+  </div>
 </div>

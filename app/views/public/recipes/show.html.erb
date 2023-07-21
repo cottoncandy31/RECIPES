@@ -126,20 +126,20 @@
     <div class="form-group col-sm-8">
       <h5>調理工程</h5>
       <div class="steps-container">
-       <%# @recipe.steps_array.each_with_index do |step, index| %>
-        <%#= content_tag(:div, class: "step") do %>
+       <% @recipe.steps.each_with_index do |step, index| %>
+        <%= content_tag(:div, class: "step") do %>
           <div class="step-image">
-            <%# if @recipe.step_images.attached? %>
-              <%#= image_tag @recipe.step_images_array[index], size: "100x100" %>
-            <%# else %>
-              <%#= image_tag 'no_image', size: "100x100" %>
-            <%# end %>
+            <% if @recipe.step_images.attached? %>
+              <%= image_tag @recipe.step_images, size: "100x100" %>
+            <% else %>
+              <%= image_tag 'no_image', size: "100x100" %>
+            <% end %>
           </div>
           <div class="step-description">
-            <%#= step %>
+            <%= step.description %>
           </div>
-        <%# end %>
-      <%# end %>
+        <% end %>
+      <% end %>
       </div>
     </div>
     

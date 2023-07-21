@@ -3,6 +3,7 @@ class Public::RecipesController < ApplicationController
     # Viewへ渡すためのインスタンス変数に空のModelオブジェクトを生成する。
     @recipe = Recipe.new
     1.times { @recipe.ingredients.build }
+    1.times { @recipe.steps.build }
   end
 
   def create
@@ -63,6 +64,6 @@ class Public::RecipesController < ApplicationController
   # ストロングパラメータ 
   # コントローラー側でパラメータを受け取る際に、step_images パラメータを配列として受け取れるようにストロングパラメータを設定
   def recipe_params
-  params.require(:recipe).permit(:title, :body, :post_image, :genre_id, :price_range_id, :steps, :description, ingredients_attributes: [:name, :quantity], :step_images => [])
+  params.require(:recipe).permit(:title, :body, :post_image, :genre_id, :price_range_id, :steps, :description, ingredients_attributes: [:name, :quantity], step_attributes: [:description], :step_images => [])
   end
 end

@@ -1,194 +1,94 @@
 <div class="container my-4 px-sm-1">
   <div class="row justify-content-center">
-    <div class="col-sm-12 px-sm-0 px-md-1">
+    <div class="col-md-10 col-lg-10 px-sm-0 px-md-1">
       <div class="px-1 ml-md-2">
         <h3 class="bg-light text-center ml-5 mb-4" style="max-width: 300px;">レシピの新規作成</h3>
       </div>
       <%= form_with model: @recipe, url: public_recipes_path, method: :post do |f| %>
-        <div class="form-group col-sm-5">
-          <h5>タイトル</h5>
-          <%= f.text_field :title, class: "form-control" %>
-          <!-- エラーメッセージを表示 -->
-          <%#= f.error_message_on :title, class: "text-danger" %>
-        </div>
-
-        <div class="form-group col-sm-8">
-          <h5>紹介文</h5>
-          <%= f.text_area :body, class: "form-control" %>
-          <!-- エラーメッセージを表示 -->
-          <%#= f.error_message_on :body, class: "text-danger" %>
-        </div>
-
-        <div class="form-group col-sm-6">
-          <h5>画像</h5>
-          <%= f.file_field :post_image, class: "form-control-file" %>
-          <!-- エラーメッセージを表示 -->
-          <%#= f.error_message_on :post_image, class: "text-danger" %>
-        </div>
-
-        <div class="form-group col-sm-3">
-          <h5>ジャンル</h5>
-          <!-- ジャンルの選択肢を追加するフォーム要素 -->
-          <%= f.collection_select :genre_id, Genre.all, :id, :name, { include_blank: true }, { class: "form-control" } %>
-          <!-- エラーメッセージを表示 -->
-          <%#= f.error_message_on :genre_id, class: "text-danger" %>
-        </div>
-
-        <div class="form-group col-sm-3">
-          <h5>価格帯</h5>
-          <!-- ジャンルの選択肢を追加するフォーム要素 -->
-          <%= f.collection_select :price_range_id, PriceRange.all, :id, :name, { include_blank: true }, { class: "form-control" } %>
-          <!-- エラーメッセージを表示 -->
-          <%#= f.error_message_on :price_range_id, class: "text-danger" %>
-        </div>
-
-        <!-- 材料と分量の項目 -->
-        <div class="form-group col-sm-8">
-          <h5>材料と分量</h5>
-          <div id="ingredients">
-            <!-- Initial set of ingredient and quantity fields -->
-
-            <%= f.fields_for :ingredients do |ingredient| %>
-              <%= render "ingredients_form", recipe: @recipe, ingredient: ingredient %>
-            <% end %>
-
+        <div class="row">
+          <div class="form-group col-md-6">
+            <h5>タイトル</h5>
+            <%= f.text_field :title, class: "form-control" %>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :title, class: "text-danger" %>
           </div>
-          <!-- エラーメッセージを表示 -->
-          <%#= f.error_message_on :ingredients, class: "text-danger" %>
-          <%#= f.error_message_on :quantities, class: "text-danger" %>
-          <div class="links">
-            <%= link_to_add_association "材料と分量追加", f, :ingredients, class: "btn btn-success btn-sm add-ingredient-quantity" %>
+
+          <div class="form-group col-md-6">
+            <h5>紹介文</h5>
+            <%= f.text_area :body, class: "form-control" %>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :body, class: "text-danger" %>
           </div>
         </div>
 
-<!-- JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/draggable/1.1.0/draggable.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-  // document.addEventListener("DOMContentLoaded", function() {
-  //   // 材料と分量追加ボタンがクリックされたときの処理
-  //   document.querySelector(".add-ingredient-quantity").addEventListener("click", function() {
-  //     const container = document.querySelector(".ingredients-quantities-container");
-  //     const newFieldsContainer = document.createElement("div");
+        <div class="row">
+          <div class="form-group col-md-6">
+            <h5>画像</h5>
+            <%= f.file_field :post_image, class: "form-control-file" %>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :post_image, class: "text-danger" %>
+          </div>
 
-  //     const ingredientField = document.createElement("input");
-  //     ingredientField.type = "text";
-  //     ingredientField.name = "recipe[ingredients][]"; // フィールド名に[]を追加することで配列として受け取る
-  //     ingredientField.placeholder = "材料";
-  //     ingredientField.classList.add("form-control", "mb-2");
+          <div class="form-group col-md-3">
+            <h5>ジャンル</h5>
+            <!-- ジャンルの選択肢を追加するフォーム要素 -->
+            <%= f.collection_select :genre_id, Genre.all, :id, :name, { include_blank: true }, { class: "form-control" } %>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :genre_id, class: "text-danger" %>
+          </div>
 
-  //     const quantityField = document.createElement("input");
-  //     quantityField.type = "text";
-  //     quantityField.name = "recipe[quantities][]"; // フィールド名に[]を追加することで配列として受け取る
-  //     quantityField.placeholder = "分量";
-  //     quantityField.classList.add("form-control", "mb-2");
-
-  //     const dragIcon = document.createElement("div");
-  //     dragIcon.classList.add("drag");
-  //     dragIcon.innerHTML = '<i class="fas fa-grip-lines"></i>';
-
-  //     const deleteIcon = document.createElement("svg");
-  //     // ... (削除アイコンのSVG設定)
-
-  //     newFieldsContainer.appendChild(ingredientField);
-  //     newFieldsContainer.appendChild(quantityField);
-  //     newFieldsContainer.appendChild(dragIcon);
-  //     newFieldsContainer.appendChild(deleteIcon);
-
-  //     container.appendChild(newFieldsContainer);
-
-  //     // 削除アイコンがクリックされたときの処理
-  //     deleteIcon.addEventListener("click", function() {
-  //       container.removeChild(newFieldsContainer);
-  //     });
-
-  //     // 列の並べ替え処理
-  //     $(container).sortable({
-  //       handle: ".drag",
-  //       items: "> div", // 並べ替え可能な要素のセレクタ
-  //       update: function(event, ui) {
-  //         // 並べ替え後の処理
-  //       },
-  //     });
-  //   });
-  // });
-</script>
-
-
-
-
-<!-- 調理工程(step)の追加 -->
-<div class="form-group col-sm-8">
-  <h5>調理工程</h5>
-  <div class="steps-container">
-    <!-- ビューファイルのフォーム部分で step_images フィールドに name 属性を指定し、配列としてサーバーに送信できるよう設定 -->
-    <%= f.file_field :step_images, name: "recipe[step_images][]", class: "form-control-file mb-2" %>
-    <%= f.text_area :steps, name: "recipe[steps][]", placeholder: "調理工程の説明", class: "form-control mb-2" %>
-    <div class="action-icons">
-      <div class="drag">
-        <i class="fas fa-grip-lines"></i>
-      </div>
-      <svg class="delete" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-        <path
-          d="M12 3a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8zm1 2H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h10a1"
-        />
-      </svg>
-    </div>
-  </div>
-  <!-- エラーメッセージを表示 -->
-  <%#= f.error_message_on :step_images, class: "text-danger" %>
-  <%#= f.error_message_on :steps, class: "text-danger" %>
-  <button type="button" class="btn btn-success btn-sm add-step">調理工程追加</button>
-</div>
-
-<!-- JavaScript -->
-<script>
-  // document.addEventListener("DOMContentLoaded", function() {
-  //   // 調理工程追加ボタンがクリックされたときの処理
-  //   document.querySelector(".add-step").addEventListener("click", function() {
-  //     const container = document.querySelector(".steps-container");
-  //     const newStepContainer = document.createElement("div");
-  //     newStepContainer.classList.add("step-item");
-
-  //     const stepImageField = document.createElement("input");
-  //     stepImageField.type = "file";
-  //     stepImageField.name = "recipe[step_images][]";
-  //     stepImageField.classList.add("form-control-file", "mb-2");
-
-  //     const stepTextField = document.createElement("textarea");
-  //     stepTextField.name = "recipe[steps][]";
-  //     stepTextField.placeholder = "調理工程の説明";
-  //     stepTextField.classList.add("form-control", "mb-2");
-
-  //     const dragIcon = document.createElement("div");
-  //     dragIcon.classList.add("drag");
-  //     dragIcon.innerHTML = '<i class="fas fa-grip-lines"></i>';
-
-  //     const deleteIcon = document.createElement("svg");
-  //     // ... (削除アイコンのSVG設定)
-
-  //     newStepContainer.appendChild(stepImageField);
-  //     newStepContainer.appendChild(stepTextField);
-  //     newStepContainer.appendChild(dragIcon);
-  //     newStepContainer.appendChild(deleteIcon);
-
-  //     container.appendChild(newStepContainer);
-
-  //     // 削除アイコンがクリックされたときの処理
-  //     deleteIcon.addEventListener("click", function() {
-  //       container.removeChild(newStepContainer);
-  //     });
-  //   });
-  // });
-</script>
-
-
-
-        <br>
-        <div class="form-group col-sm-6">
-          <%= f.submit '投稿', class: "btn btn-primary" %>
-        <% end %>
+          <div class="form-group col-md-3">
+            <h5>価格帯</h5>
+            <!-- ジャンルの選択肢を追加するフォーム要素 -->
+            <%= f.collection_select :price_range_id, PriceRange.all, :id, :name, { include_blank: true }, { class: "form-control" } %>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :price_range_id, class: "text-danger" %>
+          </div>
         </div>
+
+        <div class="row">
+          <div class="form-group col-md-10">
+            <h5>材料と分量</h5>
+            <div id="ingredients">
+              <!-- Initial set of ingredient and quantity fields -->
+              <%= f.fields_for :ingredients do |ingredient| %>
+                <%= render "ingredients_form", recipe: @recipe, ingredient: ingredient %>
+              <% end %>
+            </div>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :ingredients, class: "text-danger" %>
+            <%#= f.error_message_on :quantities, class: "text-danger" %>
+            <div class="links">
+              <%= link_to_add_association "材料と分量追加", f, :ingredients, class: "btn btn-success btn-sm add-ingredient-quantity" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-8">
+            <h5>作り方</h5>
+            <div class="steps-container">
+              <!-- ビューファイルのフォーム部分で step_images フィールドに name 属性を指定し、配列としてサーバーに送信できるよう設定 -->
+              <%= f.fields_for :steps do |step| %>
+                <%= render "step_form", recipe: @recipe, step: step %>
+              <% end %>
+            </div>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :step_images, class: "text-danger" %>
+            <%#= f.error_message_on :steps, class: "text-danger" %>
+            <div class="links">
+              <%= link_to_add_association "調理工程追加", f, :steps, class: "btn btn-success btn-sm dd-step" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <%= f.submit '投稿', class: "btn btn-primary" %>
+          </div>
+        </div>
+
+      <% end %>
     </div>
   </div>
 </div>
