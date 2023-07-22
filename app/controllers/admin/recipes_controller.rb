@@ -2,8 +2,8 @@ class Admin::RecipesController < ApplicationController
   before_action :authenticate_admin!
   
   def index
-    #新着順(投稿日降順)に並ぶよう指定
-    @recipes = Recipe.all.order(created_at: :desc)
+  # 新着順(投稿日降順)に並ぶよう指定し、ページネーションを設定
+  @recipes = Recipe.all.order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def show
@@ -12,7 +12,7 @@ class Admin::RecipesController < ApplicationController
   end
   
   def update
-    #削除フラグの処理
+    # 削除フラグの処理
     @recipe = Recipe.find(params[:id])
     @recipe.update(is_deleted: true)
     flash[:notice] = "投稿を削除しました"

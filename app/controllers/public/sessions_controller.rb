@@ -2,7 +2,7 @@
 
 class Public::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
-  
+
   #ゲストログイン機能:/cooking_recipes/config/routes.rbよりゲストログインのためのルーティングを設定している
   def guest_sign_in
     user = User.guest
@@ -40,7 +40,7 @@ class Public::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
-  
+
   protected
   #退会処理を行った会員が、同じアカウントでログイン出来ないようにする
   # 退会しているかを判断するメソッド
@@ -52,10 +52,10 @@ class Public::SessionsController < Devise::SessionsController
     redirect_to new_user_registration_path
     end
   end
-  
+
   private
-  
-  
+
+
   def user_params
     params.require(:user).permit(:name, :email, :password)
   end

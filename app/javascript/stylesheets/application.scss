@@ -1,15 +1,46 @@
 @import '~bootstrap/scss/bootstrap';
 //#Font Awesomeの導入(デプロイ時に本番環境にもインストールする)
 // @import '@fortawesome/fontawesome-free/scss/fontawesome';
+.navbar {
+  height: 70px; /* 適宜調整してください */
+}
 
-.logo_area {
+.navbar-text {
+  color: #000000; /* 黒色に設定 */
+}
+
+/* flexを用いてフッターを固定する */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
   height: 100%;
-  width: 100px;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  //横並びのものを縦並びに設定
+  flex-direction: column;
+}
+
+footer {
+  margin-top: auto;
+  color: #fff;
+  text-align: center;
+}
+
+/* ロゴの大きさを設定 */
+.logo_area {
+  display: flex;
+  align-items: center;
 }
 
 .logo {
-  height: 60%;
-  width: 60%;
+  height: 100px; /* 適宜調整してください */
+  width: auto; /* 横幅は自動調整 */
 }
 
 // #Bootstrap上で特定の色を指定できるように、/cooking_recipes/app/views/layouts/_header.html.erbにbg-testというクラス名を作成している
@@ -27,7 +58,7 @@
 }
 .btn-custom:hover {
   background-color: #f08300; /* カーソルを合わせた際の背景色 */
-  border-color: #f08300; 
+  border-color: #f08300;
 }
 
 //ブックマークボタンの色
@@ -47,44 +78,24 @@
 }
 .btn-comment:hover {
   background-color: #FF773E; /* カーソルを合わせた際の背景色 */
-  border-color: #FF773E 
+  border-color: #FF773E
 }
 
+//フラッシュメッセージ
+.flash-message {
+  border-radius: 5px;
+  padding: 16px 24px;
+  margin: 16px 0px;
+}
 
-// @import "swiper/css/swiper";
+.flash-message.notice {
+  background-color: #bcdfff;
+  color: #0067C0;
+  border: solid 1px #0067C0;
+}
 
-// /* その他のスタイル */
-// .swiper--wrapper {
-//   /* wrapperのサイズを調整 */
-//   width: 100%;
-//   height: 300px;
-// }
-
-// /* その他のスタイル */
-// .swiper-slide {
-//   /* スライドのサイズを調整、中身のテキスト配置調整、背景色 */
-//   color: #ffffff;
-//   width: 50%;
-//   height: 50%;
-//   text-align: center;
-//   line-height: 300px;
-//   text-align: center;
-// }
-
-// /* その他のスタイル */
-// .swiper-slide:nth-child(3n + 1) {
-//   /*1、4、7、3n+1枚目の背景色 */
-//   background-color: #de4439;
-// }
-
-// /* その他のスタイル */
-// .swiper-slide:nth-child(3n + 2) {
-//   /*2、5、8、3n+2枚目の背景色 */
-//   background-color: #fcd500;
-// }
-
-// /* その他のスタイル */
-// .swiper-slide:nth-child(3n + 3) {
-//   /*3、6、9、3n+3枚目の背景色 */
-//   background-color: #53c638;
-// }
+.flash-message.alert {
+  background-color: #ffd4d1;
+  color: #930403;
+  border: solid 1px #930403;
+}

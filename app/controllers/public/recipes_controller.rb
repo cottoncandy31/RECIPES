@@ -9,11 +9,10 @@ class Public::RecipesController < ApplicationController
 
   def create
     # １.&2. データを受け取り新規登録するためのインスタンス作成
-    recipe = Recipe.new(recipe_params)
-    recipe.user_id = current_user.id
+    @recipe = Recipe.new(recipe_params)
+    @recipe.user_id = current_user.id
     # 3. データをデータベースに保存するためのsaveメソッド実行
-    if recipe.save
-      
+    if @recipe.save
       flash[:notice] = "投稿を作成しました"
       # 4. レシピ一覧画面へリダイレクト
       redirect_to public_recipes_path
@@ -23,14 +22,43 @@ class Public::RecipesController < ApplicationController
   end
 
   def index
-  @q = Recipe.ransack(params[:q])
-  @recipes = if params[:q].present?
-               @q.result.where(is_deleted: false)
-             else
-               Recipe.published
-                    .send(params[:most_favorited] ? :most_favorited : :latest)
-             end.page(params[:page]).per(10)
+    if params[:q].present?
+      #ransackのキーワード検索の中から、さらに新着順や退会済みユーザーのデータを除いた検索に絞り込んで検索したい場合
+      search_params = params[:q].merge(published: true)
+      if params[:most_favorited]
+        search_params = params[:q].merge(most_favorited: true)
+      else
+        search_params = params[:q].merge(latest: true)
+      end
+      #ransack検索機能のための記述
+      @q = Recipe.ransack(search_params)
+      #検索後、管理者によって既に削除された投稿は表示させないようにしている
+      @recipes = @q.result.where(is_deleted: false)
+    else
+      #ransack検索機能をかけていない場合
+      @q = Recipe.ransack(nil)
+      #退会済みユーザーのデータは非公開にしている
+      @recipes = Recipe.published
+    
+      # デフォルトではis_deleted: trueも含めて表示する
+      @recipes = @recipes.or(Recipe.where(is_deleted: true))
+    
+      # 人気順
+      if params[:most_favorited]
+        @recipes = @recipes.most_favorited
+      else
+        # 新着順(投稿日降順)に並ぶよう指定
+        @recipes = @recipes.latest
+      end
+    end
+    
+    if params[:most_favorited]
+      @recipes = Kaminari.paginate_array(@recipes).page(params[:page]).per(10)
+    else
+      @recipes = @recipes.page(params[:page]).per(10)
+    end
   end
+
 
   def show
     @recipe = Recipe.find(params[:id])
@@ -42,11 +70,14 @@ class Public::RecipesController < ApplicationController
   end
 
   def update
-    recipe = Recipe.find(params[:id])
-    recipe.update(recipe_params)
-    flash[:notice] = "投稿を更新しました"
-    #後々、マイページへ遷移するように修正する
-    redirect_to public_recipe_path
+    @recipe = Recipe.find(params[:id])
+    if @recipe.update(recipe_params)
+      flash[:notice] = "投稿を更新しました"
+      #レシピ詳細画面へ遷移する
+      redirect_to public_recipe_path
+    else
+      render :edit
+    end
   end
 
   def destroy

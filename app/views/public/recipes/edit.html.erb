@@ -4,6 +4,16 @@
       <div class="px-1 ml-md-2">
         <h3 class="bg-light" style="max-width: 180px;">レシピの編集</h3>
           <%= form_with model: @recipe, url: public_recipe_path(@recipe.id), method: :patch do |f| %>
+          
+            <% if @recipe.errors.any? %>
+              <%= @recipe.errors.count %>件のエラーが発生しました
+              <ul>
+                <% @recipe.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            <% end %>
+          
             <div class="form-group" style="max-width: 400px;">
               <h5>画像</h5>
               <% if @recipe.post_image.attached? %>
@@ -15,22 +25,22 @@
               <% end %>
               <%= f.file_field :post_image, class: "form-control-file" %>
             </div>
-            
+
             <div class="form-group" style="max-width: 400px;">
               <h5>タイトル</h5>
               <%= f.text_field :title, class: "form-control" %>
             </div>
-            
+
             <div class="form-group" style="max-width: 400px;">
               <h5>紹介文</h5>
               <%= f.text_area :body, class: "form-control" %>
             </div>
-            
+
             <div class="form-group" style="max-width: 400px;">
               <h5>ジャンル</h5>
               <%= f.collection_select :genre_id, Genre.all, :id, :name, { prompt: "ジャンルを選択してください" }, class: "form-control" %>
             </div>
-            
+
             <div class="form-group" style="max-width: 400px;">
               <h5>材料費</h5>
               <%= f.collection_select :price_range_id, PriceRange.all, :id, :name, { prompt: "材料費を選択してください" }, class: "form-control" %>
@@ -54,8 +64,8 @@
                 </div>
               </div>
             </div>
-            
-            
+
+
               <!-- 調理工程 -->
               <div class="form-group">
                 <%= f.label :steps, "調理工程" %>
@@ -64,9 +74,9 @@
                     <%= render "step_form", step: step_fields %>
                   <% end %>
                 </div>
-                <%= link_to_add_association "調理工程を追加", f, :steps, class: "btn btn-secondary mt-2" %>
+                <%= link_to_add_association "調理工程を追加", f, :steps, class: "btn btn-success btn-sm add-ingredient-quantity" %>
               </div>
-            
+
               <!-- 保存ボタン -->
               <div class="form-group">
                 <%= f.submit "保存", class: "btn btn-primary" %>

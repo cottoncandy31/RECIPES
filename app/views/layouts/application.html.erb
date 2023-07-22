@@ -11,15 +11,21 @@
   </head>
 
   <body>
-    <div class="header">
+    <header>
+    <!--<div class="header">-->
       <%= render "layouts/header" %>
-    </div>
-    <div class="main">
-      <!--<#%= render 'layouts/flash_message' %>-->
+    <!--</div>-->
+    </header>
+    <main>
+      <% flash.each do |message_type, message| %>
+      <div class="flash-message <%= message_type %>"><%= message %></div>
+      <% end %>
     <%= yield %>
-    </div>
-    <div class="footer">
+    </main>
+    <footer>
+    <!--<div class="footer">-->
       <%= render "layouts/footer" %>
-    </div>
+    <!--</div>-->
+    </footer>
   </body>
 </html>

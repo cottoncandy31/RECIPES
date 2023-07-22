@@ -1,6 +1,5 @@
-<%= flash[:notice] %>
 <div class="container">
-  <div class= row >
+  <div class="row">
     <div class="col-sm-8 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
       <h3 class="bg-light text-center ml-5 mb-4" style="max-width: 500px;"><%= @user.name %>さんのレシピ投稿</h3>
       <div class="d-flex align-items-center">
@@ -36,14 +35,14 @@
       <div class="row recipe-row">
         <% @recipes.each do |recipe| %>
           <% if recipe.is_deleted == false %>
-            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+            <div class="col-6 col-md-3 col-lg-2">
               <%= link_to public_recipe_path(recipe.id) do %>
                 <%= image_tag recipe.post_image, size: "200x200" %><br>
                 レシピ名：<%= recipe.title %>
               <% end %>
             </div>
           <% else %>
-            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+            <div class="col-6 col-md-3 col-lg-2">
               <td class="text-muted">管理者によって投稿が削除されました</td>
             </div>
           <% end %>
@@ -52,8 +51,6 @@
     </div>
   </div>
 </div>
-
-
 
 
 

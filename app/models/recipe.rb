@@ -11,7 +11,9 @@ class Recipe < ApplicationRecord
   has_many :steps, dependent: :destroy
   accepts_nested_attributes_for :steps, allow_destroy: true
 
-
+  validates :title, presence: true, length: { maximum: 50 }
+  validates :body, presence: true, length: { maximum: 300 }
+  
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)
   end

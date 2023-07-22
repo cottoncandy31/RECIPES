@@ -5,6 +5,16 @@
         <h3 class="bg-light text-center ml-5 mb-4" style="max-width: 300px;">レシピの新規作成</h3>
       </div>
       <%= form_with model: @recipe, url: public_recipes_path, method: :post do |f| %>
+      
+        <% if @recipe.errors.any? %>
+          <%= @recipe.errors.count %>件のエラーが発生しました
+          <ul>
+            <% @recipe.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        <% end %>
+          
         <div class="row">
           <div class="form-group col-md-6">
             <h5>タイトル</h5>
