@@ -1,15 +1,14 @@
 class Recipe < ApplicationRecord
   has_one_attached :post_image
-  has_many_attached :step_images
   belongs_to :user
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   belongs_to :genre
   belongs_to :price_range
   has_many :bookmarks, dependent: :destroy
-  has_many :ingredients, inverse_of: :recipe, dependent: :destroy
+  has_many :ingredients, dependent: :destroy
   accepts_nested_attributes_for :ingredients, allow_destroy: true
-  has_many :steps, inverse_of: :recipe, dependent: :destroy
+  has_many :steps, dependent: :destroy
   accepts_nested_attributes_for :steps, allow_destroy: true
   # belongs_to :price_ranges
 

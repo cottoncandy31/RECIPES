@@ -105,46 +105,44 @@
             </div>
             <td colspan="7">
               
-                     <!-- 材料と分量の表示 -->
-    <div class="form-group col-sm-8">
-      <h5>材料と分量</h5>
-      <div class="ingredients-quantities-container">
-        <% @recipe.ingredients.each_with_index do |item, index| %>
-          <%= content_tag(:div, class: "ingredient-and-quantity") do %>
-            <div class="ingredient">
-              <strong>材料<%= index + 1 %>:</strong> <%= item[:name] %>
+            <!-- 材料と分量の表示 -->
+            <div class="form-group col-sm-8">
+              <h5>材料と分量</h5>
+              <div class="ingredients-quantities-container">
+                <% @recipe.ingredients.each_with_index do |item, index| %>
+                  <%= content_tag(:div, class: "ingredient-and-quantity") do %>
+                    <div class="ingredient">
+                      <strong>材料<%= index + 1 %>:</strong> <%= item[:name] %>
+                    </div>
+                    <div class="quantity">
+                      <strong>分量<%= index + 1 %>:</strong> <%= item[:quantity] %>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
             </div>
-            <div class="quantity">
-              <strong>分量<%= index + 1 %>:</strong> <%= item[:quantity] %>
+        
+            <!-- 調理工程の表示 -->
+            <div class="form-group col-sm-8">
+              <h5>調理工程</h5>
+              <div class="steps-container">
+               <% @recipe.steps.each_with_index do |step, index| %>
+                <%= content_tag(:div, class: "step") do %>
+                  <div class="step-image">
+                    <% if step.step_image.attached? %>
+                      <%= image_tag step.step_image , size: "100x100" %>
+                    <% else %>
+                      <%= image_tag 'no_image', size: "100x100" %>
+                    <% end %>
+                  </div>
+                  <div class="step-description">
+                    <%= step.description %>
+                  </div>
+                <% end %>
+              <% end %>
+              </div>
             </div>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
 
-    <!-- 調理工程の表示 -->
-    <div class="form-group col-sm-8">
-      <h5>調理工程</h5>
-      <div class="steps-container">
-       <% @recipe.steps.each_with_index do |step, index| %>
-        <%= content_tag(:div, class: "step") do %>
-          <div class="step-image">
-            <% if @recipe.step_images.attached? %>
-              <%= image_tag @recipe.step_images, size: "100x100" %>
-            <% else %>
-              <%= image_tag 'no_image', size: "100x100" %>
-            <% end %>
-          </div>
-          <div class="step-description">
-            <%= step.description %>
-          </div>
-        <% end %>
-      <% end %>
-      </div>
-    </div>
-    
-    
-      
             </td>
           </tr>
           

@@ -9,10 +9,6 @@ class Public::RecipesController < ApplicationController
   def create
     # １.&2. データを受け取り新規登録するためのインスタンス作成
     recipe = Recipe.new(recipe_params)
-    # genre = Genre.find(recipe_params[:genre_id]) # recipe_paramsの中から選択したgenre_idを見つける
-    # price_range = PriceRange.find(recipe_params[:price_range_id]) # pricerange_paramの中から選択したpricerange_idを見つける
-    # recipe.genre_id = genre.id
-    # recipe.price_range_id = price_range.id
     recipe.user_id = current_user.id
     # 3. データをデータベースに保存するためのsaveメソッド実行
     if recipe.save
@@ -64,6 +60,6 @@ class Public::RecipesController < ApplicationController
   # ストロングパラメータ 
   # コントローラー側でパラメータを受け取る際に、step_images パラメータを配列として受け取れるようにストロングパラメータを設定
   def recipe_params
-  params.require(:recipe).permit(:title, :body, :post_image, :genre_id, :price_range_id, :steps, :description, ingredients_attributes: [:name, :quantity], step_attributes: [:description], :step_images => [])
+    params.require(:recipe).permit(:title, :body, :post_image, :genre_id, :price_range_id, :steps, :description, ingredients_attributes: [:name, :quantity], steps_attributes: [:description, :step_image])
   end
 end
