@@ -38,7 +38,7 @@
           </div>
 
           <div class="form-group col-md-3">
-            <h5>価格帯</h5>
+            <h5>材料費</h5>
             <!-- ジャンルの選択肢を追加するフォーム要素 -->
             <%= f.collection_select :price_range_id, PriceRange.all, :id, :name, { include_blank: true }, { class: "form-control" } %>
             <!-- エラーメッセージを表示 -->
@@ -52,7 +52,7 @@
             <div id="ingredients">
               <!-- Initial set of ingredient and quantity fields -->
               <%= f.fields_for :ingredients do |ingredient| %>
-                <%= render "ingredients_form", recipe: @recipe, ingredient: ingredient %>
+                <%= render "ingredients_form", ingredient: ingredient %>
               <% end %>
             </div>
             <!-- エラーメッセージを表示 -->
@@ -70,7 +70,7 @@
             <div class="steps-container">
               <!-- ビューファイルのフォーム部分で step_images フィールドに name 属性を指定し、配列としてサーバーに送信できるよう設定 -->
               <%= f.fields_for :steps do |step| %>
-                <%= render "step_form", recipe: @recipe, step: step %>
+                <%= render "step_form", step: step %>
               <% end %>
             </div>
             <!-- エラーメッセージを表示 -->

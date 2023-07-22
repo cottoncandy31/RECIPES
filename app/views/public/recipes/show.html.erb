@@ -1,175 +1,171 @@
-<div class="container col-xl-11 col-lg-9 my-4 px-sm-1">
+<div class="container col-xl-12 col-lg-9 my-4 px-sm-1">
   <div class="col-md-10 offset-md-1">
     <%= flash[:notice] %>
-    <div class="px-1 ml-md-2">
-      <h5 class="bg-light text-center ml-5 mb-6" style="max-width: 200px;">レシピ詳細</h5>
+    <div class="px-1 ml-md-2 d-flex justify-content-between">
+      <div>
+        <h3 class="bg-light text-center mb-6" style="max-width: 400px;">レシピ詳細</h3>
+      </div>
+      <div>
+        <% if @recipe.user == current_user %>
+          <%= link_to 'レシピ編集', edit_public_recipe_path(@recipe), class: "btn btn-sm btn-success mr-2" %>
+          <%= link_to 'レシピ削除', public_user_recipe_path(@recipe.user, @recipe), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %>
+        <% end %>
+      </div>
     </div>
     <div class="table-responsive">
       <table class="table">
-        <thead>
-          <tr class="bg-light">
-            <th>画像</th>
-            <th>タイトル</th>
-            <th>紹介文</th>
-            <th>投稿者</th>
-            <th>価格帯</th>
-            <th>いいね</th>
-            <th>コメント</th>
-            <th></th>
-          </tr>
-        </thead>
         <tbody>
+          <!-- タイトルと画像の投稿 -->
           <tr>
-            <!--#画像の投稿-->
-            <td>
+            <td class="col-md-4 text-center">
+              <h4 class="mt-2"><%= @recipe.title %></h4>
               <% if @recipe.post_image.attached? %>
                 <%= link_to public_recipe_path(@recipe) do %>
-                  <%= image_tag @recipe.post_image, size: "100x100" %>
+                  <%= image_tag @recipe.post_image, size: "300x300" %>
                 <% end %>
               <% else %>
                 <%= image_tag 'no_image', size: "100x100" %>
               <% end %>
             </td>
-            <!--#タイトル-->
-            <td><%= @recipe.title %></td>
-            <!--#説明-->
-            <td>
+            
+            <!-- 説明 -->
+            <td class="col-md-4">
               <a href="#" data-toggle="modal" data-target="#descriptionModal">
-                <%= truncate(@recipe.body, length: 15, omission: '...') %>
+                <%= truncate(@recipe.body, length: 50, omission: '...') %>
               </a>
-            </td>
-            <!-- 説明内容のモーダルウィンドウ -->
-            <div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="descriptionModalLabel">レシピ詳細</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <%= @recipe.body %>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--#投稿者-->
-            <td><%= link_to @recipe.user.name, recipes_public_user_path(@recipe.user) %></td>
-
-            <!--#価格帯-->
-            <td><%= @recipe.price_range.name %></td>
-
-             <!--#いいね機能の実装
-             <!--#非同期通信化/renderで呼び出している。-->
-            <td id="recipe_favorite-btn_<%= @recipe.id %>"><%= render "public/favorites/favorite-btn", recipe: @recipe %></td>
-
-            <td><%= link_to "#{@recipe.comments.published.count} 件のコメントをすべて見る", "#commentModal", data: { toggle: "modal" } %></td>
-            <!--#コメント内容のモーダルウィンドウ Bootstrapを使用 -->
-            <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="commentModalLabel">コメント一覧</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <% @recipe.comments.each do |comment| %>
-                      <div class="row">
-                        <!--#コメントが管理者によって削除されているかいないかを確認-->
-                        <% if comment.is_deleted == false %>
-                          <div class="col-12">
-                            <%= comment.comment %>
-                          </div>
-                          <div class="col-12">
-                            by <%= link_to comment.user.name, recipes_public_user_path(comment.user) %>
-                          </div>
-                          <% if comment.user == current_user %>
-                          <div class="col-12">
-                            <%= link_to "削除", public_recipe_comment_path(comment.recipe, comment), method: :delete %>
-                          </div>
-                          <% end %>
-                        <% else %>
-                          <div class="col-12">
-                            <p class="text-muted">管理者によってコメントが削除されました</p>
-                          </div>
-                        <% end %>
-                      </div>
-                      <hr>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <td colspan="7">
-              
-            <!-- 材料と分量の表示 -->
-            <div class="form-group col-sm-8">
-              <h5>材料と分量</h5>
-              <div class="ingredients-quantities-container">
-                <% @recipe.ingredients.each_with_index do |item, index| %>
-                  <%= content_tag(:div, class: "ingredient-and-quantity") do %>
-                    <div class="ingredient">
-                      <strong>材料<%= index + 1 %>:</strong> <%= item[:name] %>
-                    </div>
-                    <div class="quantity">
-                      <strong>分量<%= index + 1 %>:</strong> <%= item[:quantity] %>
-                    </div>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-        
-            <!-- 調理工程の表示 -->
-            <div class="form-group col-sm-8">
-              <h5>調理工程</h5>
-              <div class="steps-container">
-               <% @recipe.steps.each_with_index do |step, index| %>
-                <%= content_tag(:div, class: "step") do %>
-                  <div class="step-image">
-                    <% if step.step_image.attached? %>
-                      <%= image_tag step.step_image , size: "100x100" %>
-                    <% else %>
-                      <%= image_tag 'no_image', size: "100x100" %>
-                    <% end %>
-                  </div>
-                  <div class="step-description">
-                    <%= step.description %>
-                  </div>
-                <% end %>
-              <% end %>
-              </div>
-            </div>
-
-            </td>
-          </tr>
-          
-   
-          <tr>
-            <td colspan="7">
-            <!-- コメントの投稿フォーム -->
-            <div class="w-50">
-              <%= form_with model: [@recipe, @comment], url: public_recipe_comments_path(@recipe), method: :post do |f| %>
-                <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに", class: "form-control" %>
-                <%= f.submit "送信する", class: 'btn btn-danger btn-comment mt-2' %>
-              <% end %>
-            </div>
-            <div class="w-50">
-              <% if @recipe.user == current_user %>
-                <%= link_to 'レシピ編集', edit_public_recipe_path(@recipe), class: "btn btn-sm btn-success" %>
-                <!--#@recipe.user,@recipeについては、public_user_recipe_pathのURLに/public/users/:user_id/recipes/:idがあることからも、-->
-                <!--user_idとrecipe_idを引数として渡す必要がある。-->
-                <%= link_to 'レシピ削除', public_user_recipe_path(@recipe.user,@recipe), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %>
-              <% end %>
+              <br>
+              <!--#投稿者-->
+              by <%= link_to @recipe.user.name, recipes_public_user_path(@recipe.user) %>
+              <br>
+              <!--#価格帯-->
+              <h6>価格帯：<%= @recipe.price_range.name %></h6>
+              <br>
+              <!--#いいね機能の実装-->
+              <!--#非同期通信化/renderで呼び出している。-->
+              <div id="recipe_favorite-btn_<%= @recipe.id %>"><%= render "public/favorites/favorite-btn", recipe: @recipe %></div>
+              <div>
               <% if @recipe.bookmarked_by?(current_user) %>
                 <%= link_to "ブックマークを外す", public_recipe_bookmarks_path(@recipe), method: :delete, class: 'btn btn-danger btn-bookmark' %>
               <% else %>
                 <%= link_to "ブックマーク", public_recipe_bookmarks_path(@recipe), method: :post, class: 'btn btn-primary btn-bookmark' %>
               <% end %>
-            </div>
-          </td>
+              </div>  
+              <!-- 説明内容のモーダルウィンドウ -->
+              <div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="descriptionModalLabel">レシピ詳細</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <%= @recipe.body %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+            
+            <!-- 材料と分量の表示 -->
+            <td class="col-md-4">
+              <div class="form-group">
+                <h5>材料と分量</h5>
+                <div class="ingredients-quantities-container">
+                  <% @recipe.ingredients.each_with_index do |item, index| %>
+                    <%= content_tag(:div, class: "ingredient-and-quantity row") do %>
+                      <div class="col text-left">
+                        <strong><%= index + 1 %>:</strong> <%= item[:name] %>
+                      </div>
+                      <div class="col text-right">
+                        <strong><%= index + 1 %>:</strong> <%= item[:quantity] %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </td>
+          </tr>
+          
+          <!-- 作り方の表示 -->
+          <tr>
+            <td class="col-md-12" colspan="3">
+              <div class="form-group col-md-12"> 
+                <h5>作り方</h5>
+                <div class="row steps-container">
+                  <% @recipe.steps.each_with_index do |step, index| %>
+                    <div class="col-md-2">
+                      <%= content_tag(:div, class: "step") do %>
+                        <div class="step-image">
+                          <% if step.step_image.attached? %>
+                            <%= image_tag step.step_image, size: "100x100" %>
+                          <% else %>
+                            <%= image_tag 'no_image', size: "100x100" %>
+                          <% end %>
+                        </div>
+                        <div class="step-description">
+                          <%= step.description %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </td>
+          </tr>
+          
+          <!-- コメント -->
+          <tr>
+            <td class="col-md-12" colspan="3">
+              <%= link_to "#{@recipe.comments.published.count} 件のコメントをすべて見る", "#commentModal", data: { toggle: "modal" } %>
+              <!--#コメント内容のモーダルウィンドウ Bootstrapを使用 -->
+              <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="commentModalLabel">コメント一覧</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <% @recipe.comments.each do |comment| %>
+                        <div class="row">
+                          <!--#コメントが管理者によって削除されているかいないかを確認-->
+                          <% if comment.is_deleted == false %>
+                            <div class="col-12">
+                              <%= comment.comment %>
+                            </div>
+                            <div class="col-12">
+                              by <%= link_to comment.user.name, recipes_public_user_path(comment.user) %>
+                            </div>
+                            <% if comment.user == current_user %>
+                            <div class="col-12">
+                              <%= link_to "削除", public_recipe_comment_path(comment.recipe, comment), method: :delete %>
+                            </div>
+                            <% end %>
+                          <% else %>
+                            <div class="col-12">
+                              <p class="text-muted">管理者によってコメントが削除されました</p>
+                            </div>
+                          <% end %>
+                        </div>
+                        <hr>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- コメントの投稿フォーム -->
+              <div class="w-50">
+                <%= form_with model: [@recipe, @comment], url: public_recipe_comments_path(@recipe), method: :post do |f| %>
+                  <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに", class: "form-control" %>
+                  <%= f.submit "送信する", class: 'btn btn-danger btn-comment mt-2' %>
+                <% end %>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>

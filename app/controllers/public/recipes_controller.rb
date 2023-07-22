@@ -1,7 +1,8 @@
 class Public::RecipesController < ApplicationController
   def new
-    # Viewへ渡すためのインスタンス変数に空のModelオブジェクトを生成する。
+    # Viewへ渡すためのインスタンス変数に空のModelオブジェクトを生成する
     @recipe = Recipe.new
+    # 新規投稿の際に、材料・分量と作り方のフォームがデフォルトで一つずつ設定されている状態にするため、1.timesと記載
     1.times { @recipe.ingredients.build }
     1.times { @recipe.steps.build }
   end
@@ -57,9 +58,8 @@ class Public::RecipesController < ApplicationController
   end
 
   private
-  # ストロングパラメータ 
-  # コントローラー側でパラメータを受け取る際に、step_images パラメータを配列として受け取れるようにストロングパラメータを設定
+  # GemのCocoonで使用するために、ingredients_attributes以下のコードを記載
   def recipe_params
-    params.require(:recipe).permit(:title, :body, :post_image, :genre_id, :price_range_id, :steps, :description, ingredients_attributes: [:name, :quantity], steps_attributes: [:description, :step_image])
+    params.require(:recipe).permit(:title, :body, :post_image, :genre_id, :price_range_id, :steps, :description, ingredients_attributes: [:id, :name, :quantity, :_destroy], steps_attributes: [:id, :description, :step_image, :_destroy])
   end
 end
