@@ -78,6 +78,9 @@ gem 'ransack'
 #非同期通信で使用
 gem 'jquery-rails'
 
+#追記 cocoonの実装
+gem 'cocoon'
+
 #デプロイのための記述
 gem 'dotenv-rails'
 group :production do
@@ -86,3 +89,4 @@ end
 gem "net-smtp"
 gem "net-pop"
 gem "net-imap"
+

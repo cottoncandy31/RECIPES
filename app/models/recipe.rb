@@ -6,7 +6,11 @@ class Recipe < ApplicationRecord
   belongs_to :genre
   belongs_to :price_range
   has_many :bookmarks, dependent: :destroy
-  # belongs_to :price_ranges
+  has_many :ingredients, dependent: :destroy
+  accepts_nested_attributes_for :ingredients, allow_destroy: true
+  has_many :steps, dependent: :destroy
+  accepts_nested_attributes_for :steps, allow_destroy: true
+
 
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)
@@ -24,7 +28,7 @@ class Recipe < ApplicationRecord
   def self.ransackable_scopes(auth_object = nil)
     ["latest", "most_favorited", "published"]
   end
-  
+
   #並べ替え(新着順/いいね順 等)
   scope :latest, -> {order(created_at: :desc)}
   scope :most_favorited, -> { includes(:favorites).sort_by { |x| x.favorites.size }.reverse }
@@ -36,4 +40,5 @@ class Recipe < ApplicationRecord
   def bookmarked_by?(user)
     bookmarks.where(user_id: user.id).exists?
   end
+
 end

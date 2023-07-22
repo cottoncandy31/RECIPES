@@ -1,0 +1,11 @@
+<div class="nested-fields row">
+  <div class="form-group col-sm-4">
+    <%= f.text_field :name, placeholder: "材料", class: "form-control mb-2" %>
+  </div>
+  <div class="form-group col-sm-4">
+    <%= f.text_field :quantity, placeholder: "分量", class: "form-control mb-2" %>
+  </div>
+  <div class="form-group col-sm-2">
+    <%= link_to_remove_association "削除", f, class: "delete" %>
+  </div>
+</div>

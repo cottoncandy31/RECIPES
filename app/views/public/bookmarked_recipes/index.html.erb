@@ -4,9 +4,9 @@
   </div>
   <div class="row">
     <% @recipes.each_with_index do |bookmarked_recipe, index| %>
-      <div class="col-md-4 col-sm-6 mb-4">
+      <div class="col-md-3 col-sm-6 mb-4">
         <%= link_to public_recipe_path(bookmarked_recipe.id) do %>
-          <%= image_tag bookmarked_recipe.post_image %><br>
+          <%= image_tag bookmarked_recipe.post_image, size: "200x200" %><br>
           レシピ名：<%= bookmarked_recipe.title %>
         <% end %>
       </div>

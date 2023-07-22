@@ -1,19 +1,19 @@
 class Public::RecipesController < ApplicationController
   def new
-    # Viewへ渡すためのインスタンス変数に空のModelオブジェクトを生成する。
+    # Viewへ渡すためのインスタンス変数に空のModelオブジェクトを生成する
     @recipe = Recipe.new
+    # 新規投稿の際に、材料・分量と作り方のフォームがデフォルトで一つずつ設定されている状態にするため、1.timesと記載
+    1.times { @recipe.ingredients.build }
+    1.times { @recipe.steps.build }
   end
 
   def create
     # １.&2. データを受け取り新規登録するためのインスタンス作成
     recipe = Recipe.new(recipe_params)
-    # genre = Genre.find(recipe_params[:genre_id]) # recipe_paramsの中から選択したgenre_idを見つける
-    # price_range = PriceRange.find(recipe_params[:price_range_id]) # pricerange_paramの中から選択したpricerange_idを見つける
-    # recipe.genre_id = genre.id
-    # recipe.price_range_id = price_range.id
     recipe.user_id = current_user.id
     # 3. データをデータベースに保存するためのsaveメソッド実行
     if recipe.save
+      
       flash[:notice] = "投稿を作成しました"
       # 4. レシピ一覧画面へリダイレクト
       redirect_to public_recipes_path
@@ -58,8 +58,8 @@ class Public::RecipesController < ApplicationController
   end
 
   private
-  # ストロングパラメータ
+  # GemのCocoonで使用するために、ingredients_attributes以下のコードを記載
   def recipe_params
-    params.require(:recipe).permit(:title, :body, :post_image, :genre_id, :price_range_id)
+    params.require(:recipe).permit(:title, :body, :post_image, :genre_id, :price_range_id, :steps, :description, ingredients_attributes: [:id, :name, :quantity, :_destroy], steps_attributes: [:id, :description, :step_image, :_destroy])
   end
 end

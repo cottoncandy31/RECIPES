@@ -1,0 +1,5 @@
+<div class="nested-fields">
+  <%= f.file_field :step_image, placeholder: "写真" %>
+  <%= f.text_area :description, placeholder: "作り方", class: "form-control mb-2" %>
+  <%= link_to_remove_association "削除", f, class: "delete" %>
+</div>

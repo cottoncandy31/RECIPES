@@ -1,52 +1,94 @@
 <div class="container my-4 px-sm-1">
   <div class="row justify-content-center">
-    <div class="col-sm-12 px-sm-0 px-md-1"> 
+    <div class="col-md-10 col-lg-10 px-sm-0 px-md-1">
       <div class="px-1 ml-md-2">
         <h3 class="bg-light text-center ml-5 mb-4" style="max-width: 300px;">レシピの新規作成</h3>
       </div>
-      <%= form_with model: Recipe.new, url: public_recipes_path, method: :post do |f| %>
-        <div class="form-group col-sm-5">
-          <h5>タイトル</h5>
-          <%= f.text_field :title, class: "form-control" %>
-          <!-- エラーメッセージを表示 -->
-          <%#= f.error_message_on :title, class: "text-danger" %>
+      <%= form_with model: @recipe, url: public_recipes_path, method: :post do |f| %>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <h5>タイトル</h5>
+            <%= f.text_field :title, class: "form-control" %>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :title, class: "text-danger" %>
+          </div>
+
+          <div class="form-group col-md-6">
+            <h5>紹介文</h5>
+            <%= f.text_area :body, class: "form-control" %>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :body, class: "text-danger" %>
+          </div>
         </div>
 
-        <div class="form-group col-sm-8">
-          <h5>説明</h5>
-          <%= f.text_area :body, class: "form-control" %>
-          <!-- エラーメッセージを表示 -->
-          <%#= f.error_message_on :body, class: "text-danger" %>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <h5>画像</h5>
+            <%= f.file_field :post_image, class: "form-control-file" %>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :post_image, class: "text-danger" %>
+          </div>
+
+          <div class="form-group col-md-3">
+            <h5>ジャンル</h5>
+            <!-- ジャンルの選択肢を追加するフォーム要素 -->
+            <%= f.collection_select :genre_id, Genre.all, :id, :name, { include_blank: true }, { class: "form-control" } %>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :genre_id, class: "text-danger" %>
+          </div>
+
+          <div class="form-group col-md-3">
+            <h5>材料費</h5>
+            <!-- ジャンルの選択肢を追加するフォーム要素 -->
+            <%= f.collection_select :price_range_id, PriceRange.all, :id, :name, { include_blank: true }, { class: "form-control" } %>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :price_range_id, class: "text-danger" %>
+          </div>
         </div>
 
-        <div class="form-group col-sm-6">
-          <h5>画像</h5>
-          <%= f.file_field :post_image, class: "form-control-file" %>
-          <!-- エラーメッセージを表示 -->
-          <%#= f.error_message_on :post_image, class: "text-danger" %>
+        <div class="row">
+          <div class="form-group col-md-10">
+            <h5>材料と分量</h5>
+            <div id="ingredients">
+              <!-- Initial set of ingredient and quantity fields -->
+              <%= f.fields_for :ingredients do |ingredient| %>
+                <%= render "ingredients_form", ingredient: ingredient %>
+              <% end %>
+            </div>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :ingredients, class: "text-danger" %>
+            <%#= f.error_message_on :quantities, class: "text-danger" %>
+            <div class="links">
+              <%= link_to_add_association "材料と分量追加", f, :ingredients, class: "btn btn-success btn-sm add-ingredient-quantity" %>
+            </div>
+          </div>
         </div>
 
-        <div class="form-group col-sm-3">
-          <h5>ジャンル</h5>
-          <!-- ジャンルの選択肢を追加するフォーム要素 -->
-          <%= f.collection_select :genre_id, Genre.all, :id, :name, { include_blank: true }, { class: "form-control" } %>
-          <!-- エラーメッセージを表示 -->
-          <%#= f.error_message_on :genre_id, class: "text-danger" %>
+        <div class="row">
+          <div class="form-group col-md-8">
+            <h5>作り方</h5>
+            <div class="steps-container">
+              <!-- ビューファイルのフォーム部分で step_images フィールドに name 属性を指定し、配列としてサーバーに送信できるよう設定 -->
+              <%= f.fields_for :steps do |step| %>
+                <%= render "step_form", step: step %>
+              <% end %>
+            </div>
+            <!-- エラーメッセージを表示 -->
+            <%#= f.error_message_on :step_images, class: "text-danger" %>
+            <%#= f.error_message_on :steps, class: "text-danger" %>
+            <div class="links">
+              <%= link_to_add_association "調理工程追加", f, :steps, class: "btn btn-success btn-sm dd-step" %>
+            </div>
+          </div>
         </div>
 
-        <div class="form-group col-sm-3">
-          <h5>価格帯</h5>
-          <!-- ジャンルの選択肢を追加するフォーム要素 -->
-          <%= f.collection_select :price_range_id, PriceRange.all, :id, :name, { include_blank: true }, { class: "form-control" } %>
-          <!-- エラーメッセージを表示 -->
-          <%#= f.error_message_on :price_range_id, class: "text-danger" %>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <%= f.submit '投稿', class: "btn btn-primary" %>
+          </div>
         </div>
 
-        <br>
-        <div class="form-group col-sm-6">
-          <%= f.submit '投稿', class: "btn btn-primary" %>
-        <% end %>
-        </div>
+      <% end %>
     </div>
   </div>
 </div>

@@ -16,20 +16,12 @@ import "popper.js";
 import "bootstrap";
 import "../stylesheets/application";
 
-// #追記 5段階評価の実装
-import Raty from "raty.js"
-window.raty = function(elem,opt) {
-  let raty =  new Raty(elem,opt)
-  raty.init();
-  return raty;
-}
+// #追記 cocoonの実装
+require("@nathanvda/cocoon")
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
-
-// #追記 5段階評価の実装
-window.$ = window.jQuery = require('jquery');
 
 // // #Swiper.jsのための記述
 // import Swiper from 'swiper';
