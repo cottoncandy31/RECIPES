@@ -3,18 +3,13 @@
     <h3 class="bg-light text-center ml-5 mb-6" style="width: 300px;">ブックマーク一覧</h3>
   </div>
   <div class="row">
-    <% @recipes.each_with_index do |bookmarked_recipe, index| %>
+    <% @recipes.each do |bookmarked_recipe| %>
       <div class="col-md-3 col-sm-6 mb-4">
         <%= link_to public_recipe_path(bookmarked_recipe.id) do %>
           <%= image_tag bookmarked_recipe.post_image, size: "200x200" %><br>
           レシピ名：<%= bookmarked_recipe.title %>
         <% end %>
       </div>
-
-      <% if (index + 1) % 4 == 0 %>
-        </div>
-        <div class="row">
-      <% end %>
     <% end %>
   </div>
 </div>
