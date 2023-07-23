@@ -34,7 +34,7 @@ class User < ApplicationRecord
   has_many :bookmarked_recipes, source: :recipe, through: :bookmarks
 
   #退会済みのユーザのデータが会員側には表示されないよう設定
-  scope :published, -> { joins(:user).where(user: { is_deleted: false}) }
+  scope :published, -> { where(is_deleted: false) }
 
   #フォロー・フォロワー機能の実装
   # フォローをした、されたの関係

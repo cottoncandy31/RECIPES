@@ -1,6 +1,7 @@
 @import '~bootstrap/scss/bootstrap';
 //#Font Awesomeの導入(デプロイ時に本番環境にもインストールする)
 // @import '@fortawesome/fontawesome-free/scss/fontawesome';
+
 .navbar {
   height: 70px; /* 適宜調整してください */
 }
@@ -41,6 +42,7 @@ footer {
 .logo {
   height: 100px; /* 適宜調整してください */
   width: auto; /* 横幅は自動調整 */
+  max-width: 992px; /* ロゴの最大幅を親要素（.logo_area）に対して100%に設定 */
 }
 
 // #Bootstrap上で特定の色を指定できるように、/cooking_recipes/app/views/layouts/_header.html.erbにbg-testというクラス名を作成している

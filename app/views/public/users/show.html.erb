@@ -32,6 +32,10 @@
       <% if @user == current_user && !current_user.guest? %>
         <%= link_to "プロフィール編集", edit_public_user_path(@user), class: "btn btn-success" %>
       <% end %>
+      <!-- ゲストログイン時には退会ボタンを表示させない -->
+      <% if !current_user.guest? %>
+        <%= link_to "退会", check_public_user_path(current_user), class: "btn btn-danger" %>
+      <% end %>
 </div>
 
 

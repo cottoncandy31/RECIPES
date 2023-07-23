@@ -1,4 +1,6 @@
 class Public::RecipesController < ApplicationController
+  before_action :is_matching_login_user, only: [:edit]
+
   def new
     # Viewへ渡すためのインスタンス変数に空のModelオブジェクトを生成する
     @recipe = Recipe.new
@@ -39,10 +41,10 @@ class Public::RecipesController < ApplicationController
       @q = Recipe.ransack(nil)
       #退会済みユーザーのデータは非公開にしている
       @recipes = Recipe.published
-    
+
       # デフォルトではis_deleted: trueも含めて表示する
       @recipes = @recipes.or(Recipe.where(is_deleted: true))
-    
+
       # 人気順
       if params[:most_favorited]
         @recipes = @recipes.most_favorited
@@ -51,7 +53,7 @@ class Public::RecipesController < ApplicationController
         @recipes = @recipes.latest
       end
     end
-    
+
     if params[:most_favorited]
       @recipes = Kaminari.paginate_array(@recipes).page(params[:page]).per(10)
     else
@@ -59,9 +61,10 @@ class Public::RecipesController < ApplicationController
     end
   end
 
-
   def show
-    @recipe = Recipe.find(params[:id])
+    #退会済みユーザーのレシピ詳細画面へリンクからアクセスした際に「レシピがありません」と表示するよう設定している。
+    #find_by(id: params[:id])を記述することで、削除済みレシピに対して@recipeにnilが代入されエラー画面が表示されないように設定
+    @recipe = Recipe.find_by(id: params[:id])
     @comment = Comment.new
   end
 
@@ -92,5 +95,17 @@ class Public::RecipesController < ApplicationController
   # GemのCocoonで使用するために、ingredients_attributes以下のコードを記載
   def recipe_params
     params.require(:recipe).permit(:title, :body, :post_image, :genre_id, :price_range_id, :steps, :description, ingredients_attributes: [:id, :name, :quantity, :_destroy], steps_attributes: [:id, :description, :step_image, :_destroy])
+  end
+
+  #他のユーザーからのアクセスを制限する(editアクションで使用)
+  def is_matching_login_user
+  user = Recipe.find(params[:id]).user
+  unless user.id == current_user&.id
+    if current_user
+      redirect_to public_user_path(current_user)
+    else
+      redirect_to new_user_session_path
+    end
+  end
   end
 end

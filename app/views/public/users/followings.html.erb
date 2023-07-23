@@ -7,12 +7,10 @@
           <% @users.each do |user| %>
             <table>
               <tbody>
-            
                   <td class="pr-2"><%= image_tag user.get_profile_image(100, 100) %></td>
                   <td class="pr-2"><%= link_to user.name, recipes_public_user_path(user) %></td>
                   <td class="pr-2">フォロー数: <%= user.followings.count %></td>
                   <td>フォロワー数: <%= user.followers.count %></td>
-         
               </tbody>
             </table>
           <% end %>

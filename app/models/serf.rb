@@ -1,0 +1,2 @@
+class Serf < ApplicationRecord
+end

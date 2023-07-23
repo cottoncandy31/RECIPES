@@ -41,12 +41,6 @@
           <li class="nav-item">
             <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
           </li>
-          <!-- ゲストログイン時には退会ボタンを表示させない -->
-          <% if !current_user.guest? %>
-            <li class="nav-item">
-              <%= link_to "退会", check_public_user_path(current_user), class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-            </li>
-          <% end %>
         <% elsif admin_signed_in? %>
           <!-- 管理者ログイン時のメニュー項目 -->
           <li class="nav-item ml-md-auto mr-md-3">

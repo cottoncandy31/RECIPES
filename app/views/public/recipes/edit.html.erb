@@ -60,15 +60,15 @@
                 <%#= f.error_message_on :ingredients, class: "text-danger" %>
                 <%#= f.error_message_on :quantities, class: "text-danger" %>
                 <div class="links">
-                  <%= link_to_add_association "材料と分量追加", f, :ingredients, class: "btn btn-success btn-sm add-ingredient-quantity" %>
+                  <%= link_to_add_association "材料と分量を追加", f, :ingredients, class: "btn btn-success btn-sm add-ingredient-quantity" %>
                 </div>
               </div>
             </div>
 
 
-              <!-- 調理工程 -->
+              <!-- 作り方 -->
               <div class="form-group">
-                <%= f.label :steps, "調理工程" %>
+                <%= f.label :steps, "作り方" %>
                 <div class="steps-container">
                   <%= f.fields_for :steps do |step_fields| %>
                     <%= render "step_form", step: step_fields %>

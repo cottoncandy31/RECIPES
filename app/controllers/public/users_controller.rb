@@ -31,19 +31,19 @@ class Public::UsersController < ApplicationController
   def recipes
     @user = User.find(params[:id])
     #下記、フォロー/フォロワー一覧表示のためのインスタンス変数
-    @users = @user.followings + @user.followers
+    @users = @user.followings.published + @user.followers.published
     #下記、@userの投稿ページにその人のレシピ投稿のみ表示させるためのインスタンス変数
     @recipes = Recipe.where(user_id: @user.id)
   end
 
   def followings
     @user = User.find(params[:id])
-    @users = @user.followings
+    @users = @user.followings.published
   end
 
   def followers
     @user = User.find(params[:id])
-    @users = @user.followers
+    @users = @user.followers.published
   end
 
   #退会フラグはupdateに値するが、マイページ更新の際のupdateアクションと被らないように、destroyアクションに退会処理を記載している
