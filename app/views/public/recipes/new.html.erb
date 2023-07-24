@@ -19,15 +19,11 @@
           <div class="form-group col-md-6">
             <h5>タイトル</h5>
             <%= f.text_field :title, class: "form-control" %>
-            <!-- エラーメッセージを表示 -->
-            <%#= f.error_message_on :title, class: "text-danger" %>
           </div>
 
           <div class="form-group col-md-6">
             <h5>紹介文</h5>
             <%= f.text_area :body, class: "form-control" %>
-            <!-- エラーメッセージを表示 -->
-            <%#= f.error_message_on :body, class: "text-danger" %>
           </div>
         </div>
 
@@ -35,24 +31,18 @@
           <div class="form-group col-md-6">
             <h5>画像</h5>
             <%= f.file_field :post_image, class: "form-control-file" %>
-            <!-- エラーメッセージを表示 -->
-            <%#= f.error_message_on :post_image, class: "text-danger" %>
           </div>
 
           <div class="form-group col-md-3">
             <h5>ジャンル</h5>
             <!-- ジャンルの選択肢を追加するフォーム要素 -->
             <%= f.collection_select :genre_id, Genre.all, :id, :name, { include_blank: true }, { class: "form-control" } %>
-            <!-- エラーメッセージを表示 -->
-            <%#= f.error_message_on :genre_id, class: "text-danger" %>
           </div>
 
           <div class="form-group col-md-3">
-            <h5>材料費</h5>
+            <h5>材料費/人</h5>
             <!-- ジャンルの選択肢を追加するフォーム要素 -->
             <%= f.collection_select :price_range_id, PriceRange.all, :id, :name, { include_blank: true }, { class: "form-control" } %>
-            <!-- エラーメッセージを表示 -->
-            <%#= f.error_message_on :price_range_id, class: "text-danger" %>
           </div>
         </div>
 
@@ -60,14 +50,10 @@
           <div class="form-group col-md-10">
             <h5>材料と分量</h5>
             <div id="ingredients">
-              <!-- Initial set of ingredient and quantity fields -->
               <%= f.fields_for :ingredients do |ingredient| %>
                 <%= render "ingredients_form", ingredient: ingredient %>
               <% end %>
             </div>
-            <!-- エラーメッセージを表示 -->
-            <%#= f.error_message_on :ingredients, class: "text-danger" %>
-            <%#= f.error_message_on :quantities, class: "text-danger" %>
             <div class="links">
               <%= link_to_add_association "材料と分量追加", f, :ingredients, class: "btn btn-success btn-sm add-ingredient-quantity" %>
             </div>
@@ -83,9 +69,6 @@
                 <%= render "step_form", step: step %>
               <% end %>
             </div>
-            <!-- エラーメッセージを表示 -->
-            <%#= f.error_message_on :step_images, class: "text-danger" %>
-            <%#= f.error_message_on :steps, class: "text-danger" %>
             <div class="links">
               <%= link_to_add_association "調理工程追加", f, :steps, class: "btn btn-success btn-sm dd-step" %>
             </div>

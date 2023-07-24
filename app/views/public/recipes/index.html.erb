@@ -32,7 +32,7 @@
     <!--#並べ替え 新着順/いいね順-->
     <%= link_to '新着順', public_recipes_path(latest: "true") %>/
     <%= link_to '人気順', public_recipes_path(most_favorited: "true") %>
-    
+
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -42,7 +42,7 @@
             <th>タイトル</th>
             <th>ジャンル</th>
             <th>投稿者</th>
-            <th>材料費の価格帯</th>
+            <th>材料費/人</th>
             <th>投稿日時</th>
             <th></th>
           </tr>
@@ -75,9 +75,9 @@
               <!--#投稿日時の記載-->
               <td><%= recipe.created_at.strftime('%Y/%m/%d') %></td>
               <!--♯いいね機能の実装    -->
-             
+
                 <td id="recipe_favorite-btn_<%= recipe.id %>"><%= render "public/favorites/favorite-btn", recipe: recipe %></td>
-              
+
             <% else %>
               <td class="text-muted">管理者によって投稿が削除されました</td>
             <% end %>
