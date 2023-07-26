@@ -1,14 +1,14 @@
 class Public::CommentsController < ApplicationController
   def create
-    recipe = Recipe.find(params[:recipe_id])
-    comment = current_user.comments.new(comment_params)
-    comment.recipe_id = recipe.id
-    if comment.save
-       redirect_to public_recipe_path(params[:recipe_id])
-      # 以下の処理やリダイレクト先などを追加する
+    @recipe = Recipe.find(params[:recipe_id])
+    @comment = current_user.comments.new(comment_params)
+    @comment.recipe_id = @recipe.id
+    if @comment.save
+      redirect_to public_recipe_path(params[:recipe_id])
     else
-      # エラーハンドリングの処理を追加する
-       
+      # エラーの処理について
+      render "public/recipes/show"
+      flash[:alert] = "コメントの保存に失敗しました"
     end
   end
 
@@ -20,9 +20,10 @@ class Public::CommentsController < ApplicationController
 
   def destroy
     Comment.find(params[:id]).destroy
+    flash[:notice] = "コメントを削除しました。"
     redirect_to public_recipe_path(params[:recipe_id])
   end
-  
+
   private
 
   def comment_params

@@ -97,7 +97,7 @@
                 </div>
               </td>
               </tr>
-  
+
               <!-- 作り方の表示 -->
               <tr>
                 <td class="col-md-12" colspan="3">
@@ -127,7 +127,7 @@
                   </div>
                 </td>
               </tr>
-            
+
             <!-- コメント -->
             <tr>
               <td class="col-md-12" colspan="3">
@@ -158,7 +158,7 @@
                               </div>
                               <% if comment.user == current_user %>
                               <div class="col-12">
-                                <%= link_to "削除", public_recipe_comment_path(comment.recipe, comment), method: :delete %>
+                                <%= link_to "削除", public_recipe_comment_path(comment.recipe, comment), method: :delete, data: { confirm: '本当に消しますか？' } %>
                               </div>
                               <% end %>
                             <% else %>
@@ -174,10 +174,20 @@
                   </div>
                 </div>
 
-                <!-- コメントの投稿フォーム -->
                 <div class="w-50">
                   <%= form_with model: [@recipe, @comment], url: public_recipe_comments_path(@recipe), method: :post do |f| %>
+                    <!-- コメントの投稿フォーム -->
                     <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに", class: "form-control" %>
+                    <!-- エラーメッセージ -->
+                    <% if @comment.errors.any? %>
+                      <%= @comment.errors.count %>件のエラーが発生しました
+                      <ul>
+                        <% @comment.errors.full_messages.each do |message| %>
+                          <li><%= message %></li>
+                        <% end %>
+                      </ul>
+                    <% end %>
+                    <!-- コメント送信ボタン -->
                     <%= f.submit "送信する", class: 'btn btn-danger btn-comment mt-2' %>
                   <% end %>
                 </div>
