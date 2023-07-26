@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   # 管理者用
   # もともとのdeviseにあったファイル名をadmins→adminに変更し、それに伴って
-    #app/views/admin/sessions/new.html.erb内で、<%= render "admin/shared/links" %>に変更したため、下記に変更点を記載している
+  #app/views/admin/sessions/new.html.erb内で、<%= render "admin/shared/links" %>に変更したため、下記に変更点を記載している
   # URL /admin/sign_in ...
   devise_for :admin, controllers: {
     sessions: "admin/sessions"
@@ -60,7 +60,6 @@ Rails.application.routes.draw do
       resources :bookmarked_recipes, only: [:index]
     end
     resources :recipes, except: [:destroy] do
-      # get 'recipes/search'
       resources :comments, only: [:create, :edit, :update, :destroy]
       resource :favorites, only: [:create, :destroy]
       resource :bookmarks, only: [:create, :index, :show, :destroy]

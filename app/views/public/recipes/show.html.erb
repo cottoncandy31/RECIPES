@@ -24,7 +24,7 @@
                     <%= image_tag @recipe.post_image, size: "300x300" %>
                   <% end %>
                 <% else %>
-                  <%= image_tag 'no_image', size: "100x100" %>
+                  <!-- 画像が存在しない場合は何も表示しない -->
                 <% end %>
               </td>
 
@@ -111,7 +111,7 @@
                             <% if step.step_image.attached? %>
                               <%= image_tag step.step_image, size: "100x100" %>
                             <% else %>
-                              <%= image_tag 'no_image', size: "100x100" %>
+                              <!-- 画像が存在しない場合は何も表示しない -->
                             <% end %>
                           </div>
                           <div class="step-description">
