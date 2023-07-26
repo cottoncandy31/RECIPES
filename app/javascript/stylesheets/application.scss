@@ -97,3 +97,10 @@ footer {
   color: #930403;
   border: solid 1px #930403;
 }
+
+//RECIPES/app/views/public/recipes/show.html.erbで使用
+.step-number {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

@@ -83,48 +83,51 @@
                 <div class="form-group">
                   <h5>材料と分量</h5>
                   <div class="ingredients-quantities-container">
-                    <% @recipe.ingredients.each_with_index do |item, index| %>
+                    <% @recipe.ingredients.each do |item| %>
                       <%= content_tag(:div, class: "ingredient-and-quantity row") do %>
                         <div class="col text-left">
-                          <strong><%= index + 1 %>:</strong> <%= item[:name] %>
+                          <%= item[:name] %>
                         </div>
                         <div class="col text-right">
-                          <strong><%= index + 1 %>:</strong> <%= item[:quantity] %>
+                          <%= item[:quantity] %>
                         </div>
                       <% end %>
                     <% end %>
                   </div>
                 </div>
               </td>
-            </tr>
-
-            <!-- 作り方の表示 -->
-            <tr>
-              <td class="col-md-12" colspan="3">
-                <div class="form-group col-md-12">
-                  <h5>作り方</h5>
-                  <div class="row steps-container">
-                    <% @recipe.steps.each_with_index do |step, index| %>
-                      <div class="col-md-2">
-                        <%= content_tag(:div, class: "step") do %>
-                          <div class="step-image">
-                            <% if step.step_image.attached? %>
-                              <%= image_tag step.step_image, size: "100x100" %>
-                            <% else %>
-                              <!-- 画像が存在しない場合は何も表示しない -->
-                            <% end %>
-                          </div>
-                          <div class="step-description">
-                            <%= simple_format(step.description) %>
-                          </div>
-                        <% end %>
-                      </div>
-                    <% end %>
+              </tr>
+  
+              <!-- 作り方の表示 -->
+              <tr>
+                <td class="col-md-12" colspan="3">
+                  <div class="form-group col-md-12">
+                    <h5>作り方</h5>
+                    <div class="row steps-container">
+                      <% @recipe.steps.each_with_index do |step, index| %>
+                        <div class="col-md-2">
+                          <%= content_tag(:div, class: "step") do %>
+                            <div class="step-image">
+                              <% if step.step_image.attached? %>
+                                <%= image_tag step.step_image, size: "100x100" %>
+                              <% else %>
+                                <!-- 画像が存在しない場合は何も表示しない -->
+                              <% end %>
+                              <div class="step-number">
+                                <strong><%= index + 1 %></strong>
+                              </div>
+                            </div>
+                            <div class="step-description">
+                              <%= simple_format(step.description) %>
+                            </div>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
                   </div>
-                </div>
-              </td>
-            </tr>
-
+                </td>
+              </tr>
+            
             <!-- コメント -->
             <tr>
               <td class="col-md-12" colspan="3">
