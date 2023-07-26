@@ -17,44 +17,30 @@
           <tbody>
             <% @recipes.each do |recipe| %>
               <tr>
-                  <% if recipe.is_deleted %>
-                    <!--#レシピの前に「削除済み」と表示-->
-                    <td>削除済み</td>
-                    <% if recipe.post_image.attached? %>
-                      <%= link_to admin_recipe_path(recipe) do %>
-                        <td><%= image_tag recipe.post_image, size: "100x100" %></td>
-                      <% end %>
-                    <% else %>
-                      <td><%= image_tag 'no_image', size: "100x100" %></td>
-                    <% end %>
-                    <td>
-                      <%= link_to admin_recipe_path(recipe) do %>
-                        <%= recipe.title %>
-                      <% end %>
-                    </td>
-                    <td><%= recipe.genre.name %></td>
-                    <td>by <%= link_to recipe.user.name, admin_user_path(recipe.user) %></td>
-                  <% else %>
-                    <td></td>
-                  <!--#もともとの記述のまま表示-->
-                    <% if recipe.post_image.attached? %>
-                      <%= link_to admin_recipe_path(recipe) do %>
-                        <td><%= image_tag recipe.post_image, size: "100x100" %></td>
-                      <% end %>
-                    <% else %>
-                      <td>
-                        <!--#画像が存在しない場合も100px×100pxの間隔を空けるように設定-->
-                        <div style="width: 100px; height: 100px;"></div>
-                      </td>
-                    <% end %>
-                    <td>
-                      <%= link_to admin_recipe_path(recipe) do %>
-                        <%= recipe.title %>
-                      <% end %>
-                    </td>
-                    <td><%= recipe.genre.name %></td>
-                    <td>by <%= link_to recipe.user.name, admin_user_path(recipe.user) %></td>
+                <% if recipe.is_deleted %>
+                  <!-- 削除済みの場合 -->
+                  <td>削除済み</td>
+                <% else %>
+                  <!-- 削除されていない場合 -->
+                  <td></td>
+                <% end %>
+                <% if recipe.post_image.attached? %>
+                  <%= link_to admin_recipe_path(recipe) do %>
+                    <td><%= image_tag recipe.post_image, size: "100x100" %></td>
                   <% end %>
+                <% else %>
+                  <!-- 画像が存在しない場合も100px×100pxの間隔を空けるように設定 -->
+                  <td>
+                    <div style="width: 100px; height: 100px;"></div>
+                  </td>
+                <% end %>
+                <td>
+                  <%= link_to admin_recipe_path(recipe) do %>
+                    <%= recipe.title %>
+                  <% end %>
+                </td>
+                <td><%= recipe.genre.name %></td>
+                <td>by <%= link_to recipe.user.name, admin_user_path(recipe.user) %></td>
               </tr>
             <% end %>
           </tbody>
