@@ -4,6 +4,7 @@ class Public::CommentsController < ApplicationController
     @comment = current_user.comments.new(comment_params)
     @comment.recipe_id = @recipe.id
     if @comment.save
+      flash[:notice] = "コメントを投稿しました"
       redirect_to public_recipe_path(params[:recipe_id])
     else
       # エラーの処理について
@@ -20,7 +21,7 @@ class Public::CommentsController < ApplicationController
 
   def destroy
     Comment.find(params[:id]).destroy
-    flash[:notice] = "コメントを削除しました。"
+    flash[:notice] = "コメントを削除しました"
     redirect_to public_recipe_path(params[:recipe_id])
   end
 
