@@ -21,7 +21,8 @@
                   <%= image_tag @recipe.post_image, size: "100x100" %>
                 <% end %>
               <% else %>
-                <%= image_tag 'no_image', size: "100x100" %>
+                <!--#画像が存在しない場合も100px×100pxの間隔を空けるように設定-->
+                <div style="width: 100px; height: 100px;"></div>
               <% end %>
               <%= f.file_field :post_image, class: "form-control-file" %>
             </div>

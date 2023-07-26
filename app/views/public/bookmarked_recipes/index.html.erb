@@ -3,19 +3,25 @@
     <h3 class="bg-light text-center ml-5 mb-6" style="width: 300px;">ブックマーク一覧</h3>
   </div>
   <div class="row">
-    <% if @recipes.empty? %>
+  <% if @recipes.empty? %>
     <div class="col-12 d-flex justify-content-center align-items-center" style="min-height: 200px;">
       <h3 class="text-center">ブックマークしている投稿はありません</h3>
     </div>
-    <% else %>
-      <% @recipes.each do |bookmarked_recipe| %>
-        <div class="col-md-3 col-sm-6 mb-4">
-          <%= link_to public_recipe_path(bookmarked_recipe.id) do %>
-            <%= image_tag bookmarked_recipe.post_image, size: "200x200" %><br>
+  <% else %>
+    <% @recipes.each do |bookmarked_recipe| %>
+      <div class="col-md-3 col-sm-6 mb-4">
+        <%= link_to public_recipe_path(bookmarked_recipe.id) do %>
+          <div class="d-flex flex-column align-items-center">
+            <% if bookmarked_recipe.post_image.attached? %>
+              <%= image_tag bookmarked_recipe.post_image, size: "200x200" %><br>
+            <% else %>
+              <!-- 画像が存在しない場合も200px×200pxの間隔を空けるように設定 -->
+              <div style="width: 200px; height: 200px;"></div><br>
+            <% end %>
             レシピ名：<%= bookmarked_recipe.title %>
-          <% end %>
-        </div>
-      <% end %>
+          </div>
+        <% end %>
+      </div>
     <% end %>
-  </div>
+  <% end %>
 </div>
