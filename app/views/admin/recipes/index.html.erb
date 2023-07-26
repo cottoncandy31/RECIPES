@@ -42,7 +42,10 @@
                         <td><%= image_tag recipe.post_image, size: "100x100" %></td>
                       <% end %>
                     <% else %>
-                      <td><%= image_tag 'no_image', size: "100x100" %></td>
+                      <td>
+                        <!--#画像が存在しない場合も100px×100pxの間隔を空けるように設定-->
+                        <div style="width: 100px; height: 100px;"></div>
+                      </td>
                     <% end %>
                     <td>
                       <%= link_to admin_recipe_path(recipe) do %>
