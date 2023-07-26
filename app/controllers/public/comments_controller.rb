@@ -7,8 +7,8 @@ class Public::CommentsController < ApplicationController
       redirect_to public_recipe_path(params[:recipe_id])
     else
       # エラーの処理について
-      render "public/recipes/show"
       flash[:alert] = "コメントの保存に失敗しました"
+      render "public/recipes/show"
     end
   end
 
