@@ -79,6 +79,7 @@ class Public::RecipesController < ApplicationController
       #レシピ詳細画面へ遷移する
       redirect_to public_recipe_path
     else
+      flash[:alert] = "投稿の更新に失敗しました"
       render :edit
     end
   end
