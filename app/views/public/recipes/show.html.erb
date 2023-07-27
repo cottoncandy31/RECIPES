@@ -1,4 +1,4 @@
-<% if @recipe.present? %>
+<% if @recipe.present? && @user.is_deleted == false %>
   <div class="container col-xl-12 col-lg-9 my-4 px-sm-1">
     <div class="col-md-10 offset-md-1">
       <div class="px-1 ml-md-2 d-flex justify-content-between">
@@ -34,13 +34,13 @@
                   <!--#simple_formatメソッドを使用して改行を反映させる-->
                   <%= simple_format(truncate(@recipe.body, length: 50, omission: '...')) %>
                 </a>
-                
+
                 <style>
                   .recipe-info {
                     margin-bottom: 10px;
                   }
                 </style>
-                
+
                 <!--#投稿者-->
                 <div class="recipe-info">
                   by <%= link_to @recipe.user.name, recipes_public_user_path(@recipe.user) %>
@@ -132,7 +132,7 @@
             <tr>
               <td class="col-md-12" colspan="3">
                 <!--#publishedで現在有効であるユーザーのコメントを表示。またis_deleted: falseで管理者によって削除されたコメントは件数に含まないように設定-->
-                <% published_comments_count = @recipe.comments.where(is_deleted: false).count %>
+                <% published_comments_count = @recipe.comments.where(is_deleted: false).count - @comment_user_delete_count %>
                 <%= link_to "#{published_comments_count} 件のコメントをすべて見る", "#commentModal", data: { toggle: "modal" } %>
 
                 <!-- コメント一覧のモーダルウィンドウ -->
@@ -148,8 +148,8 @@
                       <div class="modal-body">
                         <% @recipe.comments.each do |comment| %>
                           <div class="row">
-                            <!--#コメントが管理者によって削除されているかいないかを確認-->
-                            <% if comment.is_deleted == false %>
+                            <!--#会員ステータスが有効且つ管理者によってコメントが削除されていない場合-->
+                            <% if comment.user.is_deleted == false && comment.is_deleted == false %>
                               <div class="col-12">
                                 <%= simple_format(comment.comment) %>
                               </div>
@@ -161,13 +161,15 @@
                                 <%= link_to "削除", public_recipe_comment_path(comment.recipe, comment), method: :delete, data: { confirm: '本当に消しますか？' } %>
                               </div>
                               <% end %>
-                            <% else %>
+                            <!--#会員ステータスが有効且つ管理者によってコメントが削除された場合-->
+                            <% elsif comment.user.is_deleted == false && comment.is_deleted == true %>
                               <div class="col-12">
                                 <p class="text-muted">管理者によってコメントが削除されました</p>
                               </div>
+                            <!--#会員ステータスが退会済みの場合-->
+                            <% elsif comment.user.is_deleted= true && comment.is_deleted == false %>
                             <% end %>
                           </div>
-                          <hr>
                         <% end %>
                       </div>
                     </div>

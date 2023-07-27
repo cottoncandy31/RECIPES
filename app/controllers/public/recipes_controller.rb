@@ -62,9 +62,17 @@ class Public::RecipesController < ApplicationController
   end
 
   def show
-    #退会済みユーザーのレシピ詳細画面へ直接リンクからアクセスした際に「レシピがありません」と表示するよう設定している。
+    #退会済みユーザーのレシピ詳細、もしくは管理者が削除したレシピ詳細画面へ直接リンクからアクセスした際に「レシピがありません」と表示するよう設定している。
     #find_by(id: params[:id])を記述することで、削除済みレシピに対して@recipeにnilが代入されエラー画面が表示されないように設定
     @recipe = Recipe.find_by(id: params[:id])
+    #退会済みユーザーかどうか、/RECIPES/app/views/public/recipes/show.html.erbの冒頭で確かめるために@userを定義している
+    @user = @recipe.user
+    @comment_user_delete_count = 0
+    @recipe.comments.each do |comment|
+      if comment.user.is_deleted == true
+        @comment_user_delete_count += 1
+      end
+    end
     @comment = Comment.new
   end
 

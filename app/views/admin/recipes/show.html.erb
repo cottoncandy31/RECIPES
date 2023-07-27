@@ -79,7 +79,10 @@
                           by <%= link_to comment.user.name, admin_user_path(comment.user) %>
                         </div>
                         <div class="col-12">
-                          <%= link_to "削除", admin_recipe_comment_path(comment.recipe, comment), method: :patch, data: { confirm: "本当に削除しますか？" } %>
+                          <% if comment.user.is_deleted == false %>
+                            <%= link_to "削除", admin_recipe_comment_path(comment.recipe, comment), method: :patch, data: { confirm: "本当に削除しますか？" } %>
+                          <% else %>
+                          <% end %>
                         </div>
                       <% end %>
                     </div>
@@ -93,9 +96,10 @@
       </tbody>
     </table>
   <div>
-    <% if @recipe.is_deleted == false %>
+    <% if @recipe.user.is_deleted == false %>
       <!-- 投稿のボタン -->
       <%= button_to "この投稿を削除する", admin_recipe_path(@recipe), method: :patch, class: "btn btn-danger btn-sm", data: { confirm: "本当に削除しますか？" } %>
+    <% else %>
     <% end %>
   </div>
 </div>
