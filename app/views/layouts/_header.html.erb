@@ -1,75 +1,75 @@
-  <!--/cooking_recipes/app/javascript/stylesheets/application.scss内で、bg-testの色を指定している-->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-test">
-    <div class="logo_area">
-      <a class="navbar-brand">
-        <!-- ロゴ画像のパスを置き換える-->
-        <%= image_tag 'logo.png', :size => '200x200', class: "logo" %>
-      </a>
-    </div>
+<!--/cooking_recipes/app/javascript/stylesheets/application.scss内で、bg-testの色を指定している-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-test">
+  <div class="logo_area">
+    <a class="navbar-brand">
+      <!-- ロゴ画像のパスを置き換える-->
+      <%= image_tag 'logo.png', :size => '200x200', class: "logo" %>
+    </a>
+  </div>
 
-    <!-- ハンバーガーメニューボタン(画面幅が768px以下になった際に表示) -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <!-- ハンバーガーメニューボタン(画面幅が768px以下になった際に表示) -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-    <!-- メニュー項目 -->
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav ml-auto">
-        <% if user_signed_in? %>
-          <!-- ユーザーログイン時のメニュー項目 -->
-          <li class="nav-item ml-md-auto mr-md-3">
-            <span class="navbar-text" style="color: #000000;">
-              ようこそ<%= current_user.name %>さん！
-            </span>
-          </li>
-          <li class="nav-item">
-            <%= link_to "レシピを投稿", new_public_recipe_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "みんなのレシピを見る", public_recipes_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "ブックマーク一覧", public_user_bookmarked_recipes_path(current_user), class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-          </li>
-          <li class="nav-item mb-2">
-            <%= link_to "マイレシピ", recipes_public_user_path(current_user), class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-          </li>
-          <!--#レシピ関連のメニューと登録情報関連のメニューの間隔をあけている-->
-          <li class="nav-item ml-md-3">
-            <%= link_to "登録情報", public_user_path(current_user), class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-          </li>
-        <% elsif admin_signed_in? %>
-          <!-- 管理者ログイン時のメニュー項目 -->
-          <li class="nav-item ml-md-auto mr-md-3">
-            <span class="navbar-text">
-              ようこそ管理者さん！
-            </span>
-          </li>
-          <li class="nav-item">
-            <%= link_to "会員の情報一覧", admin_users_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "会員のレシピ一覧", admin_recipes_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-          </li>
-        <% else %>
-          <!-- ログアウト時のメニュー項目 -->
-          <li class="nav-item">
-            <%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, class: "btn btn-outline-secondary rounded-pill btn-custom", method: :post %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  </nav>
+  <!-- メニュー項目 -->
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav ml-auto">
+      <% if user_signed_in? %>
+        <!-- ユーザーログイン時のメニュー項目 -->
+        <li class="nav-item ml-md-auto mr-md-3">
+          <span class="navbar-text" style="color: #000000;">
+            ようこそ<%= current_user.name %>さん！
+          </span>
+        </li>
+        <li class="nav-item">
+          <%= link_to "レシピを投稿", new_public_recipe_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "みんなのレシピを見る", public_recipes_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ブックマーク一覧", public_user_bookmarked_recipes_path(current_user), class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        </li>
+        <li class="nav-item mb-2">
+          <%= link_to "マイレシピ", recipes_public_user_path(current_user), class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        </li>
+        <!--#レシピ関連のメニューと登録情報関連のメニューの間隔をあけている-->
+        <li class="nav-item ml-md-3">
+          <%= link_to "登録情報", public_user_path(current_user), class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        </li>
+      <% elsif admin_signed_in? %>
+        <!-- 管理者ログイン時のメニュー項目 -->
+        <li class="nav-item ml-md-auto mr-md-3">
+          <span class="navbar-text">
+            ようこそ管理者さん！
+          </span>
+        </li>
+        <li class="nav-item">
+          <%= link_to "会員の情報一覧", admin_users_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "会員のレシピ一覧", admin_recipes_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        </li>
+      <% else %>
+        <!-- ログアウト時のメニュー項目 -->
+        <li class="nav-item">
+          <%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, class: "btn btn-outline-secondary rounded-pill btn-custom", method: :post %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>
 

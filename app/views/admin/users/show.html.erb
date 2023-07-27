@@ -2,30 +2,30 @@
   <div class="px-1 ml-md-5">
     <h5 class="bg-light text-center ml-5 mb-4" style="width: 130px;">登録情報</h5>
   </div>
-  <div class="col-sm-4 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
-    <table class="table table-bordered table-hover">
-      <tr>
-        <th class="bg-light col-4">ユーザー名</th>
-        <td><%= @user.name %></td>
-      </tr>
-      <tr>
-        <th class="bg-light col-4">メールアドレス</th>
-        <td><%= @user.email %></td>
-      </tr>
-      <tr>
-        <th class="bg-light col-4">プロフィール写真</th>
-        <td><%= image_tag @user.get_profile_image(100, 100) %></td>
-      </tr>
-      <tr>
-        <th class="bg-light col-4">登録日時</th>
-        <td><%= @user.created_at.strftime('%Y/%m/%d') %></td>
-      </tr>
-      <tr>
-        <th class="bg-light col-4">更新日時</th>
-        <td><%= @user.created_at.strftime('%Y/%m/%d') %></td>
-      </tr>
-    </table>
-  </div>
+    <div class="col-sm-4 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
+      <table class="table table-bordered table-hover">
+        <tr>
+          <th class="bg-light col-4">ユーザー名</th>
+          <td><%= @user.name %></td>
+        </tr>
+        <tr>
+          <th class="bg-light col-4">メールアドレス</th>
+          <td><%= @user.email %></td>
+        </tr>
+        <tr>
+          <th class="bg-light col-4">プロフィール写真</th>
+          <td><%= image_tag @user.get_profile_image(100, 100) %></td>
+        </tr>
+        <tr>
+          <th class="bg-light col-4">登録日時</th>
+          <td><%= @user.created_at.strftime('%Y/%m/%d') %></td>
+        </tr>
+        <tr>
+          <th class="bg-light col-4">更新日時</th>
+          <td><%= @user.created_at.strftime('%Y/%m/%d') %></td>
+        </tr>
+      </table>
+    </div>
   <% if @user.is_deleted == false %>
     <!-- 会員の利用停止ボタン -->
     <%= button_to "この会員の利用を停止", admin_user_path(@user), method: :patch, class: "btn btn-danger btn-sm", data: { confirm: "本当に退会しますか？" } %>

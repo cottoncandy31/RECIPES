@@ -12,9 +12,7 @@
 
   <body>
     <header>
-    <!--<div class="header">-->
       <%= render "layouts/header" %>
-    <!--</div>-->
     </header>
     <main>
       <% flash.each do |message_type, message| %>
@@ -23,9 +21,7 @@
     <%= yield %>
     </main>
     <footer>
-    <!--<div class="footer">-->
       <%= render "layouts/footer" %>
-    <!--</div>-->
     </footer>
   </body>
 </html>

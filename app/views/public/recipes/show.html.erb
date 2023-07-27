@@ -34,13 +34,13 @@
                   <!--#simple_formatメソッドを使用して改行を反映させる-->
                   <%= simple_format(truncate(@recipe.body, length: 50, omission: '...')) %>
                 </a>
-
-               <style>
+                
+                <style>
                   .recipe-info {
                     margin-bottom: 10px;
                   }
                 </style>
-
+                
                 <!--#投稿者-->
                 <div class="recipe-info">
                   by <%= link_to @recipe.user.name, recipes_public_user_path(@recipe.user) %>
@@ -96,37 +96,37 @@
                   </div>
                 </div>
               </td>
-              </tr>
+            </tr>
 
-              <!-- 作り方の表示 -->
-              <tr>
-                <td class="col-md-12" colspan="3">
-                  <div class="form-group col-md-12">
-                    <h5>作り方</h5>
-                    <div class="row steps-container">
-                      <% @recipe.steps.each_with_index do |step, index| %>
-                        <div class="col-md-2">
-                          <%= content_tag(:div, class: "step") do %>
-                            <div class="step-image">
-                              <% if step.step_image.attached? %>
-                                <%= image_tag step.step_image, size: "100x100" %>
-                              <% else %>
-                                <!-- 画像が存在しない場合は何も表示しない -->
-                              <% end %>
-                              <div class="step-number">
-                                <strong><%= index + 1 %></strong>
-                              </div>
+            <!-- 作り方の表示 -->
+            <tr>
+              <td class="col-md-12" colspan="3">
+                <div class="form-group col-md-12">
+                  <h5>作り方</h5>
+                  <div class="row steps-container">
+                    <% @recipe.steps.each_with_index do |step, index| %>
+                      <div class="col-md-2">
+                        <%= content_tag(:div, class: "step") do %>
+                          <div class="step-image">
+                            <% if step.step_image.attached? %>
+                              <%= image_tag step.step_image, size: "100x100" %>
+                            <% else %>
+                              <!-- 画像が存在しない場合は何も表示しない -->
+                            <% end %>
+                            <div class="step-number">
+                              <strong><%= index + 1 %></strong>
                             </div>
-                            <div class="step-description">
-                              <%= simple_format(step.description) %>
-                            </div>
-                          <% end %>
-                        </div>
-                      <% end %>
-                    </div>
+                          </div>
+                          <div class="step-description">
+                            <%= simple_format(step.description) %>
+                          </div>
+                        <% end %>
+                      </div>
+                    <% end %>
                   </div>
-                </td>
-              </tr>
+                </div>
+              </td>
+            </tr>
 
             <!-- コメント -->
             <tr>
@@ -135,7 +135,7 @@
                 <% published_comments_count = @recipe.comments.where(is_deleted: false).count %>
                 <%= link_to "#{published_comments_count} 件のコメントをすべて見る", "#commentModal", data: { toggle: "modal" } %>
 
-                 <!-- コメント一覧のモーダルウィンドウ -->
+                <!-- コメント一覧のモーダルウィンドウ -->
                 <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">

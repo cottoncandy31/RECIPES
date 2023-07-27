@@ -2,8 +2,8 @@ class Admin::RecipesController < ApplicationController
   before_action :authenticate_admin!
   
   def index
-  # 新着順(投稿日降順)に並ぶよう指定し、ページネーションを設定
-  @recipes = Recipe.all.order(created_at: :desc).page(params[:page]).per(10)
+    # 新着順(投稿日降順)に並ぶよう指定し、ページネーションを設定
+    @recipes = Recipe.all.order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def show

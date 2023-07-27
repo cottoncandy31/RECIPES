@@ -2,41 +2,40 @@
   <div class="px-1 ml-md-2">
     <h5 class="bg-light text-center ml-5 mb-4" style="width: 130px;">会員一覧</h5>
   </div>
-  <div class="mx-auto col-10">
-
-  <div class="mb-3">
-  <%= form_tag(admin_users_path, method: :get) do %>
-    <div class="input-group">
-      <%= text_field_tag :search_email, params[:search_email], class: "form-control", placeholder: "メールアドレスで検索" %>
-      <button type="submit" class="btn btn-outline-primary">検索</button>
-    </div>
-  <% end %>
-  </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th class="bg-light">会員ID</td>
-            <th class="bg-light">ユーザー名</td>
-            <th class="bg-light">メールアドレス</td>
-            <th class="bg-light">ステータス</td>
-          </tr>
-          <% @users.each do |user| %>
-          <tr>
-            <td><%= user.id %></td>
-            <td class="link-black"><%= link_to user.name, admin_user_path(user) %></td>
-            <td><%= user.email %></td>
-            <% if user.is_deleted == false %>
-              <td class="text-success"><strong>有効</strong></td>
-            <% else %>
-              <td class="text-muted"><strong>退会</strong></td>
+    <div class="mx-auto col-10">
+      <div class="mb-3">
+        <%= form_tag(admin_users_path, method: :get) do %>
+          <div class="input-group">
+            <%= text_field_tag :search_email, params[:search_email], class: "form-control", placeholder: "メールアドレスで検索" %>
+            <button type="submit" class="btn btn-outline-primary">検索</button>
+          </div>
+        <% end %>
+      </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="bg-light">会員ID</td>
+              <th class="bg-light">ユーザー名</td>
+              <th class="bg-light">メールアドレス</td>
+              <th class="bg-light">ステータス</td>
+            </tr>
+            <% @users.each do |user| %>
+            <tr>
+              <td><%= user.id %></td>
+              <td class="link-black"><%= link_to user.name, admin_user_path(user) %></td>
+              <td><%= user.email %></td>
+              <% if user.is_deleted == false %>
+                <td class="text-success"><strong>有効</strong></td>
+              <% else %>
+                <td class="text-muted"><strong>退会</strong></td>
+              <% end %>
+            </tr>
             <% end %>
-          </tr>
-          <% end %>
-        </thead>
-      </table>
+          </thead>
+        </table>
       <!-- ページネーションの表示 -->
-    <div class="d-flex justify-content-center">
-      <%= paginate @users, theme: 'bootstrap-5' %>
+      <div class="d-flex justify-content-center">
+        <%= paginate @users, theme: 'bootstrap-5' %>
+      </div>
     </div>
-  </div>
 </div>

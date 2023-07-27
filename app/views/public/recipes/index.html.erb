@@ -1,16 +1,10 @@
-<!--<%# if @recipe.errors.any? %>-->
-<!--  <%#= @recipe.errors.count %>件のエラーが発生しました-->
-<!--  <ul>-->
-<!--    <%#= message %></li>-->
-<!--  </ul>-->
-<!--<%# end %>-->
 <div class="container col-xl-11 col-lg-9 my-4 px-sm-1">
   <div class="col-md-10 offset-md-1">
     <h3 class="bg-light text-center" style="width: 300px;">みんなのレシピ一覧</h3>
     <!--#ransack検索フォーム-->
     <%= search_form_for @q, url: public_recipes_path do |f| %>
       <!--#るtitle_or_body or user_name：検索キーワード。このrecipeモデルにあるtitle,body(カラム名)とUserモデルのuser_nameを記載している。
-     _cont：検索対象の属性に部分文字列が含まれているかどうかをチェックするために使用している。/RECIPES/app/models/recipe.rbに検索に関する内容を記載-->
+      _cont：検索対象の属性に部分文字列が含まれているかどうかをチェックするために使用している。/RECIPES/app/models/recipe.rbに検索に関する内容を記載-->
       <div class="d-md-flex justify-content-md-between flex-md-wrap">
         <div class="form-group" style="width: 60%;">
           <!-- キーワード検索フォーム -->
@@ -47,48 +41,48 @@
             <th></th>
           </tr>
         </thead>
+        
         <tbody>
-  <% @recipes.each do |recipe| %>
-    <tr>
-      <% if recipe.is_deleted == false %>
-        <td></td>
-        <td>
-          <% if recipe.post_image.attached? %>
-            <%= link_to public_recipe_path(recipe) do %>
-              <%= image_tag recipe.post_image, size: "100x100" %>
-            <% end %>
-          <% else %>
-            <!-- 画像が存在しない場合も100px×100pxの間隔を空けるように設定 -->
-            <div style="width: 100px; height: 100px;"></div>
+          <% @recipes.each do |recipe| %>
+            <tr>
+              <% if recipe.is_deleted == false %>
+                <td></td>
+                <td>
+                  <% if recipe.post_image.attached? %>
+                    <%= link_to public_recipe_path(recipe) do %>
+                      <%= image_tag recipe.post_image, size: "100x100" %>
+                    <% end %>
+                  <% else %>
+                    <!-- 画像が存在しない場合も100px×100pxの間隔を空けるように設定 -->
+                    <div style="width: 100px; height: 100px;"></div>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to public_recipe_path(recipe) do %>
+                    <%= recipe.title %>
+                  <% end %>
+                </td>
+                <!-- ジャンル名の記載 -->
+                <td><%= recipe.genre.name %></td>
+                <!-- 投稿者名の記載 -->
+                <td>by <%= link_to recipe.user.name, recipes_public_user_path(recipe.user) %></td>
+                <!-- 価格帯の記載 -->
+                <td><%= recipe.price_range.name %></td>
+                <!-- 投稿日時の記載 -->
+                <td><%= recipe.created_at.strftime('%Y/%m/%d') %></td>
+                <!-- ♯いいね機能の実装 -->
+                <td id="recipe_favorite-btn_<%= recipe.id %>"><%= render "public/favorites/favorite-btn", recipe: recipe %></td>
+              <% else %>
+                <td></td>
+                <td>
+                  <!-- 管理者によって投稿が削除された場合でも100px×100pxの間隔を空けるように設定 -->
+                  <div style="width: 100px; height: 100px;"></div>
+                </td>
+                <td class="text-muted" colspan="5">管理者によって投稿が削除されました</td>
+              <% end %>
+            </tr>
           <% end %>
-        </td>
-        <td>
-          <%= link_to public_recipe_path(recipe) do %>
-            <%= recipe.title %>
-          <% end %>
-        </td>
-        <!-- ジャンル名の記載 -->
-        <td><%= recipe.genre.name %></td>
-        <!-- 投稿者名の記載 -->
-        <td>by <%= link_to recipe.user.name, recipes_public_user_path(recipe.user) %></td>
-        <!-- 価格帯の記載 -->
-        <td><%= recipe.price_range.name %></td>
-        <!-- 投稿日時の記載 -->
-        <td><%= recipe.created_at.strftime('%Y/%m/%d') %></td>
-        <!-- ♯いいね機能の実装 -->
-        <td id="recipe_favorite-btn_<%= recipe.id %>"><%= render "public/favorites/favorite-btn", recipe: recipe %></td>
-      <% else %>
-        <td></td>
-        <td>
-          <!-- 管理者によって投稿が削除された場合でも100px×100pxの間隔を空けるように設定 -->
-          <div style="width: 100px; height: 100px;"></div>
-        </td>
-        <td class="text-muted" colspan="5">管理者によって投稿が削除されました</td>
-      <% end %>
-    </tr>
-  <% end %>
-</tbody>
-
+        </tbody>
       </table>
     </div>
     <!-- ページネーションの表示 -->

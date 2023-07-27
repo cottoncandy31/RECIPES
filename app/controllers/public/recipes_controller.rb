@@ -45,8 +45,8 @@ class Public::RecipesController < ApplicationController
       # デフォルトではis_deleted: trueも含めて表示する
       @recipes = @recipes.or(Recipe.where(is_deleted: true))
 
-      # 人気順
       if params[:most_favorited]
+        # 人気順に並ぶよう指定
         @recipes = @recipes.most_favorited
       else
         # 新着順(投稿日降順)に並ぶよう指定
@@ -62,7 +62,7 @@ class Public::RecipesController < ApplicationController
   end
 
   def show
-    #退会済みユーザーのレシピ詳細画面へリンクからアクセスした際に「レシピがありません」と表示するよう設定している。
+    #退会済みユーザーのレシピ詳細画面へ直接リンクからアクセスした際に「レシピがありません」と表示するよう設定している。
     #find_by(id: params[:id])を記述することで、削除済みレシピに対して@recipeにnilが代入されエラー画面が表示されないように設定
     @recipe = Recipe.find_by(id: params[:id])
     @comment = Comment.new

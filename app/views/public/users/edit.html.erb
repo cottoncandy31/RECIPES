@@ -3,9 +3,8 @@
     <h5 class="bg-light text-center ml-5 mb-4" style="width: 160px;">登録情報編集</h5>
   </div>
   <div class="col-sm-12 col-md-11 col-lg-11 col-xl-9 px-sm-0 px-md-1 mt-3">
-
     <%= form_with(model: @user, url: public_user_path(@user)) do |f| %>
-    
+
       <% if @user.errors.any? %>
           <%= @user.errors.count %>件のエラーが発生しました
           <ul>
