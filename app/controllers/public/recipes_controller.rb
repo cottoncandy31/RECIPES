@@ -34,17 +34,15 @@ class Public::RecipesController < ApplicationController
       end
       #ransack検索機能のための記述
       @q = Recipe.ransack(search_params)
-      #検索後、管理者によって既に削除された投稿は表示させないようにしている
-      @recipes = @q.result.where(is_deleted: false)
+      #検索後、管理者によって既に削除された投稿と退会済みユーザーの投稿は表示させないようにしている
+      @recipes = @q.result.joins(:user).where(is_deleted: false, users: { is_deleted: false })
     else
       #ransack検索機能をかけていない場合
       @q = Recipe.ransack(nil)
       #退会済みユーザーのデータは非公開にしている
       @recipes = Recipe.published
-
       # デフォルトではis_deleted: trueも含めて表示する
       @recipes = @recipes.or(Recipe.where(is_deleted: true))
-
       if params[:most_favorited]
         # 人気順に並ぶよう指定
         @recipes = @recipes.most_favorited
@@ -53,7 +51,6 @@ class Public::RecipesController < ApplicationController
         @recipes = @recipes.latest
       end
     end
-
     if params[:most_favorited]
       @recipes = Kaminari.paginate_array(@recipes).page(params[:page]).per(10)
     else
