@@ -150,20 +150,18 @@
                           <div class="row">
                             <!--#会員ステータスが有効且つ管理者によってコメントが削除されていない場合-->
                             <% if comment.user.is_deleted == false && comment.is_deleted == false %>
-                              <div class="col-12">
+                              <div class="col-8" style="margin-top: 20px">
                                 <%= simple_format(comment.comment) %>
                               </div>
-                              <div class="col-12">
-                                by <%= link_to comment.user.name, recipes_public_user_path(comment.user) %>
+                              <div class="col-4" style="margin-top: 20px">
+                                by <%= link_to comment.user.name, recipes_public_user_path(comment.user) %><br>
+                                <% if comment.user == current_user %>
+                                  <%= link_to "削除", public_recipe_comment_path(comment.recipe, comment), method: :delete, data: { confirm: '本当に消しますか？' } %>
+                                <% end %>
                               </div>
-                              <% if comment.user == current_user %>
-                              <div class="col-12">
-                                <%= link_to "削除", public_recipe_comment_path(comment.recipe, comment), method: :delete, data: { confirm: '本当に消しますか？' } %>
-                              </div>
-                              <% end %>
                             <!--#会員ステータスが有効且つ管理者によってコメントが削除された場合-->
                             <% elsif comment.user.is_deleted == false && comment.is_deleted == true %>
-                              <div class="col-12">
+                              <div class="col-12" style="margin-top: 20px">
                                 <p class="text-muted">管理者によってコメントが削除されました</p>
                               </div>
                             <!--#会員ステータスが退会済みの場合-->
