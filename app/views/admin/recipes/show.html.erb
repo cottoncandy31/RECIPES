@@ -41,7 +41,8 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <%= @recipe.body %>
+                  <!--#simple_formatメソッドを使用して改行を反映させる-->
+                  <%= simple_format(@recipe.body) %>
                 </div>
               </div>
             </div>
