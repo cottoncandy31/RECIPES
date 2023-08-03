@@ -94,7 +94,7 @@ class Public::RecipesController < ApplicationController
   def update
     @recipe = Recipe.find(params[:id])
     tags = Vision.get_image_data(recipe_params[:post_image]) #Google Vision API (画像認識)
-    if tags.include?("Food") || tags.include?("Ingredien") || tags.include?("Recipe")
+    if tags.include?("Food") || tags.include?("Ingredien") || tags.include?("Recipe") || tags.include?("Tableware") || tags.include?("Dishware") || tags.include?("Drinkware")
       # 3. データをデータベースに保存するためのsaveメソッド実行
       if @recipe.update(recipe_params)
         @recipe.tags.destroy_all
