@@ -27,7 +27,7 @@ class Public::RecipesController < ApplicationController
         render :new
       end
     else
-      flash[:notice] = "不適切な画像を検知しました。"
+      flash[:alert] = "不適切な画像を検知しました。"
       render :new
     end
   end
@@ -109,7 +109,7 @@ class Public::RecipesController < ApplicationController
         render :edit
       end
     else
-      flash[:notice] = "不適切な画像を検知しました。"
+      flash[:alert] = "不適切な画像を検知しました。"
       render :edit
     end
   end
