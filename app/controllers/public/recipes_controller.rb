@@ -83,7 +83,13 @@ class Public::RecipesController < ApplicationController
 
   def update
     @recipe = Recipe.find(params[:id])
+    tags = Vision.get_image_data(recipe_params[:post_image]) #Google Vision API (画像認識)
+    # 3. データをデータベースに保存するためのsaveメソッド実行
     if @recipe.update(recipe_params)
+      @recipe.tags.destroy_all
+      tags.each do |tag|
+        @recipe.tags.create(name: tag)
+      end
       flash[:notice] = "投稿を更新しました"
       #レシピ詳細画面へ遷移する
       redirect_to public_recipe_path

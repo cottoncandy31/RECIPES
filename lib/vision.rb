@@ -5,7 +5,7 @@ require 'net/https'
 module Vision
   class << self
     def get_image_data(image_file)
-      # APIのURL作成
+      # APIのURL作成(デプロイ時に動作するように、credentialsファイルにAPIキーを入力)
       api_url = "https://vision.googleapis.com/v1/images:annotate?key=#{Rails.application.credentials.vision_api_key}"
 
       # 画像をbase64にエンコード
