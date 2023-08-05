@@ -23,7 +23,7 @@
                     <%= link_to public_recipe_path(@recipe) do %>
                       <%= image_tag @recipe.post_image, size: "300x300" %>
                     <% end %>
-  
+
                     <!--#Google Vision API -->
                     <div class="tag-box">
                       <!--<#%= @recipeTags.include?("Food") %>-->
@@ -31,7 +31,7 @@
                         <span class="label"><%= tag %></span>
                       <% end %>
                     </div>
-                    
+
                   <% else %>
                     <!-- 画像が存在しない場合は何も表示しない -->
                   <% end %>
@@ -97,8 +97,11 @@
                         <div class="col text-left">
                           <%= item[:name] %>
                         </div>
-                        <div class="col text-right">
+                        <div class="col text-center">
                           <%= item[:quantity] %>
+                        </div>
+                        <div class="col text-right">
+                          <%= item[:price] %>
                         </div>
                       <% end %>
                     <% end %>

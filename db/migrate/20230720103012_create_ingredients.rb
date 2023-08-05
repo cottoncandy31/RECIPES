@@ -4,6 +4,7 @@ class CreateIngredients < ActiveRecord::Migration[6.1]
       t.integer :recipe_id, null: false
       t.string :name
       t.string :quantity
+      t.string :price
       t.timestamps
     end
   end
