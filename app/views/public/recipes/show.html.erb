@@ -122,8 +122,8 @@
 
                               <!--#Google Vision API -->
                               <div class="tag-box">
-                                <%= @recipe.tags.include?("Recipe") %>
-                                <% @recipe.tags.each do |tag| %>
+                                <%#= step.tags.include?("Recipe") %>
+                                <% step.tags.each do |tag| %>
                                   <span class="label"><%= tag.name %></span>
                                 <% end %>
                               </div>

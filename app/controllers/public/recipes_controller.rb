@@ -14,7 +14,7 @@ class Public::RecipesController < ApplicationController
     @recipe = Recipe.new(recipe_params)
     @recipe.user_id = current_user.id
     tags = Vision.get_image_data(recipe_params[:post_image]) #Google Vision API (画像認識)
-    if tags.include?("Food") || tags.include?("Ingredien") || tags.include?("Recipe")
+    if tags.include?("Food") || tags.include?("Ingredien") || tags.include?("Recipe") || tags.include?("Tableware") || tags.include?("Dishware") || tags.include?("Drinkware")
       # 3. データをデータベースに保存するためのsaveメソッド実行
       if @recipe.save
         tags.each do |tag|
@@ -93,23 +93,46 @@ class Public::RecipesController < ApplicationController
 
   def update
     @recipe = Recipe.find(params[:id])
-    tags = Vision.get_image_data(recipe_params[:post_image]) #Google Vision API (画像認識)
-    if tags.include?("Food") || tags.include?("Ingredien") || tags.include?("Recipe") || tags.include?("Tableware") || tags.include?("Dishware") || tags.include?("Drinkware")
-      # 3. データをデータベースに保存するためのsaveメソッド実行
-      if @recipe.update(recipe_params)
-        @recipe.tags.destroy_all
-        tags.each do |tag|
-          @recipe.tags.create(name: tag)
+    # step_imageのtagが更新される場合とされない場合の処理
+    recipe_params[:steps_attributes].each do |step_param|
+      if step_param[1][:id]
+        if step_param[1][:step_image].present?
+          Tag.where(step_id: step_param[1][:id]).destroy_all
+          step_tags = Vision.get_image_data(step_param[1][:step_image])
+          if step_tags.include?("Food") || step_tags.include?("Ingredien") || step_tags.include?("Recipe") || step_tags.include?("Tableware") || step_tags.include?("Dishware") || step_tags.include?("Drinkware")
+            step_tags.each do |tag|
+              Tag.create!(name: tag, step_id: step_param[1][:id])
+            end
+          else
+            flash[:alert] = "不適切な画像を検知しました"
+            render :edit
+            return
+          end
         end
-        flash[:notice] = "投稿を更新しました"
-        #レシピ詳細画面へ遷移する
-        redirect_to public_recipe_path
-      else
-        flash[:alert] = "投稿の更新に失敗しました"
-        render :edit
       end
+    end
+    # post_imageのtagが更新される場合とされない場合の処理
+    tags = []
+    if recipe_params[:post_image].present?
+      tags = Vision.get_image_data(recipe_params[:post_image]) # Google Vision API (画像認識)
+      if tags.include?("Food") || tags.include?("Ingredien") || tags.include?("Recipe") || tags.include?("Tableware") || tags.include?("Dishware") || tags.include?("Drinkware")
+      else
+        flash[:alert] = "不適切な画像を検知しました"
+        render :edit
+        return
+      end
+      @recipe.tags.destroy_all
+    end
+    # レシピのアップデート(上書き)処理
+    if @recipe.update(recipe_params)
+      tags.each do |tag|
+        @recipe.tags.create(name: tag)
+      end
+      flash[:notice] = "投稿を更新しました"
+      # レシピ詳細画面へ遷移する
+      redirect_to public_recipe_path
     else
-      flash[:alert] = "不適切な画像を検知しました。"
+      flash[:alert] = "投稿の更新に失敗しました"
       render :edit
     end
   end

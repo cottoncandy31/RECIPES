@@ -1,0 +1,33 @@
+
+[1mFrom:[0m /home/ec2-user/environment/RECIPES/app/controllers/public/recipes_controller.rb:97 Public::RecipesController#update:
+
+     [1;34m94[0m: [32mdef[0m [1;34mupdate[0m
+     [1;34m95[0m:   @recipe = [1;34;4mRecipe[0m.find(params[[33m:id[0m])
+     [1;34m96[0m:   binding.pry
+ =>  [1;34m97[0m:   tags = [1;34;4mVision[0m.get_image_data(recipe_params[[33m:post_image[0m]) [1;34m#Google Vision API (画像認識)[0m
+     [1;34m98[0m:   recipe_params[[33m:steps_attributes[0m].each [32mdo[0m |step_param|
+     [1;34m99[0m:     step_tags = [1;34;4mVision[0m.get_image_data(step_param[[33m:step_image[0m])
+    [1;34m100[0m:     step_tags.each [32mdo[0m |tag|
+    [1;34m101[0m:       [1;34;4mTag[0m.create!([35mname[0m: tag, [35mstep_id[0m: step_param[[33m:id[0m]) [32mif[0m step_param[[33m:id[0m]
+    [1;34m102[0m:     [32mend[0m
+    [1;34m103[0m:   [32mend[0m
+    [1;34m104[0m:   [32mif[0m tags.include?([31m[1;31m"[0m[31mFood[1;31m"[0m[31m[0m) || tags.include?([31m[1;31m"[0m[31mIngredien[1;31m"[0m[31m[0m) || tags.include?([31m[1;31m"[0m[31mRecipe[1;31m"[0m[31m[0m) || tags.include?([31m[1;31m"[0m[31mTableware[1;31m"[0m[31m[0m) || tags.include?([31m[1;31m"[0m[31mDishware[1;31m"[0m[31m[0m) || tags.include?([31m[1;31m"[0m[31mDrinkware[1;31m"[0m[31m[0m)
+    [1;34m105[0m:     [1;34m# 3. データをデータベースに保存するためのsaveメソッド実行[0m
+    [1;34m106[0m:     [32mif[0m @recipe.update(recipe_params)
+    [1;34m107[0m:       @recipe.tags.destroy_all
+    [1;34m108[0m:       tags.each [32mdo[0m |tag|
+    [1;34m109[0m:         @recipe.tags.create([35mname[0m: tag)
+    [1;34m110[0m:       [32mend[0m
+    [1;34m111[0m:       flash[[33m:notice[0m] = [31m[1;31m"[0m[31m投稿を更新しました[1;31m"[0m[31m[0m
+    [1;34m112[0m:       [1;34m#レシピ詳細画面へ遷移する[0m
+    [1;34m113[0m:       redirect_to public_recipe_path
+    [1;34m114[0m:     [32melse[0m
+    [1;34m115[0m:       flash[[33m:alert[0m] = [31m[1;31m"[0m[31m投稿の更新に失敗しました[1;31m"[0m[31m[0m
+    [1;34m116[0m:       render [33m:edit[0m
+    [1;34m117[0m:     [32mend[0m
+    [1;34m118[0m:   [32melse[0m
+    [1;34m119[0m:     flash[[33m:alert[0m] = [31m[1;31m"[0m[31m不適切な画像を検知しました。[1;31m"[0m[31m[0m
+    [1;34m120[0m:     render [33m:edit[0m
+    [1;34m121[0m:   [32mend[0m
+    [1;34m122[0m: [32mend[0m
+
