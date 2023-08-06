@@ -166,7 +166,7 @@ class Public::RecipesController < ApplicationController
   private
   # GemのCocoonで使用するために、ingredients_attributes以下のコードを記載
   def recipe_params
-    params.require(:recipe).permit(:title, :body, :post_image, :genre_id, :price_range_id, :steps, :description, ingredients_attributes: [:id, :name, :quantity, :price, :_destroy], steps_attributes: [:id, :description, :step_image, :_destroy])
+    params.require(:recipe).permit(:title, :body, :serving, :cooking_time, :post_image, :genre_id, :price_range_id, :steps, :description, ingredients_attributes: [:id, :name, :quantity, :price, :_destroy], steps_attributes: [:id, :description, :step_image, :_destroy])
   end
 
   #他のユーザーからのアクセスを制限する(editアクションで使用)

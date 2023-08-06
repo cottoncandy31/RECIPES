@@ -25,7 +25,18 @@
             <%= f.text_area :body, class: "form-control" %>
           </div>
         </div>
-
+        
+        <div class="row">
+          <div class="form-group col-md-6">
+            <h5>何人前</h5>
+            <%= f.text_field :serving, class: "form-control" %>
+          </div>
+          <div class="form-group col-md-6">
+            <h5>調理時間</h5>
+            <%= f.text_field :cooking_time, class: "form-control" %>
+          </div>
+        </div>
+        
         <div class="row">
           <div class="form-group col-md-6">
             <h5>画像</h5>

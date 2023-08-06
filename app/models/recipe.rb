@@ -13,7 +13,9 @@ class Recipe < ApplicationRecord
   has_many :tags, dependent: :destroy
   
   validates :title, presence: true, length: { maximum: 50 }
-  validates :body, presence: true, length: { maximum: 300 }
+  validates :body, length: { maximum: 300 }
+  validates :serving, presence: true, length: { maximum: 20 }
+  validates :cooking_time, length: { maximum: 20 }
   
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)

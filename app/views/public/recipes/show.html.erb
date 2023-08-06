@@ -39,24 +39,30 @@
 
               <!-- 説明 -->
               <td class="col-md-4">
+                <!--#何人前-->
+                <div class="recipe-info">
+                  <h6><%= @recipe.serving %></h6>
+                </div>
+                <!--#調理時間-->
+                <div class="recipe-info">
+                  <h6>調理時間：<%= @recipe.cooking_time %></h6>
+                </div>
+                <!--#材料費-->
+                <div class="recipe-info">
+                  <h6>材料費/人：<%= @recipe.price_range.name %></h6>
+                </div>
                 <a href="#" data-toggle="modal" data-target="#descriptionModal">
                   <!--#simple_formatメソッドを使用して改行を反映させる-->
                   <%= simple_format(truncate(@recipe.body, length: 50, omission: '...')) %>
                 </a>
-
                 <style>
                   .recipe-info {
                     margin-bottom: 10px;
                   }
                 </style>
-
                 <!--#投稿者-->
                 <div class="recipe-info">
                   by <%= link_to @recipe.user.name, recipes_public_user_path(@recipe.user) %>
-                </div>
-                <!--#材料費-->
-                <div class="recipe-info">
-                  <h6>材料費/人：<%= @recipe.price_range.name %></h6>
                 </div>
                 <!--#いいね機能の実装-->
                 <!--#非同期通信化/renderで呼び出している。-->

@@ -4,7 +4,7 @@
       <div class="px-1 ml-md-2">
         <h3 class="bg-light" style="max-width: 180px;">レシピの編集</h3>
           <%= form_with model: @recipe, url: public_recipe_path(@recipe.id), method: :patch do |f| %>
-          
+
             <% if @recipe.errors.any? %>
               <%= @recipe.errors.count %>件のエラーが発生しました
               <ul>
@@ -13,7 +13,7 @@
                 <% end %>
               </ul>
             <% end %>
-          
+
             <div class="form-group" style="max-width: 400px;">
               <h5>画像</h5>
               <% if @recipe.post_image.attached? %>
@@ -35,6 +35,16 @@
             <div class="form-group" style="max-width: 400px;">
               <h5>紹介文</h5>
               <%= f.text_area :body, class: "form-control" %>
+            </div>
+
+            <div class="form-group" style="max-width: 400px;">
+              <h5>何人前</h5>
+              <%= f.text_field :serving, class: "form-control" %>
+            </div>
+
+            <div class="form-group" style="max-width: 400px;">
+              <h5>調理時間</h5>
+              <%= f.text_field :cooking_time, class: "form-control" %>
             </div>
 
             <div class="form-group" style="max-width: 400px;">
