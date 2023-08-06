@@ -5,12 +5,17 @@ require 'net/https'
 module Vision
   class << self
     def get_image_data(image_file)
+
       # APIのURL作成(デプロイ時に動作するように、credentialsファイルにAPIキーを入力)
       api_url = "https://vision.googleapis.com/v1/images:annotate?key=#{Rails.application.credentials.vision_api_key}"
-
       # 画像をbase64にエンコード
-      base64_image = Base64.encode64(image_file.tempfile.read)
-
+      if image_file.respond_to?(:tempfile)
+        base64_image = Base64.encode64(image_file.tempfile.read)
+      else
+        key = image_file.key
+        dir_tree = [key[0, 2], key[2, 2]]
+        base64_image = Base64.encode64(open("#{Rails.root}/storage/#{dir_tree[0]}/#{dir_tree[1]}/#{image_file.key}").read)
+      end
       # APIリクエスト用のJSONパラメータ
       params = {
         requests: [{
