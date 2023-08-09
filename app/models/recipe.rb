@@ -2,6 +2,7 @@ class Recipe < ApplicationRecord
   has_one_attached :post_image
   belongs_to :user
   has_many :comments, dependent: :destroy
+  has_many :valid_comments, -> { joins(:user).where(is_deleted: false).where(user:{is_deleted: false})}, class_name:'Comment'
   has_many :favorites, dependent: :destroy
   belongs_to :genre
   belongs_to :price_range

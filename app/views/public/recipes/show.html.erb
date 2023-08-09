@@ -158,9 +158,8 @@
             <!-- コメント -->
             <tr>
               <td class="col-md-12" colspan="3">
-                <!--#publishedで現在有効であるユーザーのコメントを表示。またis_deleted: falseで管理者によって削除されたコメントは件数に含まないように設定-->
-                <% published_comments_count = @recipe.comments.where(is_deleted: false).count - @comment_user_delete_count %>
-                <%= link_to "#{published_comments_count} 件のコメントをすべて見る", "#commentModal", data: { toggle: "modal" } %>
+                <!--#/RECIPES/app/models/recipe.rbにvalid_commentsを記載。コメントがis_deleted: false且つユーザーがis_deleted: falseのコメントを表示-->
+                <%= link_to "#{@recipe.valid_comments.count} 件のコメントをすべて見る", "#commentModal", data: { toggle: "modal" } %>
 
                 <!-- コメント一覧のモーダルウィンドウ -->
                 <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">

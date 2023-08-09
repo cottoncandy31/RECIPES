@@ -10,7 +10,9 @@ class Public::RecipesController < ApplicationController
   end
 
   def create
-    # １.&2. データを受け取り新規登録するためのインスタンス作成
+    @recipe = Recipe.new(recipe_params)
+    @recipe.user_id = current_user.id
+    #「作り方」に添付する画像の画像認識処理
     step_tags = []
     recipe_params[:steps_attributes].each.with_index do |step_param, i|
       if step_param[1][:step_image].present?
@@ -26,28 +28,38 @@ class Public::RecipesController < ApplicationController
         end
       end
     end
-    @recipe = Recipe.new(recipe_params)
-    @recipe.user_id = current_user.id
-    tags = Vision.get_image_data(recipe_params[:post_image]) #Google Vision API (画像認識)
-    if tags.include?("Food") || tags.include?("Ingredien") || tags.include?("Recipe") || tags.include?("Tableware") || tags.include?("Dishware") || tags.include?("Drinkware")
-      # 3. データをデータベースに保存するためのsaveメソッド実行
+    # レシピ画像の画像認識処理
+    if recipe_params[:post_image].present?
+      tags = Vision.get_image_data(recipe_params[:post_image]) #Google Vision API (画像認識)
+      if tags.include?("Food") || tags.include?("Ingredien") || tags.include?("Recipe") || tags.include?("Tableware") || tags.include?("Dishware") || tags.include?("Drinkware")
+        # データをデータベースに保存するためのsaveメソッド実行
+        if @recipe.save
+          tags.each do |tag|
+            @recipe.tags.create(name: tag)
+          end
+          step_tags.each do |tag |
+            step = @recipe.steps.order(id: :asc)[tag[:index]]
+            Tag.create!(name: tag[:name], step_id: step.id)
+          end
+          flash[:notice] = "投稿を作成しました"
+          # 4. レシピ一覧画面へリダイレクト
+          redirect_to public_recipes_path
+        else
+          render :new
+        end
+      else
+        flash[:alert] = "不適切な画像を検知しました。"
+        render :new
+      end
+    #画像の添付がない場合の処理
+    else
       if @recipe.save
-        tags.each do |tag|
-          @recipe.tags.create(name: tag)
-        end
-        step_tags.each do |tag |
-          step = @recipe.steps.order(id: :asc)[tag[:index]]
-          Tag.create!(name: tag[:name], step_id: step.id)
-        end
         flash[:notice] = "投稿を作成しました"
         # 4. レシピ一覧画面へリダイレクト
         redirect_to public_recipes_path
       else
         render :new
       end
-    else
-      flash[:alert] = "不適切な画像を検知しました。"
-      render :new
     end
   end
 
@@ -92,13 +104,6 @@ class Public::RecipesController < ApplicationController
     @recipe = Recipe.find_by(id: params[:id])
     #退会済みユーザーかどうか、/RECIPES/app/views/public/recipes/show.html.erbの冒頭で確かめるために@userを定義している
     @user = @recipe.user
-
-    @comment_user_delete_count = 0
-    @recipe.comments.each do |comment|
-      if comment.user.is_deleted == true
-        @comment_user_delete_count += 1
-      end
-    end
     @recipeTags = []
     @recipe.tags.each do |tag|
       @recipeTags.push(tag.name)
@@ -112,7 +117,7 @@ class Public::RecipesController < ApplicationController
 
   def update
     @recipe = Recipe.find(params[:id])
-    # step_imageのtagが更新される場合とされない場合の処理
+    #「作り方」に添付する画像の画像認識処理
     recipe_params[:steps_attributes].each do |step_param|
       if step_param[1][:step_image].present?
         step_tags = Vision.get_image_data(step_param[1][:step_image])
@@ -123,35 +128,45 @@ class Public::RecipesController < ApplicationController
         end
       end
     end
-    # post_imageのtagが更新される場合とされない場合の処理
     if recipe_params[:post_image].present?
+      # レシピ画像の画像認識処理
       tags = Vision.get_image_data(recipe_params[:post_image]) # Google Vision API (画像認識)
       unless tags.include?("Food") || tags.include?("Ingredien") || tags.include?("Recipe") || tags.include?("Tableware") || tags.include?("Dishware") || tags.include?("Drinkware")
         flash[:alert] = "不適切な画像を検知しました"
         render :edit
         return
       end
-    end
-    # # レシピのアップデート(上書き)処理
-    if @recipe.update(recipe_params)
-      @recipe.tags.destroy_all
-      tags = Vision.get_image_data(@recipe.post_image) 
-      tags.each do |tag|
-        @recipe.tags.create(name: tag)
-      end
-      @recipe.steps.each do | step | 
-        step.tags.destroy_all
-        tags = Vision.get_image_data(step.step_image) 
+      # レシピ画像が添付されている場合のアップデート処理
+      if @recipe.update(recipe_params)
+        @recipe.tags.destroy_all
+        tags = Vision.get_image_data(@recipe.post_image) 
         tags.each do |tag|
-          step.tags.create(name: tag)
+          @recipe.tags.create(name: tag)
         end
+        @recipe.steps.each do | step | 
+          step.tags.destroy_all
+          tags = Vision.get_image_data(step.step_image) 
+          tags.each do |tag|
+            step.tags.create(name: tag)
+          end
+        end
+        flash[:notice] = "投稿を更新しました"
+        # レシピ詳細画面へ遷移する
+        redirect_to public_recipe_path
+      else
+        flash[:alert] = "投稿の更新に失敗しました"
+        render :edit
       end
-      flash[:notice] = "投稿を更新しました"
-      # レシピ詳細画面へ遷移する
-      redirect_to public_recipe_path
     else
+      #画像の添付がない場合のアップデート処理
+      if @recipe.update(recipe_params)
+        flash[:notice] = "投稿を更新しました"
+        # レシピ詳細画面へ遷移する
+        redirect_to public_recipe_path
+      else
       flash[:alert] = "投稿の更新に失敗しました"
       render :edit
+      end
     end
   end
 
