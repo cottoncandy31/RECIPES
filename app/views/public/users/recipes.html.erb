@@ -29,6 +29,18 @@
               <% end %>
             <% end %>
           </div>
+          <div class="ml-5">
+            <% if @user != current_user %>
+              <% if current_user.reporter.exists?(reported_id: @user.id) %>
+                <%= button_tag "通報済み", class: "btn btn-secondary", disabled: true %>
+              <% else %>
+                <%= form_with model: @report, url: public_user_reports_create_path(@user), method: :post do |f| %>
+                  <h6>通報理由を以下にご記入ください。</h6>
+                  <%= f.text_field :reason, class: "form-control" %>
+                  <%= f.submit "ユーザーを通報" %>
+                <% end %>
+              <% end %>
+            <% end %>
         </div>
       </div>
     </div>

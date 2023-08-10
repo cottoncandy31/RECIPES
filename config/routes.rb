@@ -1,4 +1,15 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get 'report/index'
+    get 'report/show'
+    get 'report/update'
+  end
+  namespace :public do
+    get 'report/create'
+    get 'report/destroy'
+  end
+  get 'report/create'
+  get 'report/destroy'
   #ゲストログインのためのルーティングを設定
   devise_scope :user do
     post "users/guest_sign_in", to: "public/sessions#guest_sign_in"
@@ -33,6 +44,8 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show, :update] do
       # ユーザー検索のルーティングを追加
       get '/users', to: 'users#index'
+      # 通報機能のルーティングを追加
+      resources :reports, only: [:index, :show, :update]
     end
     resources :recipes, only: [:index, :show, :update] do
       resources :comments, only: [:update]
@@ -52,12 +65,18 @@ Rails.application.routes.draw do
         get 'recipes'
         get 'followings'
         get 'followers'
+        get 'reporter'
+        get 'reported'
       end
       #フォロー・フォロワー機能のためのルーティング
       resource :relationships, only: [:create, :destroy]
       get 'followings' => 'relationships#followings', as: 'followings'
       get 'followers' => 'relationships#followers', as: 'followers'
       resources :bookmarked_recipes, only: [:index]
+      #通報機能のためのルーティング
+      post 'reports' => 'report#create', as: 'reports_create'
+      get 'reporter' => 'reports#reporter', as: 'reporter'
+      get 'reported' => 'reports#reported', as: 'reported'
     end
     resources :recipes, except: [:destroy] do
       resources :comments, only: [:create, :edit, :update, :destroy]

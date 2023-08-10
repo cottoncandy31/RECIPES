@@ -34,6 +34,7 @@ class Public::UsersController < ApplicationController
     @users = @user.followings.published + @user.followers.published
     #下記、@userの投稿ページにその人のレシピ投稿のみ表示させるためのインスタンス変数
     @recipes = Recipe.where(user_id: @user.id)
+    @report = Report.new
   end
 
   def followings
