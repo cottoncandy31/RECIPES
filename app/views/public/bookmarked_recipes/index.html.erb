@@ -9,19 +9,27 @@
     </div>
   <% else %>
     <% @recipes.each do |bookmarked_recipe| %>
-      <div class="col-md-3 col-sm-6 mb-4">
-        <%= link_to public_recipe_path(bookmarked_recipe.id) do %>
+      <% if bookmarked_recipe.is_deleted == false %>
+        <div class="col-md-3 col-sm-6 mb-4">
+          <%= link_to public_recipe_path(bookmarked_recipe.id) do %>
+            <div class="d-flex flex-column align-items-center">
+              <% if bookmarked_recipe.post_image.attached? %>
+                <%= image_tag bookmarked_recipe.post_image, size: "200x200" %><br>
+              <% else %>
+                <!-- 画像が存在しない場合も200px×200pxの間隔を空けるように設定 -->
+                <div style="width: 200px; height: 200px;"></div><br>
+              <% end %>
+              レシピ名：<%= bookmarked_recipe.title %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="col-6 col-md-3 col-lg-2">
           <div class="d-flex flex-column align-items-center">
-            <% if bookmarked_recipe.post_image.attached? %>
-              <%= image_tag bookmarked_recipe.post_image, size: "200x200" %><br>
-            <% else %>
-              <!-- 画像が存在しない場合も200px×200pxの間隔を空けるように設定 -->
-              <div style="width: 200px; height: 200px;"></div><br>
-            <% end %>
-            レシピ名：<%= bookmarked_recipe.title %>
+            <td class="text-muted">管理者によって投稿が削除されました</td>
           </div>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
 </div>

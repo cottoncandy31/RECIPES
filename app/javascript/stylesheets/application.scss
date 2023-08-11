@@ -21,6 +21,8 @@ body {
   display: flex;
   //横並びのものを縦並びに設定
   flex-direction: column;
+  //body部分の背景色
+  background: #fdf9f2;
 }
 
 footer {
@@ -44,15 +46,15 @@ footer {
 // #Bootstrap上で特定の色を指定できるように、/cooking_recipes/app/views/layouts/_header.html.erbにbg-testというクラス名を作成している
 // このファイル上でbackground-colorを指定している
 .bg-test {
-  background-color: #ffdab9;
+  background-color: #b75e21;
 }
 
 // ヘッダー部分のメニューボタンに関するレイアウト
 .btn-custom {
-  color: #000000; /* ボタンのテキストの色 */
-  background-color: #ffdab9; /* ボタンの通常時の背景色 */
-  border-color: #f08300;
-  transition: background-color 0.3s ease; /* アニメーションの設定 */
+  color: #fff; /* ボタンのテキストの色 */
+  // background-color: #ffdab9; /* ボタンの通常時の背景色 */
+  // border-color: #f08300;
+  // transition: background-color 0.3s ease; /* アニメーションの設定 */
 }
 .btn-custom:hover {
   background-color: #f08300; /* カーソルを合わせた際の背景色 */
@@ -61,23 +63,35 @@ footer {
 
 //ブックマークボタンの色
 .btn-bookmark {
-  background-color: #f08300; /* ボタンの通常時の背景色 */
-  border-color: #f08300;
+  background-color: #9aa8b5; /* ボタンの通常時の背景色 */
+  border-color: #9aa8b5;
 }
 .btn-bookmark:hover {
-  background-color: #FF773E; /* カーソルを合わせた際の背景色 */
-  border-color: #FF773E
+  background-color: #2a8d07; /* カーソルを合わせた際の背景色 */
+  border-color: #2a8d07
 }
 
 //コメント送信ボタンの色
 .btn-comment {
-  background-color: #f08300; /* ボタンの通常時の背景色 */
-  border-color: #f08300;
+  background-color: #246f0a; /* ボタンの通常時の背景色 */
+  border-color: #246f0a;
 }
 .btn-comment:hover {
-  background-color: #FF773E; /* カーソルを合わせた際の背景色 */
-  border-color: #FF773E
+  background-color: #2a8d07; /* カーソルを合わせた際の背景色 */
+  border-color: #2a8d07
 }
+
+.btn-primary {
+    color: #fff;
+    background-color: #246f0a;
+    border-color: #246f0a;
+}
+.btn-primary:hover {
+    color: #fff;
+    background-color: #2a8d07;
+    border-color: #2a8d07;
+}
+
 
 //フラッシュメッセージ
 .flash-message {

@@ -1,2 +1,40 @@
-<h1>Admin::Report#index</h1>
-<p>Find me in app/views/admin/report/index.html.erb</p>
+<%= link_to "会員一覧へ",admin_users_path,class: "btn btn-success" %>
+<div class="card">
+  <div class="card-body">
+    <h3 class="card-title">通報一覧</h3>
+    ※IDから通報詳細を確認できます
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>通報ID</th>
+            <th>通報日時</th>
+            <th>通報を受けたユーザー</th>
+            <th>通報者</th>
+            <th>通報された合計回数</th>
+            <th>管理者check</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @reports.each do |report| %>
+            <tr>
+              <td><%= link_to report.id, admin_user_path(report) %></td>
+              <td><%= report.created_at.in_time_zone('Tokyo').strftime('%Y-%m-%d %H:%M') %></td>
+              <td><%= report.reported.name %></td>
+              <td><%= report.reporter.name %></td>
+              <td><%= Report.where(reported_id: report.reported_id).count %></td>
+              <td>
+                <% if report.check %>
+                  <span class="badge badge-success">確認済み</span>
+                <% else %>
+                  <span class="badge badge-danger">未確認</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

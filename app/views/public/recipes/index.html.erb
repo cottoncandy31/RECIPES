@@ -45,6 +45,7 @@
         <tbody>
           <% @recipes.each do |recipe| %>
             <tr>
+              <!--削除されたレシピは非表示に設定-->
               <% if recipe.is_deleted == false %>
                 <td></td>
                 <td>
@@ -73,12 +74,6 @@
                 <!-- ♯いいね機能の実装 -->
                 <td id="recipe_favorite-btn_<%= recipe.id %>"><%= render "public/favorites/favorite-btn", recipe: recipe %></td>
               <% else %>
-                <td></td>
-                <td>
-                  <!-- 管理者によって投稿が削除された場合でも100px×100pxの間隔を空けるように設定 -->
-                  <div style="width: 100px; height: 100px;"></div>
-                </td>
-                <td class="text-muted" colspan="5">管理者によって投稿が削除されました</td>
               <% end %>
             </tr>
           <% end %>
