@@ -5,7 +5,7 @@
         <h3 class="bg-light text-center ml-5 mb-4" style="max-width: 300px;">レシピの新規作成</h3>
       </div>
       <%= form_with model: @recipe, url: public_recipes_path, method: :post do |f| %>
-      
+
         <% if @recipe.errors.any? %>
           <%= @recipe.errors.count %>件のエラーが発生しました
           <ul>
@@ -14,29 +14,29 @@
             <% end %>
           </ul>
         <% end %>
-        
+
         <div class="row">
           <div class="form-group col-md-6">
             <h5>タイトル</h5>
-            <%= f.text_field :title, class: "form-control" %>
+            <%= f.text_field :title, placeholder: "例）チーズとブロッコリーのグラタン", class: "form-control" %>
           </div>
           <div class="form-group col-md-6">
             <h5>紹介文</h5>
-            <%= f.text_area :body, class: "form-control" %>
+            <%= f.text_area :body, placeholder: "レシピの紹介文を入力", class: "form-control" %>
           </div>
         </div>
-        
+
         <div class="row">
           <div class="form-group col-md-6">
-            <h5>何人前</h5>
-            <%= f.text_field :serving, class: "form-control" %>
+            <h5>何人分</h5>
+            <%= f.text_field :serving, placeholder: "例）2人分", class: "form-control" %>
           </div>
           <div class="form-group col-md-6">
             <h5>調理時間</h5>
-            <%= f.text_field :cooking_time, class: "form-control" %>
+            <%= f.text_field :cooking_time, placeholder: "例）30分", class: "form-control" %>
           </div>
         </div>
-        
+
         <div class="row">
           <div class="form-group col-md-6">
             <h5>画像</h5>
@@ -88,7 +88,7 @@
             <%= f.submit '投稿', class: "btn btn-primary" %>
           </div>
         </div>
-        
+
       <% end %>
     </div>
   </div>
