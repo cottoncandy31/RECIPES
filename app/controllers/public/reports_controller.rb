@@ -1,4 +1,4 @@
-class Public::ReportController < ApplicationController
+class Public::ReportsController < ApplicationController
   def create
     @user = User.find(params[:user_id])
     @report = Report.new(report_params)

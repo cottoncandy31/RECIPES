@@ -18,7 +18,7 @@
         <tbody>
           <% @reports.each do |report| %>
             <tr>
-              <td><%= link_to report.id, admin_user_path(report) %></td>
+              <td><%= link_to report.id, admin_report_path(report) %></td>
               <td><%= report.created_at.in_time_zone('Tokyo').strftime('%Y-%m-%d %H:%M') %></td>
               <td><%= report.reported.name %></td>
               <td><%= report.reporter.name %></td>

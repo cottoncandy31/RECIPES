@@ -1,4 +1,4 @@
-class Admin::ReportController < ApplicationController
+class Admin::ReportsController < ApplicationController
   def index
     @reports = Report.all
     @users = User.all
@@ -6,8 +6,7 @@ class Admin::ReportController < ApplicationController
 
   def show
     @report = Report.find(params[:id])
-    @recipes = @user.recipes
-    @user = User.find(params[:id])
+    @user = User.find(@report.reported_id)
   end
 
   def update
