@@ -3,7 +3,7 @@
 // @import '@fortawesome/fontawesome-free/scss/fontawesome';
 
 .navbar-text {
-  color: #000000; /* 黒色に設定 */
+  color: #fff!important; /* 白色に設定 */
 }
 
 /* flexを用いてフッターを固定する */
@@ -55,10 +55,6 @@ footer {
   // background-color: #ffdab9; /* ボタンの通常時の背景色 */
   // border-color: #f08300;
   // transition: background-color 0.3s ease; /* アニメーションの設定 */
-}
-.btn-custom:hover {
-  background-color: #f08300; /* カーソルを合わせた際の背景色 */
-  border-color: #f08300;
 }
 
 //ブックマークボタンの色
@@ -117,4 +113,15 @@ footer {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.btn-link {
+  color: #fff;
+}
+.btn-link:hover {
+  color: #fff;
+}
+
+.navbar-dark .navbar-text {
+  color: #ffffff;
 }

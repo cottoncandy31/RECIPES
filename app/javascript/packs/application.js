@@ -4,7 +4,7 @@
 // that code so it'll be compiled.
 
 import Rails from "@rails/ujs"
-import Turbolinks from "turbolinks"
+// import Turbolinks from "turbolinks" #Javascriptとの相性が悪いためturbolinksを無効化
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 // #Font Awesomeの導入
@@ -20,7 +20,7 @@ import "../stylesheets/application";
 require("@nathanvda/cocoon")
 
 Rails.start()
-Turbolinks.start()
+// Turbolinks.start() #Javascriptとの相性が悪いためturbolinksを無効化
 ActiveStorage.start()
 
 // // #Swiper.jsのための記述

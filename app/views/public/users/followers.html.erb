@@ -4,16 +4,37 @@
       <h3 class="bg-light text-center ml-5 mb-4" style="max-width: 300px; margin: 0 auto;">フォロワー一覧</h3>
         <div class="justify-content-center">
           <% if @users.any? %>
-            <% @users.each do |user| %>
-              <table>
-                <tbody>
-                    <td class="pr-2"><%= image_tag user.get_profile_image(100, 100) %></td>
-                    <td class="pr-2"><%= link_to user.name, recipes_public_user_path(user) %></td>
-                    <td class="pr-2">フォロー数: <%= user.followings.count %></td>
-                    <td>フォロワー数: <%= user.followers.count %></td>
-                </tbody>
-              </table>
-            <% end %>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>icon</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @users.each do |user| %>
+                  <tr>
+                    <td class="pr-1">
+                      <%= image_tag user.get_profile_image(100, 100), class: "img-fluid rounded-circle mr-2", style: 'max-width:50px;' %>
+                    </td>
+                    <td class="pr-1"><%= link_to user.name, recipes_public_user_path(user) %></td>
+                    <td class="pr-1">
+                      <!-- フォローボタンの表示 -->
+                      <% if current_user && current_user != @user %>
+                        <% if current_user.following?(@user) %>
+                        <% else %>
+                          <%= link_to public_user_relationships_path(@user.id), method: :post, class: 'btn btn-primary' do %>
+                            フォローする
+                          <% end %>
+                        <% end %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %> 
+              </tbody>
+            </table>
           <% else %>
             <h3 class="text-center">ユーザーはいません</h3>
           <% end %>

@@ -8,8 +8,8 @@
       <div class="col-sm-8 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
         <h3 class="bg-light text-center ml-5 mb-4" style="max-width: 500px;"><%= @user.name %>さんのレシピ投稿</h3>
         <div class="d-flex align-items-center">
-          <div class="mr-3">
-            <%= image_tag @user.get_profile_image(100, 100) %>
+          <div class="mr-3 rounded-circle" style="overflow: hidden; width: 100px; height: 100px;">
+            <%= image_tag @user.get_profile_image(100, 100), class: "w-100 h-100" %>
           </div>
           <div>
             <div><%= link_to "フォロー数: #{@user.followings.published.count}", followings_public_user_path(@user) %></div>

@@ -24,10 +24,6 @@
           <th class="bg-light col-4">更新日時</th>
           <td><%= @user.created_at.strftime('%Y-%m-%d %H:%M') %></td>
         </tr>
-         <tr>
-          <th class="bg-light col-4">通報された回数</th>
-          <td><%= Report.reported_count(@user.id) %></td>
-        </tr>
       </table>
     </div>
   <% if @user.is_deleted == false %>

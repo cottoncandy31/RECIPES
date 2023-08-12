@@ -22,24 +22,25 @@
             ようこそ<%= current_user.name %>さん！
           </span>
         </li>
-        <li class="nav-item">
-          <%= link_to "レシピを投稿", new_public_recipe_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        <li class="dropdown">
+          <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            レシピについて
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <li><%= link_to "レシピ作成", new_public_recipe_path, class: "dropdown-item" %></li>
+            <li><%= link_to "みんなのレシピ一覧", public_recipes_path, class: "dropdown-item" %></li>
+            <li><%= link_to "ブックマーク", public_user_bookmarked_recipes_path(current_user), class: "dropdown-item" %></li>
+            <li><%= link_to "マイレシピ", recipes_public_user_path(current_user), class: "dropdown-item" %></li>
+          </ul>
         </li>
-        <li class="nav-item">
-          <%= link_to "みんなのレシピを見る", public_recipes_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "ブックマーク一覧", public_user_bookmarked_recipes_path(current_user), class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-        </li>
-        <li class="nav-item mb-2">
-          <%= link_to "マイレシピ", recipes_public_user_path(current_user), class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-        </li>
-        <!--#レシピ関連のメニューと登録情報関連のメニューの間隔をあけている-->
-        <li class="nav-item ml-md-3">
-          <%= link_to "登録情報", public_user_path(current_user), class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        <li class="dropdown">
+          <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            登録情報について
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <li><%= link_to "登録情報", public_user_path(current_user), class: "dropdown-item" %></li>
+            <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
+          </ul>
         </li>
       <% elsif admin_signed_in? %>
         <!-- 管理者ログイン時のメニュー項目 -->
@@ -48,28 +49,29 @@
             ようこそ管理者さん！
           </span>
         </li>
-        <li class="nav-item">
-          <%= link_to "会員の情報一覧", admin_users_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+        <li class="dropdown">
+          <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            会員について
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <li><%= link_to "会員の登録情報一覧", admin_users_path, class: "dropdown-item" %></li>
+            <li><%= link_to "会員のレシピ一覧", admin_recipes_path, class: "dropdown-item" %></li>
+            <li><%= link_to "会員の通報履歴一覧", admin_reports_path, class: "dropdown-item" %></li>
+          </ul>
         </li>
         <li class="nav-item">
-          <%= link_to "会員のレシピ一覧", admin_recipes_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "会員の通報履歴一覧", admin_reports_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+          <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "btn btn-custom" %>
         </li>
       <% else %>
         <!-- ログアウト時のメニュー項目 -->
         <li class="nav-item">
-          <%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+          <%= link_to "新規登録", new_user_registration_path, class: "btn btn-custom" %>
         </li>
         <li class="nav-item">
-          <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-secondary rounded-pill btn-custom" %>
+          <%= link_to "ログイン", new_user_session_path, class: "btn btn-custom" %>
         </li>
         <li class="nav-item">
-          <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, class: "btn btn-outline-secondary rounded-pill btn-custom", method: :post %>
+          <%= link_to "ゲストログイン(閲覧用)", users_guest_sign_in_path, class: "btn btn-custom", method: :post %>
         </li>
       <% end %>
     </ul>

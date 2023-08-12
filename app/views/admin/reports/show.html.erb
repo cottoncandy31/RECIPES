@@ -1,40 +1,44 @@
-<h3 class="text-center">通報詳細</h3>
-<div class="form-group text-center">
-      <div class="mt-3">
-        <strong>通報ID：</strong>
-        <%= Report.reported_count(@user.id) %>
-      </div>
-    </div>
-<div class="form-group text-center">
-      <div class="mt-3">
-        <strong>ユーザー名：</strong>
-        <%= Report.reported_count(@user.id) %>
-      </div>
-    </div>
-<div class="form-group text-center">
-      <div class="mt-3">
-        <strong>通報者：</strong>
-        <%= Report.reported_count(@user.id) %>
-      </div>
-    </div>
-<div class="form-group text-center">
-      <div class="mt-3">
-        <strong>通報理由：</strong>
-        <%= Report.reported_count(@user.id) %>
-      </div>
-    </div>
-<div class="form-group text-center">
-  <%= form_with model: @report, url: admin_report_path, method: :patch do |f| %>
-      <div class="mt-3">
-        <strong>対応ステータス：</strong>
-        <%= f.select :check, Report.checks.keys.map { |key| [key.humanize, key] } %>
-      </div>
-    </div>
-
-      <div class="form-group text-center">
-        <%= f.submit "ステータスを更新", class: "btn btn-primary mx-auto" %>
-      </div>
-  <% end %>
+<div class="container my-4 px-sm-1">
+  <div class="px-1 ml-md-5">
+    <h5 class="bg-light text-center ml-5 mb-4" style="width: 130px;">通報詳細</h5>
   </div>
+    <div class="col-sm-4 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
+      <table class="table table-bordered table-hover">
+        <tr>
+          <th class="bg-light col-4">通報ID</th>
+          <td><%= @report.id %></td>
+        </tr>
+        <tr>
+          <th class="bg-light col-4">通報を受けたユーザー</th>
+          <td><%= @reported.name %></td>
+          <td><%= link_to @reported.name, admin_user_path(@reported) %></td>
+        </tr>
+        <tr>
+          <th class="bg-light col-4">通報された合計回数</th>
+          <td><%= Report.reported_count(@reported.id) %></td>
+        </tr>
+        <tr>
+          <th class="bg-light col-4">通報者</th>
+          <td><%= @reporter.name %></td>
+          <td><%= link_to @reporter.name, admin_user_path(@reporter) %></td>
+        </tr>
+        <tr>
+          <th class="bg-light col-4">通報理由</th>
+          <td><%= @report.reason %></td>
+        </tr>
+      </table>
+      
+      <div class="form-group text-center">
+        <%= form_with model: @report, url: admin_report_path, method: :patch do |f| %>
+        <div class="mt-3">
+          <strong>対応ステータス：</strong>
+          <%= f.select :check, [["未確認", false], ["確認済み", true]] %>
+        </div>
+      </div>
+        <div class="form-group text-center">
+          <%= f.submit "更新", class: "btn btn-primary mx-auto" %>
+        </div>
+        <% end %>
+    </div>
 </div>
-
+         
