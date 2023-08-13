@@ -15,10 +15,10 @@ class Public::BookmarksController < ApplicationController
     @recipe = Recipe.find(params[:recipe_id])
     bookmark = @recipe.bookmarks.find_by(user_id: current_user.id)
     if bookmark.present?
-        bookmark.destroy
-        redirect_to request.referer
+      bookmark.destroy
+      redirect_to request.referer
     else
-        redirect_to request.referer
+      redirect_to request.referer
     end
   end
 end

@@ -23,15 +23,6 @@
                     <%= link_to public_recipe_path(@recipe) do %>
                       <%= image_tag @recipe.post_image, size: "300x300" %>
                     <% end %>
-
-                    <!--#Google Vision API -->
-                    <div class="tag-box">
-                      <!--<#%= @recipeTags.include?("Food") %>-->
-                      <% @recipeTags.each do |tag| %>
-                        <span class="label"><%= tag %></span>
-                      <% end %>
-                    </div>
-
                   <% else %>
                     <!-- 画像が存在しない場合は何も表示しない -->
                   <% end %>
@@ -64,8 +55,7 @@
                 <div class="recipe-info">
                   by <%= link_to @recipe.user.name, recipes_public_user_path(@recipe.user) %>
                 </div>
-                <!--#いいね機能の実装-->
-                <!--#非同期通信化/renderで呼び出している。-->
+                <!--#いいね機能の実装 非同期通信化-->
                 <div id="recipe_favorite-btn_<%= @recipe.id %>"><%= render "public/favorites/favorite-btn", recipe: @recipe %></div>
                 <div>
                   <% if @recipe.bookmarked_by?(current_user) %>
@@ -128,15 +118,6 @@
                           <div class="step-image">
                             <% if step.step_image.attached? %>
                               <%= image_tag step.step_image, size: "100x100" %>
-
-                              <!--#Google Vision API -->
-                              <div class="tag-box">
-                                <%#= step.tags.include?("Recipe") %>
-                                <% step.tags.each do |tag| %>
-                                  <span class="label"><%= tag.name %></span>
-                                <% end %>
-                              </div>
-
                             <% else %>
                               <!-- 画像が存在しない場合は何も表示しない -->
                             <% end %>
@@ -167,7 +148,7 @@
                     <div class="modal-content">
                       <div class="modal-header">
                         <h5 class="modal-title" id="commentModalLabel">コメント一覧</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <!--/RECIPES/app/models/recipe.rbにvalid_commentsを記載。コメントがis_deleted: false且つユーザーがis_deleted: falseのコメントを表示-->
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>

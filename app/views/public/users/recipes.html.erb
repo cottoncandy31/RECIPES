@@ -16,18 +16,8 @@
             <div><%= link_to "フォロワー数: #{@user.followers.published.count}", followers_public_user_path(@user) %></div>
           </div>
           <div class="ml-5">
-            <!-- フォローボタンの表示 -->
-            <% if current_user && current_user != @user %>
-              <% if current_user.following?(@user) %>
-                <%= link_to public_user_relationships_path(@user.id), method: :delete, class: 'btn btn-danger' do %>
-                  フォロー外す
-                <% end %>
-              <% else %>
-                <%= link_to public_user_relationships_path(@user.id), method: :post, class: 'btn btn-primary' do %>
-                  フォローする
-                <% end %>
-              <% end %>
-            <% end %>
+            <!-- フォローボタンの表示 非同期通信化 -->
+            <div id="follow-btn_<%= @user.id %>"><%= render "public/users/follow-btn", user: @user %></div>
           </div>
           <div class="ml-5">
             <% if @user != current_user %>
