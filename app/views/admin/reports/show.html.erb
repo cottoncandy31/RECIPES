@@ -10,7 +10,6 @@
         </tr>
         <tr>
           <th class="bg-light col-4">通報を受けたユーザー</th>
-          <td><%= @reported.name %></td>
           <td><%= link_to @reported.name, admin_user_path(@reported) %></td>
         </tr>
         <tr>
@@ -19,7 +18,6 @@
         </tr>
         <tr>
           <th class="bg-light col-4">通報者</th>
-          <td><%= @reporter.name %></td>
           <td><%= link_to @reporter.name, admin_user_path(@reporter) %></td>
         </tr>
         <tr>

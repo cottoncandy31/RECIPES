@@ -3,7 +3,7 @@
 // @import '@fortawesome/fontawesome-free/scss/fontawesome';
 
 .navbar-text {
-  color: #fff!important; /* 白色に設定 */
+  color: #fff !important; /* 白色に設定 */
 }
 
 /* flexを用いてフッターを固定する */
@@ -79,13 +79,13 @@ footer {
 
 .btn-primary {
     color: #fff;
-    background-color: #246f0a;
-    border-color: #246f0a;
+    background-color: #b75e21;
+    border-color: #b75e21;
 }
 .btn-primary:hover {
-    color: #fff;
-    background-color: #2a8d07;
-    border-color: #2a8d07;
+  color: #fff;
+  background-color: #c96622;
+  border-color: #c96622;
 }
 
 
@@ -124,4 +124,19 @@ footer {
 
 .navbar-dark .navbar-text {
   color: #ffffff;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #246f0a;
+  border-color: #246f0a;
+}
+  
+// a:active {
+//   background-color: #246f0a !important;
+// }
+
+.page-item.active .page-link {
+  background-color: #246f0a;
+  border-color: #246f0a;
 }

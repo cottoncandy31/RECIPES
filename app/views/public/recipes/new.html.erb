@@ -56,14 +56,14 @@
 
         <div class="row">
           <div class="form-group col-md-10">
-            <h5>材料と分量</h5>
+            <h5>材料・分量・</h5>
             <div id="ingredients">
               <%= f.fields_for :ingredients do |ingredient| %>
                 <%= render "ingredients_form", ingredient: ingredient %>
               <% end %>
             </div>
             <div class="links">
-              <%= link_to_add_association "材料と分量追加", f, :ingredients, class: "btn btn-success btn-sm add-ingredient-quantity" %>
+              <%= link_to_add_association "材料・分量・価格を追加", f, :ingredients, class: "btn btn-success btn-sm add-ingredient-quantity" %>
             </div>
           </div>
         </div>
@@ -78,17 +78,15 @@
               <% end %>
             </div>
             <div class="links">
-              <%= link_to_add_association "調理工程追加", f, :steps, class: "btn btn-success btn-sm dd-step" %>
+              <%= link_to_add_association "調理工程を追加", f, :steps, class: "btn btn-success btn-sm dd-step" %>
             </div>
           </div>
         </div>
-
-        <div class="row">
-          <div class="form-group col-md-6">
-            <%= f.submit '投稿', class: "btn btn-primary" %>
-          </div>
+        
+        <div class="row d-flex justify-content-center align-items-center">
+          <div class="form-group col-md-6 text-center">
+            <%= f.submit 'レシピ投稿', class: "btn btn-primary" %>
         </div>
-
       <% end %>
     </div>
   </div>
