@@ -75,7 +75,7 @@ Rails.application.routes.draw do
       get 'followers' => 'relationships#followers', as: 'followers'
       resources :bookmarked_recipes, only: [:index]
       #通報機能のためのルーティング
-      post 'reports' => 'report#create', as: 'reports_create'
+      post 'reports' => 'reports#create', as: 'reports_create'
       get 'reporter' => 'reports#reporter', as: 'reporter'
       get 'reported' => 'reports#reported', as: 'reported'
     end

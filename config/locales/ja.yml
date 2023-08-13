@@ -25,6 +25,18 @@ ja:
         unconfirmed_email: 未確認Eメール
         unlock_token: ロック解除用トークン
         updated_at: 更新日
+      recipe:
+        title: タイトル
+        genre: ジャンル
+        price_range: 価格帯
+        serving: 何人分
+        post_image: レシピ画像
+        ingredients:
+          name: 材料
+          quantity: 分量
+          price: 価格
+        steps:
+          description: 作り方
     models:
       user: ユーザー
   devise:

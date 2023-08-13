@@ -6,9 +6,13 @@
           <%= form_with model: @recipe, url: public_recipe_path(@recipe.id), method: :patch do |f| %>
 
             <% if @recipe.errors.any? %>
+              <% ingredient_errors = @recipe.errors.select{|o|o.class == ActiveModel::NestedError}.map{|o|I18n.t("activerecord.attributes.recipe.#{o.attribute}") + o.message}.uniq %>
               <%= @recipe.errors.count %>件のエラーが発生しました
               <ul>
-                <% @recipe.errors.full_messages.each do |message| %>
+                <% @recipe.errors.select{|o| o.class == ActiveModel::Error }.each do |message| %>
+                  <li><%= message.full_message %></li>
+                <% end %>
+                <% ingredient_errors.each do |message| %>
                   <li><%= message %></li>
                 <% end %>
               </ul>

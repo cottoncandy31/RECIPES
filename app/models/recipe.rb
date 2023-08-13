@@ -1,11 +1,13 @@
 class Recipe < ApplicationRecord
   has_one_attached :post_image
+  
   belongs_to :user
+  belongs_to :genre
+  belongs_to :price_range
+  
   has_many :comments, dependent: :destroy
   has_many :valid_comments, -> { joins(:user).where(is_deleted: false).where(user:{is_deleted: false})}, class_name:'Comment'
   has_many :favorites, dependent: :destroy
-  belongs_to :genre
-  belongs_to :price_range
   has_many :bookmarks, dependent: :destroy
   has_many :ingredients, dependent: :destroy
   accepts_nested_attributes_for :ingredients, allow_destroy: true
@@ -13,6 +15,7 @@ class Recipe < ApplicationRecord
   accepts_nested_attributes_for :steps, allow_destroy: true
   has_many :tags, dependent: :destroy
   
+  validates_presence_of :post_image
   validates :title, presence: true, length: { maximum: 50 }
   validates :body, length: { maximum: 300 }
   validates :serving, presence: true, length: { maximum: 20 }
