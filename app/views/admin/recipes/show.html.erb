@@ -7,7 +7,7 @@
         <tr>
           <th class="bg-light">画像</th>
           <th class="bg-light">タイトル</th>
-          <th class="bg-light">説明</th>
+          <th class="bg-light">レシピ詳細</th>
           <th class="bg-light">投稿者</th>
           <th class="bg-light">コメント</th>
         </tr>
@@ -26,8 +26,8 @@
           </td>
           <td><%= @recipe.title %></td>
           <td>
-            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#bodyModal">
-              説明詳細を表示
+            <button type="button" class="btn btn-description" data-toggle="modal" data-target="#bodyModal">
+              レシピ詳細を表示
             </button>
           </td>
           <!-- 説明内容のモーダルウィンドウ -->
