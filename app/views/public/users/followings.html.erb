@@ -2,39 +2,43 @@
   <div class="row justify-content-center">
     <div class="col-sm-8 col-md-11 col-lg-10 col-xl-8 px-sm-0 px-md-1">
       <div class="justify-content-center">
-        <% if @users.any? %>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>follows</th>
-                <th></th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>follows</th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
           <tbody>
-            <% @users.each do |user| %>
+            <% if @users.any? %>
+              <% @users.each do |user| %>
+                <tr>
+                  <td class="pr-1">
+                    <%= link_to recipes_public_user_path(user) do %>
+                      <%= image_tag user.get_profile_image(100, 100), class: "img-fluid rounded-circle mr-2", style: 'max-width:50px;' %>
+                    <% end %>
+                  </td>
+                  <td class="pr-1"><%= link_to user.name, recipes_public_user_path(user) %></td>
+                  <td class="pr-1">
+                    <!-- フォローボタンの表示 非同期通信化 -->
+                    <% if current_user != user %>
+                      <div id="follow-btn_<%= user.id %>"><%= render "public/users/follow-btn", user: user %></div>
+                    <% else %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
               <tr>
                 <td class="pr-1">
-                  <%= link_to recipes_public_user_path(user) do %>
-                    <%= image_tag user.get_profile_image(100, 100), class: "img-fluid rounded-circle mr-2", style: 'max-width:50px;' %>
-                  <% end %>
-                </td>
-                <td class="pr-1"><%= link_to user.name, recipes_public_user_path(user) %></td>
-                <td class="pr-1">
-                  <!-- フォローボタンの表示 非同期通信化 -->
-                  <% if current_user != user %>
-                    <div id="follow-btn_<%= user.id %>"><%= render "public/users/follow-btn", user: user %></div>
-                  <% else %>
-                  <% end %> 
+                  ユーザーはいません
                 </td>
               </tr>
-            <% end %> 
-            </tbody>
-          </table>
-        <% else %>
-          <h3 class="text-center">ユーザーはいません</h3>
-        <% end %>
+            <% end %>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
