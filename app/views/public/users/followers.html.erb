@@ -24,7 +24,7 @@
                   <td class="pr-1">
                     <!-- フォローボタンの表示 非同期通信化 -->
                     <% if current_user != user %>
-                      <div id="follow-btn_<%= @user.id %>"><%= render "public/users/follow-btn", user: @user %></div>
+                      <div id="follow-btn_<%= user.id %>"><%= render "public/users/follow-btn", user: user %></div>
                     <% else %>
                     <% end %> 
                   </td>
