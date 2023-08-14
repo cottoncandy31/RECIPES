@@ -53,10 +53,15 @@
                 </style>
                 <!--#投稿者-->
                 <div class="recipe-info">
-                  by <%= link_to @recipe.user.name, recipes_public_user_path(@recipe.user) %>
+                  <%= link_to recipes_public_user_path(@recipe.user) do %>
+                    <%= image_tag @recipe.user.get_profile_image(100, 100), class: "img-fluid rounded-circle mr-2", style: 'max-width:30px;' %>
+                  <% end %>
+                  <%= link_to @recipe.user.name, recipes_public_user_path(@recipe.user) %>
                 </div>
                 <!--#いいね機能の実装 非同期通信化-->
                 <div id="recipe_favorite-btn_<%= @recipe.id %>"><%= render "public/favorites/favorite-btn", recipe: @recipe %></div>
+                
+                <!--<div class="bookmark-btn_<%#= @recipe.id %>"><%= render "public/bookmarked_recipes/bookmark-btn", recipe: @recipe %></div>-->
                 <div>
                   <% if @recipe.bookmarked_by?(current_user) %>
                     <%= link_to "ブックマークを外す", public_recipe_bookmarks_path(@recipe), method: :delete, class: 'btn btn-danger btn-bookmark' %>

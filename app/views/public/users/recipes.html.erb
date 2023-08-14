@@ -46,23 +46,23 @@
           <div class="row recipe-row">
             <% @recipes.each do |recipe| %>
               <% if recipe.is_deleted == false %>
-                <div class="col-6 col-md-3 col-lg-2">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                   <%= link_to public_recipe_path(recipe.id) do %>
-                    <div class="d-flex flex-column align-items-center">
+                    <div class="text-center">
                       <% if recipe.post_image.attached? %>
-                        <%= image_tag recipe.post_image, size: "200x200" %><br>
+                        <%= image_tag recipe.post_image, class: "img-fluid mb-2", style: "max-height: 180px;" %>
                       <% else %>
-                        <!-- 画像が存在しない場合も200px×200pxの間隔を空けるように設定 -->
-                        <div style="width: 200px; height: 200px;"></div><br>
+                        <!-- 画像が存在しない場合も180px×180pxの間隔を空けるように設定 -->
+                        <div style="width: 180px; height: 180px;"></div>
                       <% end %>
-                      レシピ名：<%= recipe.title %>
+                      <p class="mb-0">レシピ名：<%= recipe.title %></p>
                     </div>
                   <% end %>
                 </div>
               <% else %>
-                <div class="col-6 col-md-3 col-lg-2">
-                  <div class="d-flex flex-column align-items-center">
-                    <td class="text-muted">管理者によって投稿が削除されました</td>
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                  <div class="text-center">
+                    <p class="text-muted">管理者によって投稿が削除されました</p>
                   </div>
                 </div>
               <% end %>

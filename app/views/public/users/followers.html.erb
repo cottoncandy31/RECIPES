@@ -16,7 +16,9 @@
               <% @users.each do |user| %>
                 <tr>
                   <td class="pr-1">
-                    <%= image_tag user.get_profile_image(100, 100), class: "img-fluid rounded-circle mr-2", style: 'max-width:50px;' %>
+                    <%= link_to recipes_public_user_path(user) do %>
+                      <%= image_tag user.get_profile_image(100, 100), class: "img-fluid rounded-circle mr-2", style: 'max-width:50px;' %>
+                    <% end %>
                   </td>
                   <td class="pr-1"><%= link_to user.name, recipes_public_user_path(user) %></td>
                   <td class="pr-1">
