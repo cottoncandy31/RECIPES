@@ -22,7 +22,7 @@ class Public::RecipesController < ApplicationController
             step_tags.push({:index=> i, :name=> tag})
           end
         else
-          flash[:alert] = "不適切な画像を検知しました"
+          flash[:alert] = "不適切な画像を検知しました。料理に関連する画像を選択してください。"
           render :new
           return
         end
@@ -48,7 +48,7 @@ class Public::RecipesController < ApplicationController
           render :new
         end
       else
-        flash[:alert] = "不適切な画像を検知しました。"
+        flash[:alert] = "不適切な画像を検知しました。料理に関連する画像を選択してください。"
         render :new
       end
     #画像の添付がない場合の処理
@@ -122,7 +122,7 @@ class Public::RecipesController < ApplicationController
       if step_param[1][:step_image].present?
         step_tags = Vision.get_image_data(step_param[1][:step_image])
         unless step_tags.include?("Food") || step_tags.include?("Ingredien") || step_tags.include?("Recipe") || step_tags.include?("Tableware") || step_tags.include?("Dishware") || step_tags.include?("Drinkware")
-          flash[:alert] = "不適切な画像を検知しました"
+          flash[:alert] = "不適切な画像を検知しました。料理に関連する画像を選択してください。"
           render :edit
           return
         end
@@ -132,20 +132,20 @@ class Public::RecipesController < ApplicationController
       # レシピ画像の画像認識処理
       tags = Vision.get_image_data(recipe_params[:post_image]) # Google Vision API (画像認識)
       unless tags.include?("Food") || tags.include?("Ingredien") || tags.include?("Recipe") || tags.include?("Tableware") || tags.include?("Dishware") || tags.include?("Drinkware")
-        flash[:alert] = "不適切な画像を検知しました"
+        flash[:alert] = "不適切な画像を検知しました。料理に関連する画像を選択してください。"
         render :edit
         return
       end
       # レシピ画像が添付されている場合のアップデート処理
       if @recipe.update(recipe_params)
         @recipe.tags.destroy_all
-        tags = Vision.get_image_data(@recipe.post_image) 
+        tags = Vision.get_image_data(@recipe.post_image)
         tags.each do |tag|
           @recipe.tags.create(name: tag)
         end
-        @recipe.steps.each do | step | 
+        @recipe.steps.each do | step |
           step.tags.destroy_all
-          tags = Vision.get_image_data(step.step_image) 
+          tags = Vision.get_image_data(step.step_image)
           tags.each do |tag|
             step.tags.create(name: tag)
           end
