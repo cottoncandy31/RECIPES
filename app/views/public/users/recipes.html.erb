@@ -32,9 +32,9 @@
               <% end %>
             <% end %>
           </div>
+        </div>
       </div>
     </div>
-  </div>
   <% if @recipes.published.empty? %>
     <div class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
       <h3 class="text-center">投稿はありません</h3>
@@ -50,12 +50,14 @@
                   <%= link_to public_recipe_path(recipe.id) do %>
                     <div class="text-center">
                       <% if recipe.post_image.attached? %>
-                        <%= image_tag recipe.post_image, class: "img-fluid mb-2", style: "max-height: 180px;" %>
+                        <%= image_tag recipe.post_image, class: "img-fluid mb-2 recipe-image", style: "max-height: 180px;" %>
                       <% else %>
                         <!-- 画像が存在しない場合も180px×180pxの間隔を空けるように設定 -->
-                        <div style="width: 180px; height: 180px;"></div>
+                        <div class="recipe-placeholder"></div>
                       <% end %>
-                      <p class="mb-0"><%= recipe.title %></p>
+                      <div class="recipe-title">
+                        <p class="mb-0"><%= recipe.title %></p>
+                      </div>
                     </div>
                   <% end %>
                 </div>

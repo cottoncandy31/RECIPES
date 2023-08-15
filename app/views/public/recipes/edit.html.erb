@@ -31,36 +31,36 @@
               <%= f.file_field :post_image, class: "form-control-file" %>
             </div>
 
-            <div class="form-group" style="max-width: 400px;">
-              <h5>タイトル</h5>
-              <%= f.text_field :title, class: "form-control" %>
+            <div class="row">
+              <div class="form-group col-md-6" style="max-width: 400px;">
+                <h5>タイトル</h5>
+                <%= f.text_field :title, class: "form-control" %>
+              </div>
+              <div class="form-group col-md-6" style="max-width: 400px;">
+                <h5>紹介文</h5>
+                <%= f.text_area :body, class: "form-control" %>
+              </div>
             </div>
-
-            <div class="form-group" style="max-width: 400px;">
-              <h5>紹介文</h5>
-              <%= f.text_area :body, class: "form-control" %>
+            
+            <div class="row">
+              <div class="form-group col-md-3" style="max-width: 400px;">
+                <h5>何人分</h5>
+                <%= f.text_field :serving, class: "form-control" %>
+              </div>
+              <div class="form-group col-md-3" style="max-width: 400px;">
+                <h5>調理時間</h5>
+                <%= f.text_field :cooking_time, class: "form-control" %>
+              </div>
+              <div class="form-group col-md-3" style="max-width: 400px;">
+                <h5>ジャンル</h5>
+                <%= f.collection_select :genre_id, Genre.all, :id, :name, { prompt: "ジャンルを選択してください" }, class: "form-control" %>
+              </div>
+              <div class="form-group col-md-3" style="max-width: 400px;">
+                <h5>材料費/人</h5>
+                <%= f.collection_select :price_range_id, PriceRange.all, :id, :name, { prompt: "材料費を選択してください" }, class: "form-control" %>
+              </div>
             </div>
-
-            <div class="form-group" style="max-width: 400px;">
-              <h5>何人分</h5>
-              <%= f.text_field :serving, class: "form-control" %>
-            </div>
-
-            <div class="form-group" style="max-width: 400px;">
-              <h5>調理時間</h5>
-              <%= f.text_field :cooking_time, class: "form-control" %>
-            </div>
-
-            <div class="form-group" style="max-width: 400px;">
-              <h5>ジャンル</h5>
-              <%= f.collection_select :genre_id, Genre.all, :id, :name, { prompt: "ジャンルを選択してください" }, class: "form-control" %>
-            </div>
-
-            <div class="form-group" style="max-width: 400px;">
-              <h5>材料費/人</h5>
-              <%= f.collection_select :price_range_id, PriceRange.all, :id, :name, { prompt: "材料費を選択してください" }, class: "form-control" %>
-            </div>
-
+            
             <!-- 材料と分量 -->
             <div class="row">
               <div class="form-group col-md-10">
@@ -89,8 +89,10 @@
             </div>
 
             <!-- 保存ボタン -->
-            <div class="form-group">
-              <%= f.submit "保存", class: "btn btn-primary" %>
+            <div class="row d-flex justify-content-center align-items-center">
+              <div class="form-group col-md-6 text-center">
+                <%= f.submit "保存", class: "btn btn-primary" %>
+              </div>
             </div>
           <% end %>
       </div>
