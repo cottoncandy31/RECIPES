@@ -41,6 +41,7 @@
 ​
 ## 使用素材
 - ロゴの使用：「hatchful」https://www.shopify.com/jp/tools/logo-maker
+- ロゴの使用：「DesignEvo」https://www.designevo.com/jp/
 - イラストの使用：「イラストAC」https://www.ac-illust.com/
 - 画像の使用：「写真AC」https://www.photo-ac.com/
 - 画像の使用：「Stable Diffusion Reimagine」https://clipdrop.co/stable-diffusion-reimagine
