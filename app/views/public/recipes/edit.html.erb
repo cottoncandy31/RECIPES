@@ -41,7 +41,7 @@
                 <%= f.text_area :body, class: "form-control" %>
               </div>
             </div>
-            
+
             <div class="row">
               <div class="form-group col-md-3" style="max-width: 400px;">
                 <h5>何人分</h5>
@@ -60,7 +60,7 @@
                 <%= f.collection_select :price_range_id, PriceRange.all, :id, :name, { prompt: "材料費を選択してください" }, class: "form-control" %>
               </div>
             </div>
-            
+
             <!-- 材料と分量 -->
             <div class="row">
               <div class="form-group col-md-10">
@@ -68,7 +68,7 @@
                 <div id="ingredients">
                   <!-- Initial set of ingredient and quantity fields -->
                   <%= f.fields_for :ingredients do |ingredient| %>
-                    <%= render "ingredients_form", ingredient: ingredient %>
+                    <%= render "ingredient_form", ingredient: ingredient %>
                   <% end %>
                 </div>
                 <div class="links">
@@ -99,4 +99,3 @@
     </div>
   </div>
 </div>
-
