@@ -1,16 +1,4 @@
 Rails.application.routes.draw do
-  # namespace :admin do
-  #   get 'report/index'
-  #   get 'report/show'
-  #   get 'report/update'
-  # end
-  # namespace :public do
-  #   get 'report/create'
-  #   get 'report/destroy'
-  # end
-  # get 'report/create'
-  # get 'report/destroy'
-  
   #ゲストログインのためのルーティングを設定
   devise_scope :user do
     post "users/guest_sign_in", to: "public/sessions#guest_sign_in"

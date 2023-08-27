@@ -61,7 +61,7 @@
                 <div id="recipe_favorite-btn_<%= @recipe.id %>"><%= render "public/favorites/favorite-btn", recipe: @recipe %></div>
                 <!--#ブックマーク機能の実装 非同期通信化-->
                 <div class="bookmark-btn_<%= @recipe.id %>"><%= render "public/bookmarked_recipes/bookmark-btn", recipe: @recipe %></div>
-                
+
                 <!-- 説明内容のモーダルウィンドウ -->
                 <div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -83,7 +83,7 @@
               <!-- 材料と分量の表示 -->
               <td class="col-md-4">
                 <div class="form-group">
-                  <h5>材料と分量</h5>
+                  <h5>材料・分量・価格</h5>
                   <div class="ingredients-quantities-container">
                     <% @recipe.ingredients.each do |item| %>
                       <%= content_tag(:div, class: "ingredient-and-quantity row") do %>
