@@ -1,5 +1,5 @@
 <!--#Cocoon機能　デフォルト（一つ目に設定されている）フォームとして下記のコードが適用される-->
-<div class="nested-fields row">
+<div class="nested-fields row ingredient-#{ingredient.id}">
   <div class="form-group col-sm-4">
     <%= ingredient.text_field :name, placeholder: "材料", class: "form-control mb-2" %>
   </div>
@@ -9,4 +9,9 @@
   <div class="form-group col-sm-4">
     <%= ingredient.text_field :price, placeholder: "価格", class: "form-control mb-2" %>
   </div>
+  <% if action_name == "edit" %>
+  <div class="form-group col-sm-4">
+    <%= link_to_remove_association "削除", ingredient, class: "delete" %>
+  </div>
+  <% end %>
 </div>
