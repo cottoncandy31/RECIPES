@@ -29,9 +29,4 @@ PriceRange.find_or_create_by!(minimum_price: 0, maximum_price: 100, name: '～10
 PriceRange.find_or_create_by!(minimum_price: 100, maximum_price: 200, name: '100～200円')
 PriceRange.find_or_create_by!(minimum_price: 200, maximum_price: 300, name: '200～300円')
 PriceRange.find_or_create_by!(minimum_price: 300, maximum_price: 400, name: '300～400円')
-PriceRange.find_or_create_by!(minimum_price: 400, maximum_price: 500, name: '400～500円')
-PriceRange.find_or_create_by!(minimum_price: 500, maximum_price: 600, name: '500～600円')
-PriceRange.find_or_create_by!(minimum_price: 600, maximum_price: 700, name: '600～700円')
-PriceRange.find_or_create_by!(minimum_price: 700, maximum_price: 800, name: '700～800円')
-PriceRange.find_or_create_by!(minimum_price: 800, maximum_price: 900, name: '800～900円')
-PriceRange.find_or_create_by!(minimum_price: 900, maximum_price: 2147483647, name: '900円～')
+
