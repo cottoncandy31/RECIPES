@@ -30,7 +30,7 @@
     <div class="row row-cols-1 row-cols-md-5 g-5">
       <% @recipes.each do |recipe| %>
         <% if recipe.is_deleted == false %>
-          <div class="col">
+          <div class="col mb-4">
             <div class="card h-100">
               <% if recipe.post_image.attached? %>
                 <%= link_to public_recipe_path(recipe) do %>
