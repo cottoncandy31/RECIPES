@@ -111,8 +111,10 @@ class Public::RecipesController < ApplicationController
   end
 
   def update
+    #下記内容について、コードを短く書くために今後モデルファイル内に記載予定
     @recipe = Recipe.find(params[:id])
     #「作り方」に添付する画像の画像認識処理
+    if recipe_params[:steps_attributes].present?
     recipe_params[:steps_attributes].each do |step_param|
       if step_param[1][:step_image].present?
         step_tags = Vision.get_image_data(step_param[1][:step_image])
@@ -122,6 +124,7 @@ class Public::RecipesController < ApplicationController
           return
         end
       end
+    end
     end
     if recipe_params[:post_image].present?
       # レシピ画像の画像認識処理
@@ -138,10 +141,11 @@ class Public::RecipesController < ApplicationController
         tags.each do |tag|
           @recipe.tags.create(name: tag)
         end
-        if recipe_params[:steps_attributes][recipe_params[:steps_attributes].keys.first][:step_image].present?
+        if recipe_params[:steps_attributes].present? && recipe_params[:steps_attributes][recipe_params[:steps_attributes].keys.first][:step_image].present?
           @recipe.steps.each do | step |
             step.tags.destroy_all
-            tags = Vision.get_image_data(step.step_image)
+            tags = Vision.get_image_data(step.
+            step_image)
             tags.each do |tag|
               step.tags.create(name: tag)
             end
