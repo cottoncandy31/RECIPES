@@ -138,11 +138,13 @@ class Public::RecipesController < ApplicationController
         tags.each do |tag|
           @recipe.tags.create(name: tag)
         end
-        @recipe.steps.each do | step |
-          step.tags.destroy_all
-          tags = Vision.get_image_data(step.step_image)
-          tags.each do |tag|
-            step.tags.create(name: tag)
+        if recipe_params[:steps_attributes][recipe_params[:steps_attributes].keys.first][:step_image].present?
+          @recipe.steps.each do | step |
+            step.tags.destroy_all
+            tags = Vision.get_image_data(step.step_image)
+            tags.each do |tag|
+              step.tags.create(name: tag)
+            end
           end
         end
         flash[:notice] = "投稿を更新しました"
