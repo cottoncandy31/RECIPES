@@ -23,42 +23,62 @@
         </div>
       </div>
     <% end %>
-    <!--#並べ替え 新着順/いいね順test-->
+    <!--#並べ替え 新着順/いいね順-->
     <%= link_to '新着順', public_recipes_path(latest: "true") %>/
     <%= link_to '人気順', public_recipes_path(most_favorited: "true") %>
 
-    <div class="row row-cols-1 row-cols-md-5 g-5">
-      <% @recipes.each do |recipe| %>
-        <% if recipe.is_deleted == false %>
-          <div class="col mb-4">
-            <div class="card h-100">
-              <% if recipe.post_image.attached? %>
-                <%= link_to public_recipe_path(recipe) do %>
-                  <%= image_tag recipe.post_image, class: "card-img-top", alt: recipe.title, style: "height: 300px; object-fit: cover;" %>
-                <% end %>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr class="bg-light">
+            <th></th>
+            <th></th>
+            <th>タイトル</th>
+            <th>ジャンル</th>
+            <th>投稿者</th>
+            <th>材料費/人</th>
+            <th>投稿日時</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @recipes.each do |recipe| %>
+            <tr>
+              <!--削除されたレシピは非表示に設定-->
+              <% if recipe.is_deleted == false %>
+                <td></td>
+                <td>
+                  <% if recipe.post_image.attached? %>
+                    <%= link_to public_recipe_path(recipe) do %>
+                      <%= image_tag recipe.post_image, size: "100x100" %>
+                    <% end %>
+                  <% else %>
+                    <!-- 画像が存在しない場合も100px×100pxの間隔を空けるように設定 -->
+                    <div style="width: 100px; height: 100px;"></div>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to public_recipe_path(recipe) do %>
+                    <%= recipe.title %>
+                  <% end %>
+                </td>
+                <!-- ジャンル名の記載 -->
+                <td><%= recipe.genre.name %></td>
+                <!-- 投稿者名の記載 -->
+                <td>by <%= link_to recipe.user.name, recipes_public_user_path(recipe.user) %></td>
+                <!-- 価格帯の記載 -->
+                <td><%= recipe.price_range.name %></td>
+                <!-- 投稿日時の記載 -->
+                <td><%= recipe.created_at.strftime('%Y/%m/%d') %></td>
+                <!-- ♯いいね機能の実装 -->
+                <td id="recipe_favorite-btn_<%= recipe.id %>"><%= render "public/favorites/favorite-btn", recipe: recipe %></td>
               <% else %>
-                <!-- 画像が存在しない場合の代替要素 -->
-                <div class="card-img-top bg-light" style="height: 300px;"></div>
               <% end %>
-              <div class="card-body">
-                <h5 class="card-title"><%= link_to recipe.title, public_recipe_path(recipe) %></h5>
-                <p class="card-text">ジャンル: <%= recipe.genre.name %></p>
-                <p class="card-text">投稿者: <%= link_to recipe.user.name, recipes_public_user_path(recipe.user) %></p>
-                <p class="card-text">材料費/人: <%= recipe.price_range.name %></p>
-                <p class="card-text">投稿日時: <%= recipe.created_at.strftime('%Y/%m/%d') %></p>
-              </div>
-              <div class="card-footer">
-                <div class="d-flex justify-content-between align-items-center">
-                  <!-- ♯いいね機能の実装 -->
-                  <div id="recipe_favorite-btn_<%= recipe.id %>">
-                    <%= render "public/favorites/favorite-btn", recipe: recipe %>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
     <!-- ページネーションの表示 -->
     <div class="d-flex justify-content-center">

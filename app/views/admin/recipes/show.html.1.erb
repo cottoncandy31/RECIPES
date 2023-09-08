@@ -1,0 +1,106 @@
+<div class="container col-xl-9 col-lg-9 my-4 px-sm-1">
+  <div class="px-1 ml-md-2">
+    <h5 class="bg-light text-center ml-5 mb-4" style="max-width: 200px;">レシピ詳細</h5>
+  </div>
+    <table class="table w-100">
+      <thead>
+        <tr>
+          <th class="bg-light">画像</th>
+          <th class="bg-light">タイトル</th>
+          <th class="bg-light">レシピ詳細</th>
+          <th class="bg-light">投稿者</th>
+          <th class="bg-light">コメント</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <% if @recipe.post_image.attached? %>
+              <%= link_to admin_recipe_path(@recipe) do %>
+                <%= image_tag @recipe.post_image, size: "100x100" %>
+              <% end %>
+            <% else %>
+              <!--#画像が存在しない場合も100px×100pxの間隔を空けるように設定-->
+              <div style="width: 100px; height: 100px;"></div>
+            <% end %>
+          </td>
+          <td><%= @recipe.title %></td>
+          <td>
+            <button type="button" class="btn btn-description" data-toggle="modal" data-target="#bodyModal">
+              レシピ詳細を表示
+            </button>
+          </td>
+          <!-- 説明内容のモーダルウィンドウ -->
+          <div class="modal fade" id="bodyModal" tabindex="-1" role="dialog" aria-labelledby="bodyModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="bodyModalLabel">説明</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <!--#simple_formatメソッドを使用して改行を反映させる-->
+                  <%= simple_format(@recipe.body) %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <td><%= link_to @recipe.user.name, admin_user_path(@recipe.user) %></td>
+          <td><%= link_to "#{@recipe.comments.count} 件のコメントをすべて見る", "#commentModal", data: { toggle: "modal" } %></td>
+          <!-- モーダルウィンドウ -->
+          <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="commentModalLabel">コメント一覧</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <% @recipe.comments.each do |comment| %>
+                    <div class="row">
+                      <% if comment.is_deleted %>
+                        <div class="col-12">
+                          <p class="text-muted">削除済みのコメント</p>
+                        </div>
+                        <div class="col-12">
+                          <%= comment.comment %>
+                        </div>
+                        <div class="col-12">
+                          by <%= link_to comment.user.name, admin_user_path(comment.user) %>
+                        </div>
+                      <% else %>
+                        <div class="col-12">
+                          <%= comment.comment %>
+                        </div>
+                        <div class="col-12">
+                          by <%= link_to comment.user.name, admin_user_path(comment.user) %>
+                        </div>
+                        <div class="col-12">
+                          <% if comment.user.is_deleted == false %>
+                            <%= link_to "削除", admin_recipe_comment_path(comment.recipe, comment), method: :patch, data: { confirm: "本当に削除しますか？" } %>
+                          <% else %>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                    <hr>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tr>
+      </tbody>
+    </table>
+  <div>
+    <% if @recipe.user.is_deleted == false %>
+      <!-- 投稿のボタン -->
+      <%= button_to "この投稿を削除する", admin_recipe_path(@recipe), method: :patch, class: "btn btn-danger btn-sm", data: { confirm: "本当に削除しますか？" } %>
+    <% else %>
+    <% end %>
+  </div>
+</div>
